@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace Tabloid.Models;
+
 public class UserProfile
 {
     public int Id { get; set; }
@@ -36,11 +37,9 @@ public class UserProfile
 
     public string FullName
     {
-        get
-        {
-            return $"{FirstName} {LastName}";
-        }
+        get { return $"{FirstName} {LastName}"; }
     }
 
+    [Required]
     public bool IsDeactivated { get; set; }
 }
