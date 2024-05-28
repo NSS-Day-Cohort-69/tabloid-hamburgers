@@ -195,27 +195,6 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
             );
         // Seed data
         modelBuilder
-            .Entity<UserProfile>()
-            .HasData(
-                new UserProfile
-                {
-                    Id = 1,
-                    FirstName = "John",
-                    LastName = "Doe",
-                    CreateDateTime = DateTime.Now,
-                    IsDeactivated = false
-                },
-                new UserProfile
-                {
-                    Id = 2,
-                    FirstName = "Jane",
-                    LastName = "Smith",
-                    CreateDateTime = DateTime.Now,
-                    IsDeactivated = false
-                }
-            );
-
-        modelBuilder
             .Entity<Post>()
             .HasData(
                 new Post
