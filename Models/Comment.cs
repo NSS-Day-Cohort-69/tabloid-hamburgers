@@ -3,16 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tabloid.Models;
 
-public class PostTags
+public class Comment
 {
     [Required]
     public int Id { get; set; }
+
+    [Required]
+    public string Subject { get; set; }
+
+    [Required]
+    public string Content { get; set; }
 
     [Required]
     [ForeignKey("Post")]
     public int PostId { get; set; }
 
     [Required]
-    [ForeignKey("Tag")]
-    public int TagId { get; set; }
+    [ForeignKey("UserProfile")]
+    public int Commenteer { get; set; }
+
+    [Required]
+    public DateTime CreationDate { get; set; }
 }
