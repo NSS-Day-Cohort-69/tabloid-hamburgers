@@ -3,16 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tabloid.Models;
 
-public class PostTag
+public class DemoteAdmin
 {
     [Required]
     public int Id { get; set; }
-
     [Required]
-    [ForeignKey("Post")]
-    public int PostId { get; set; }
-
+    [ForeignKey("UserProfile")]
+    public int AdminApprovalId { get; set; }
     [Required]
-    [ForeignKey("Tag")]
-    public int TagId { get; set; }
+    [ForeignKey("UserProfile")]
+    public int AdminToDemoteId { get; set; }
 }

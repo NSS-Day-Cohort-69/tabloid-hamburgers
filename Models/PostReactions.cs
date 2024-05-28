@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tabloid.Models;
 
-public class PostReactions
+public class PostReaction
 {
     [Required]
     public int Id { get; set; }

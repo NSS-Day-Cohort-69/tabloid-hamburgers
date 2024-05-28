@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Tabloid.Models;
 
-public class Tags
+public class Tag
 {
     [Required]
     public int Id { get; set; }
