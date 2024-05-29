@@ -7,9 +7,9 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
+import { TagsView } from "./tags/TagsView";
 
-export default function ApplicationViews({ loggedInUser, setLoggedInUser })
-{
+export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
     <Routes>
       <Route path="/">
@@ -57,6 +57,16 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
             }
           />
         </Route>
+        <Route path="/tags">
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <TagsView />
+              </AuthorizedRoute>
+            }
+          />
+        </Route>
         <Route
           path="login"
           element={<Login setLoggedInUser={setLoggedInUser} />}
@@ -66,11 +76,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
           element={<Register setLoggedInUser={setLoggedInUser} />}
         />
         <Route path="post">
-          <Route index element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
-              <PostList />
-            </AuthorizedRoute>
-          } />
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <PostList />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />

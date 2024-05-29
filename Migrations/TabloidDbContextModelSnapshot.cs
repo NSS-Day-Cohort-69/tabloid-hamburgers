@@ -149,13 +149,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "402b5052-06ac-454a-8d91-2bf9b97d5b81",
+                            ConcurrencyStamp = "371224d0-a6d4-4f5b-9f4d-e855620ad15d",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEKVRRvrUbURH+PpekxtCgcdw96ozlq3eYDFtAc/qMtLcue5kaKSNEcZTN9qwx4JKfg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECe0bp3FXynGmHe44IqOYizRI03jBmlyMEOid6yfEd7PvfY9RqGH3nP7yPH97T2g6A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ff63ffa2-b395-4f5f-96ad-1909d00f0b2b",
+                            SecurityStamp = "6800f4ed-a6b5-4d5c-af3a-15f17d4e0935",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         },
@@ -163,13 +163,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "d8d76512-74f1-43bb-b1fd-87d3a8aa36df",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d7db8086-35b5-4527-8dae-f2490b709ec4",
+                            ConcurrencyStamp = "3987ed2b-97ea-4306-9c6e-7ba87d6ed328",
                             Email = "john@doe.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEJD6vX8uk22pcwwo7Q345L3/RNKITpyJRpdSggWf1XJ9VoQEMO+ZUiCJ9IeN3ru6Ng==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA83lb1b44pmfPUHyQBbNsmpeNBrDfkFXX669KVTsaAHOetEEYD3Pv1l6P0LeSe7vQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7c2b21a1-149e-4739-b8f2-ae8f9290b416",
+                            SecurityStamp = "82982014-cd0f-41f5-9cba-9477e9bd03a6",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -177,13 +177,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "a7d21fac-3b21-454a-a747-075f072d0cf3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26ec83c0-3e27-4d2c-b9d9-c1c142a54f9d",
+                            ConcurrencyStamp = "f041427d-d617-4c1f-941b-03e1362ddd38",
                             Email = "jane@smith.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEP+MsfeO1qTAJS3RgbWwD/UK2cMeQ5ubsA4DNUmqfBH5iOiJHG1dZa6Ba+8OE8t71A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENsjpuuWqyxdIVrS+AtBoEoEfP0eRv5q1WV96cAiNWjil3xs3V/1Xgtjuc4ilXdXmA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d131a09a-1381-46ca-822d-f3f3ad2327aa",
+                            SecurityStamp = "2e40d0f3-4717-4d86-a50d-8274ee5cb8c4",
                             TwoFactorEnabled = false,
                             UserName = "JaneSmith"
                         },
@@ -191,13 +191,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "c806cfae-bda9-47c5-8473-dd52fd056a9b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "39317ab7-24be-4016-84b1-4f36f54a09b3",
+                            ConcurrencyStamp = "3d252a07-7d89-43ee-9305-e11d16396162",
                             Email = "alice@johnson.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEFax0DIfvyGp92ALbiGTcE4gBU4Ql1LSRuzXcvY1hB5wLhp/uBGRiMt0AYEmoHhXUQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJFGrJR0WS5ZCPnnMEMPFcSLh8ia2/35xtjMQ2AbqEovU7du0Al6Q77BnRZbMIjUIQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e793e464-65cc-4a9e-ac3c-419bbf1306a4",
+                            SecurityStamp = "d30a0109-bf13-4a59-ae7d-79c6458ccfd3",
                             TwoFactorEnabled = false,
                             UserName = "AliceJohnson"
                         },
@@ -205,13 +205,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "9ce89d88-75da-4a80-9b0d-3fe58582b8e2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cad3ac80-c756-4ef7-b5e8-ad179790c6fa",
+                            ConcurrencyStamp = "1c21a8ba-3056-440c-8c10-05112e6958e1",
                             Email = "bob@williams.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAELYcdOp4Yih32CiJzIZGwTdyjNokz6rOIVuTYeH8z3o/OQCuzxT5akfG/wJPttmbWw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEk8vAoFLshy5t2dxwXAmdQdYOa7/anIkYlE5FTNJLjCVYCTIco0DVD3jwVyapZpKw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "81fc4920-3a75-442b-b5e5-352224418812",
+                            SecurityStamp = "bdb90558-43d6-4c10-8015-ff7a4200882d",
                             TwoFactorEnabled = false,
                             UserName = "BobWilliams"
                         },
@@ -219,13 +219,13 @@ namespace Tabloid.Migrations
                         {
                             Id = "d224a03d-bf0c-4a05-b728-e3521e45d74d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cc7b745a-350f-4f69-a842-74b6b54c5a9d",
+                            ConcurrencyStamp = "806c02ac-caaf-4c0a-b617-c4a1c7d00f40",
                             Email = "Eve@Davis.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEEgjsKX8YtzjqvapGVYrfo7+v0GzWF5EORehuL/fxVqLSA571ms7mJiSGq4rAPPnKg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJGFQSk5307dKw10MG3b05wyLsCBYdsxtkKRBhPeCuCHslg3aPTxghN73ElP8gh4Sw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e9ba5bfb-30aa-4149-b140-f08e5d4eb87c",
+                            SecurityStamp = "5560d5eb-280b-4baf-b199-da58295cd529",
                             TwoFactorEnabled = false,
                             UserName = "EveDavis"
                         });
@@ -388,7 +388,7 @@ namespace Tabloid.Migrations
                             Id = 1,
                             CommenteerId = 2,
                             Content = "This is the first comment.",
-                            CreationDate = new DateTime(2024, 5, 29, 9, 8, 9, 958, DateTimeKind.Local).AddTicks(8246),
+                            CreationDate = new DateTime(2024, 5, 29, 14, 57, 11, 475, DateTimeKind.Local).AddTicks(1968),
                             PostId = 1,
                             Subject = "First Comment"
                         },
@@ -397,7 +397,7 @@ namespace Tabloid.Migrations
                             Id = 2,
                             CommenteerId = 1,
                             Content = "This is the second comment.",
-                            CreationDate = new DateTime(2024, 5, 29, 9, 8, 9, 958, DateTimeKind.Local).AddTicks(8250),
+                            CreationDate = new DateTime(2024, 5, 29, 14, 57, 11, 475, DateTimeKind.Local).AddTicks(1972),
                             PostId = 2,
                             Subject = "Second Comment"
                         });
@@ -445,8 +445,10 @@ namespace Tabloid.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ImageURL")
                         .HasColumnType("text");
@@ -454,7 +456,8 @@ namespace Tabloid.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("Publication")
+                    b.Property<DateTime?>("Publication")
+                        .IsRequired()
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Title")
@@ -463,6 +466,10 @@ namespace Tabloid.Migrations
                         .HasColumnType("character varying(40)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Posts");
 
@@ -473,8 +480,9 @@ namespace Tabloid.Migrations
                             AuthorId = 1,
                             CategoryId = 1,
                             Content = "This is the content of the first post.",
+                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsApproved = true,
-                            Publication = new DateTime(2024, 5, 29, 9, 8, 9, 958, DateTimeKind.Local).AddTicks(7889),
+                            Publication = new DateTime(2024, 5, 29, 14, 57, 11, 475, DateTimeKind.Local).AddTicks(1630),
                             Title = "First Post"
                         },
                         new
@@ -483,8 +491,9 @@ namespace Tabloid.Migrations
                             AuthorId = 2,
                             CategoryId = 2,
                             Content = "This is the content of the second post.",
+                            CreationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsApproved = true,
-                            Publication = new DateTime(2024, 5, 29, 9, 8, 9, 958, DateTimeKind.Local).AddTicks(8055),
+                            Publication = new DateTime(2024, 5, 29, 14, 57, 11, 475, DateTimeKind.Local).AddTicks(1739),
                             Title = "Second Post"
                         });
                 });
@@ -618,7 +627,7 @@ namespace Tabloid.Migrations
                         {
                             Id = 1,
                             FollowerId = 2,
-                            SubbedDate = new DateTime(2024, 5, 29, 9, 8, 9, 958, DateTimeKind.Local).AddTicks(8321),
+                            SubbedDate = new DateTime(2024, 5, 29, 14, 57, 11, 475, DateTimeKind.Local).AddTicks(2020),
                             SubscriberId = 1
                         });
                 });
@@ -801,6 +810,25 @@ namespace Tabloid.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Tabloid.Models.Post", b =>
+                {
+                    b.HasOne("Tabloid.Models.UserProfile", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tabloid.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Tabloid.Models.UserProfile", b =>

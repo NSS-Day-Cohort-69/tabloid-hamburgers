@@ -45,6 +45,11 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                         Category
                       </NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/tags">
+                        Tags
+                      </NavLink>
+                    </NavItem>
                   </>
                 )}
               </Nav>
