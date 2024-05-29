@@ -70,5 +70,10 @@ public class PostController : ControllerBase
             Publication = postedPost.Publication,
             CreationDate = DateTime.Now
         };
+
+        _dbContext.Posts.Add(post);
+        _dbContext.SaveChanges();
+
+        return NoContent();
     }
 }
