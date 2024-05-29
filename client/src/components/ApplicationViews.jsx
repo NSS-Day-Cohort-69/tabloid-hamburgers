@@ -7,6 +7,7 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import CreatePost from "./CreatPost";
+import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser })
 {
@@ -45,6 +46,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
             element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <CategoriesView />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path="create"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <CategoriesCreate />
               </AuthorizedRoute>
             }
           />
