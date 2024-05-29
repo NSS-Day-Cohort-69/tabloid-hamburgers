@@ -1,4 +1,5 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { getPosts } from "../managers/postManager"
 
 const PostList = () =>
 {
@@ -7,7 +8,7 @@ const PostList = () =>
     useEffect(
         () =>
         {
-
+            getPosts().then(setPosts)
         }, []
     )
 
