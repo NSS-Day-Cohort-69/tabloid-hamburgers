@@ -12,6 +12,7 @@ public class GetPostsDTO
     public string Content { get; set; }
     public string ImageURL { get; set; }
     public int CategoryId { get; set; }
+    public GetPostsCategoryDTO Category { get; set; }
     public bool IsApproved { get; set; }
     public DateTime Publication { get; set; }
     public GetPostsAuthorDTO Author { get; set; }
@@ -32,6 +33,6 @@ public class GetPostsDTO
         IsApproved = post.IsApproved;
         Publication = post.Publication;
         Author = new GetPostsAuthorDTO(post.Author);
-        
+        Category = new GetPostsCategoryDTO(post.Category);
     }
 }

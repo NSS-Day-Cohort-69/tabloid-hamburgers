@@ -26,7 +26,12 @@ public class PostController : ControllerBase
     [HttpGet]
     public IActionResult GetPosts()
     {
-        return Ok(_dbContext.Posts.Include(p => p.Author).Select(p => new GetPostsDTO(p)));
+        return Ok(
+            _dbContext
+                .Posts.Include(p => p.Author)
+                .Include(p => p.Category)
+                .Select(p => new GetPostsDTO(p))
+        );
     }
 
     [HttpGet]
@@ -39,6 +44,7 @@ public class PostController : ControllerBase
                     p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
                 )
                 .Include(p => p.Author)
+                .Include(p => p.Category)
                 .Select(p => new GetPostsDTO(p))
         );
     }
