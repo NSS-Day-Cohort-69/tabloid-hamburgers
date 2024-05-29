@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import
-  {
-    Button,
-    Collapse,
-    Nav,
-    NavLink,
-    NavItem,
-    Navbar,
-    NavbarBrand,
-    NavbarToggler,
-  } from "reactstrap";
+{
+  Button,
+  Collapse,
+  Nav,
+  NavLink,
+  NavItem,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+} from "reactstrap";
 import { logout } from "../managers/authManager";
 
 export default function NavBar({ loggedInUser, setLoggedInUser })
@@ -40,6 +40,11 @@ export default function NavBar({ loggedInUser, setLoggedInUser })
                     <NavItem>
                       <NavLink tag={RRNavLink} to="/post">
                         Posts
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/post/create">
+                        Create Post
                       </NavLink>
                     </NavItem>
                   </>
