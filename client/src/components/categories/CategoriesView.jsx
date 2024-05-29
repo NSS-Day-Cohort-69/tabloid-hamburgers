@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllCategories } from "../../managers/categories";
+import { deleteCategory, getAllCategories } from "../../managers/categories";
 import "./Categories.css";
 import { useNavigate } from "react-router-dom";
 
@@ -7,8 +7,12 @@ export const CategoriesView = () => {
   const [allCategories, setAllCategories] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const getCategories = () => {
     getAllCategories().then(setAllCategories);
+  };
+
+  useEffect(() => {
+    getCategories();
   }, []);
 
   return (
@@ -23,7 +27,22 @@ export const CategoriesView = () => {
           Create
         </button>
         {allCategories.map((c) => {
-          return <article key={c.id}>{c.categoryName}</article>;
+          return (
+            <article key={c.id}>
+              {c.categoryName}
+              <button
+                onClick={() => {
+                  if (window.confirm(`Confirm delete for: ${c.categoryName}`)) {
+                    deleteCategory(c.id).then(() => {
+                      getCategories();
+                    });
+                  }
+                }}
+              >
+                Delete
+              </button>
+            </article>
+          );
         })}
       </div>
     </main>
