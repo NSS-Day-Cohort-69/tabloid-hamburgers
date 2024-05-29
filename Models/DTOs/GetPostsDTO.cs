@@ -14,9 +14,15 @@ public class GetPostsDTO
     public int CategoryId { get; set; }
     public bool IsApproved { get; set; }
     public DateTime Publication { get; set; }
+    public GetPostsAuthorDTO Author { get; set; }
 
     public GetPostsDTO(Post post)
     {
+        if (post.Author == null)
+        {
+            throw new Exception("parameter post must include author.");
+        }
+
         Id = post.Id;
         Title = post.Title;
         AuthorId = post.AuthorId;
@@ -25,5 +31,6 @@ public class GetPostsDTO
         CategoryId = post.CategoryId;
         IsApproved = post.IsApproved;
         Publication = post.Publication;
+        Author = new GetPostsAuthorDTO(post.Author);
     }
 }
