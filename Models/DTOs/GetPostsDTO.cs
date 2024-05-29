@@ -14,7 +14,7 @@ public class GetPostsDTO
     public int CategoryId { get; set; }
     public GetPostsCategoryDTO Category { get; set; }
     public bool IsApproved { get; set; }
-    public DateTime Publication { get; set; }
+    public DateTime? Publication { get; set; }
     public GetPostsAuthorDTO Author { get; set; }
 
     public GetPostsDTO(Post post)
