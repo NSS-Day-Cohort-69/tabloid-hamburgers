@@ -24,6 +24,7 @@ public class PostController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetPosts()
     {
         return Ok(
@@ -36,6 +37,7 @@ public class PostController : ControllerBase
 
     [HttpGet]
     [Route("public")]
+    [Authorize]
     public IActionResult GetPublicPosts()
     {
         return Ok(
