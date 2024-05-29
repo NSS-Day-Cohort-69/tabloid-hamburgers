@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPosts } from "../managers/postManager"
+import { getPublicPosts } from "../managers/postManager"
 
 const PostList = () =>
 {
@@ -8,7 +8,7 @@ const PostList = () =>
     useEffect(
         () =>
         {
-            getPosts().then(setPosts)
+            getPublicPosts().then(setPosts)
         }, []
     )
 
