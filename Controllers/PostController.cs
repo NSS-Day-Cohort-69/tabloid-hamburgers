@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Models.DTOs;
@@ -25,7 +26,7 @@ public class PostController : ControllerBase
     [HttpGet]
     public IActionResult GetPosts()
     {
-        return Ok(_dbContext.Posts.Select(p => new GetPostsDTO(p)));
+        return Ok(_dbContext.Posts.Include(p => p.Author).Select(p => new GetPostsDTO(p)));
     }
 
     [HttpGet]
@@ -37,6 +38,7 @@ public class PostController : ControllerBase
                 .Posts.Where(p =>
                     p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
                 )
+                .Include(p => p.Author)
                 .Select(p => new GetPostsDTO(p))
         );
     }

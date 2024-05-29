@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { getPublicPosts } from "../managers/postManager"
 
 const PostList = () =>
@@ -8,11 +8,25 @@ const PostList = () =>
     useEffect(
         () =>
         {
-            getPublicPosts().then(setPosts)
+            getPublicPosts().then(
+                (posts) =>
+                {
+                    setPosts(
+                        posts.sort((a, b) => new Date(b.publication) - new Date(a.publication)))
+                }
+            )
         }, []
     )
 
-    return <>post list</>
+    return <>
+        {
+            posts.map(p =>
+                <div key={"p"+p.id}>
+                    {p.title}
+                    
+                </div>)
+        }
+    </>
 }
 
 export default PostList
