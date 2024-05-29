@@ -50,7 +50,7 @@ const PostForm = ({ onPostSubmitted }) =>
         </div>
         <div>
             <label htmlFor="body">Body: </label>
-            <input type="text" id="body" value={body} onChange={(e) => { setBody(e.target.value) }} />
+            <textarea id="body" value={body} onChange={(e) => { setBody(e.target.value) }} />
         </div>
         <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
             <option value={0}>Select A Category</option>
