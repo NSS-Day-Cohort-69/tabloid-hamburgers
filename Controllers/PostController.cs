@@ -27,4 +27,17 @@ public class PostController : ControllerBase
     {
         return Ok(_dbContext.Posts.Select(p => new GetPostsDTO(p)));
     }
+
+    [HttpGet]
+    [Route("public")]
+    public IActionResult GetPublicPosts()
+    {
+        return Ok(
+            _dbContext
+                .Posts.Where(p =>
+                    p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
+                )
+                .Select(p => new GetPostsDTO(p))
+        );
+    }
 }
