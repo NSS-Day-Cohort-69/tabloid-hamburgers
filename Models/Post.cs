@@ -25,6 +25,7 @@ public class Post
     [Required]
     [ForeignKey("Category")]
     public int CategoryId { get; set; }
+    public Category Category { get; set; }
 
     [Required]
     public bool IsApproved { get; set; }

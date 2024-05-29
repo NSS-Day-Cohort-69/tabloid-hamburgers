@@ -18,9 +18,9 @@ public class GetPostsDTO
 
     public GetPostsDTO(Post post)
     {
-        if (post.Author == null)
+        if (post.Author == null || post.Category == null)
         {
-            throw new Exception("parameter post must include author.");
+            throw new Exception("parameter post must include author and category.");
         }
 
         Id = post.Id;
@@ -32,5 +32,6 @@ public class GetPostsDTO
         IsApproved = post.IsApproved;
         Publication = post.Publication;
         Author = new GetPostsAuthorDTO(post.Author);
+        
     }
 }
