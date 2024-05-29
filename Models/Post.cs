@@ -22,5 +22,5 @@ public class Post
     [Required]
     public bool IsApproved { get; set; }
     [Required]
-    public DateTime Publication { get; set; }
+    public DateTime? Publication { get; set; }
 }
