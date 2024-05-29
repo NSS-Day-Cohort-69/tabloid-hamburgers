@@ -22,7 +22,7 @@ const PostForm = ({ onPostSubmitted }) =>
     {
         if(postIsValid())
         {
-            post =
+            const post =
             {
                 title: title,
                 content: body,
