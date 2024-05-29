@@ -31,5 +31,8 @@ public class Post
     public bool IsApproved { get; set; }
 
     [Required]
+    public DateTime CreationDate { get; set; }
+
+    [Required]
     public DateTime? Publication { get; set; }
 }
