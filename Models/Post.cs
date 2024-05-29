@@ -13,6 +13,8 @@ public class Post
     [Required]
     [ForeignKey("UserProfile")]
     public int AuthorId { get; set; }
+
+    public UserProfile Author {get; set;}
     [Required]
     public string Content { get; set; }
     public string ImageURL { get; set; }
