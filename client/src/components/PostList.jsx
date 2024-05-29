@@ -24,6 +24,7 @@ const PostList = () =>
                 <div key={"p" + p.id}>
                     <div>{p.title}</div>
                     <div>{p.author.fullName}</div>
+                    <div>{p.category.categoryName}</div>
                     <br/>
                 </div>)
         }
