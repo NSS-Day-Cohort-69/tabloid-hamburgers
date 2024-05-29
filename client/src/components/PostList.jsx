@@ -21,9 +21,10 @@ const PostList = () =>
     return <>
         {
             posts.map(p =>
-                <div key={"p"+p.id}>
-                    {p.title}
-                    
+                <div key={"p" + p.id}>
+                    <div>{p.title}</div>
+                    <div>{p.author.fullName}</div>
+                    <br/>
                 </div>)
         }
     </>
