@@ -4,6 +4,11 @@ import { getAllCategories } from "../managers/categories"
 const PostForm = () =>
 {
     const [categories, setCategories] = useState([])
+    const [title, setTitle] = useState("")
+    const [body, setBody] = useState("")
+    const [categoryId, setCategoryId] = useState(0)
+    const [imageURL, setImageURL] = useState("")
+    const [date, setDate] = useState(new Date())
 
     useEffect(
         () =>
@@ -33,7 +38,7 @@ const PostForm = () =>
             <input type="text" id="image" />
         </div>
         <div>
-            <label htmlFor="date">Header URL: </label>
+            <label htmlFor="date">Publish Date: </label>
             <input type="date" id="date" />
         </div>
     </div>
