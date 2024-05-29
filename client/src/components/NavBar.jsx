@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
-import {
-  Button,
-  Collapse,
-  Nav,
-  NavLink,
-  NavItem,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-} from "reactstrap";
+import
+  {
+    Button,
+    Collapse,
+    Nav,
+    NavLink,
+    NavItem,
+    Navbar,
+    NavbarBrand,
+    NavbarToggler,
+  } from "reactstrap";
 import { logout } from "../managers/authManager";
 
-export default function NavBar({ loggedInUser, setLoggedInUser }) {
+export default function NavBar({ loggedInUser, setLoggedInUser })
+{
   const [open, setOpen] = useState(false);
 
   const toggleNavbar = () => setOpen(!open);
@@ -29,9 +31,26 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
             <Collapse isOpen={open} navbar>
               <Nav navbar>
                 {loggedInUser.roles.includes("Admin") && (
+                  <>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/userprofiles">
+                        User Profiles
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/post">
+                        Posts
+                      </NavLink>
+                    </NavItem>
+                  </>
+                )}
+              </Nav>
+
+              <Nav navbar>
+                {loggedInUser.roles.includes("Admin") && (
                   <NavItem>
-                    <NavLink tag={RRNavLink} to="/userprofiles">
-                      User Profiles
+                    <NavLink tag={RRNavLink} to="/categories">
+                      Category
                     </NavLink>
                   </NavItem>
                 )}
@@ -39,10 +58,12 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
             </Collapse>
             <Button
               color="primary"
-              onClick={(e) => {
+              onClick={(e) =>
+              {
                 e.preventDefault();
                 setOpen(false);
-                logout().then(() => {
+                logout().then(() =>
+                {
                   setLoggedInUser(null);
                   setOpen(false);
                 });

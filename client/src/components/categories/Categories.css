@@ -1,0 +1,35 @@
+.CategoriesView-div-maincontainer {
+  margin: 1% 5% 0px 5%;
+}
+
+.CategoriesView-btn-createbutton {
+  float: right;
+}
+
+.CategoriesCreate-div-container {
+  margin: 3% 5% 0px 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.CategoriesCreate-article-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.CategoriesCreate-input-categoryName {
+  padding: 1.35rem 10rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+  font-size: xx-large;
+}
+
+.CategoriesCreate-button-submit {
+  float: right;
+  padding: 0.5rem 2rem;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  background-color: greenyellow;
+  color: black;
+}
