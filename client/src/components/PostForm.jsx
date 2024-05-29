@@ -40,7 +40,7 @@ const PostForm = ({ onPostSubmitted }) =>
 
     const postIsValid = () =>
     {
-        return title != "" && body != "" && categoryId != 0 && imageURL != ""
+        return title != "" && body != "" && categoryId != 0
     }
 
     return <div>
