@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { getAllCategories } from "../managers/categories"
+import { createPostByMe } from "../managers/postManager"
 
-const PostForm = () =>
+const PostForm = ({ onPostSubmitted }) =>
 {
     const [categories, setCategories] = useState([])
     const [title, setTitle] = useState("")
@@ -21,7 +22,16 @@ const PostForm = () =>
     {
         if(postIsValid())
         {
+            post =
+            {
+                title: title,
+                content: body,
+                imageURL: setImageURL,
+                categoryId: categoryId,
+                publication: date
+            }
 
+            createPostByMe(post)
         } else
         {
             window.alert("post is invalid")

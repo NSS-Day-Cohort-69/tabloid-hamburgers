@@ -53,7 +53,7 @@ public class PostController : ControllerBase
 
     [HttpPost]
     [Route("by-me")]
-    public IActionResult CreatePostByMe(PostPostDTO postedPost)
+    public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
