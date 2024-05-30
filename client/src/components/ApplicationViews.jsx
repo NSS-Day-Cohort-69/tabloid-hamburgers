@@ -10,6 +10,7 @@ import CreatePost from "./CreatePost";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
 import { TagsView } from "./tags/TagsView";
 import EditPost from "./EditPost";
+import UserIsAuthor from "./UserIsAuthor";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser })
 {
@@ -92,7 +93,9 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
           <Route path=":postId">
             <Route path="edit" element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
-                <EditPost />
+                <UserIsAuthor>
+                  <EditPost />
+                </UserIsAuthor>
               </AuthorizedRoute>
             } />
           </Route>
