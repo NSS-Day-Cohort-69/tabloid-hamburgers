@@ -17,6 +17,13 @@ export const TagsView = () => {
   return (
     <main>
       <div>
+        <button
+          onClick={() => {
+            navigate(`create`);
+          }}
+        >
+          Create
+        </button>
         {allTags.map((t) => {
           return (
             <article key={t.id}>
