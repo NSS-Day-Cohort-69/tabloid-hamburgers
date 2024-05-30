@@ -37,6 +37,10 @@ public class PostController : ControllerBase
         {
             return NotFound("this post doesnt exist");
         }
+         if (post.IsApproved == false)
+         {
+            return BadRequest("Unauthorized request, this post isnt approved");
+         }
 
         return Ok(new GetPostDTO
         {
