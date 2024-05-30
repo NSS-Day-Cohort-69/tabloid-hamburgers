@@ -89,7 +89,6 @@ public class PostController : ControllerBase
         }
     }
 
-<<<<<<< HEAD
     [HttpPost]
     [Route("by-me")]
     public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
@@ -116,8 +115,3 @@ public class PostController : ControllerBase
         return NoContent();
     }
 }
-=======
-
-
-
->>>>>>> ft/post-details
