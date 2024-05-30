@@ -22,7 +22,6 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
         {
             if(initialPost)
             {
-                debugger
                 setTitle(initialPost.title)
                 setBody(initialPost.content)
                 setCategoryId(initialPost.categoryId)
