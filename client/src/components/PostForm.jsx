@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { getAllCategories } from "../managers/categories"
-import { createPostByMe } from "../managers/postManager"
 
 const PostForm = ({ onPostSubmitted }) =>
 {
@@ -31,7 +30,7 @@ const PostForm = ({ onPostSubmitted }) =>
                 publication: date
             }
 
-            createPostByMe(post)
+            onPostSubmitted(post)
         } else
         {
             window.alert("post is invalid")

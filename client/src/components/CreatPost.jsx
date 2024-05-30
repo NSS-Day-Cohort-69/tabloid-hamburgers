@@ -1,8 +1,13 @@
 import PostForm from "./PostForm"
+import { createPostByMe } from "../managers/postManager"
 
 const CreatePost = () =>
 {
-    return <PostForm />
+    const onPostSubmitted = (post) =>
+    {
+        createPostByMe(post)
+    }
+    return <PostForm onPostSubmitted={onPostSubmitted} />
 }
 
 export default CreatePost
