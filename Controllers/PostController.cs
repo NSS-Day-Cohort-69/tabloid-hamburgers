@@ -53,7 +53,8 @@ public class PostController : ControllerBase
                 Content = post.Content,
                 ImageURL = post.ImageURL,
                 Publication = post.Publication,
-                IsApproved = post.IsApproved
+                IsApproved = post.IsApproved,
+                CategoryId = post.CategoryId
             }
         );
     }
@@ -88,6 +89,7 @@ public class PostController : ControllerBase
 
     [HttpPost]
     [Route("by-me")]
+    [Authorize]
     public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -114,6 +116,7 @@ public class PostController : ControllerBase
 
     [HttpPut]
     [Route("{id}")]
+    [Authorize]
     public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
     {
         Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
