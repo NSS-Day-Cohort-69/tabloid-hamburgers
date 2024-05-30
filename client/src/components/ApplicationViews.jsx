@@ -12,6 +12,7 @@ import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
 import EditPost from "./EditPost";
 import UserIsAuthor from "./UserIsAuthor";
+import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser })
 {
@@ -53,6 +54,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
               </AuthorizedRoute>
             }
           />
+          <Route path=":CategoryId/edit" element={<CategoriesEdit />} />
           <Route
             path="create"
             element={
