@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
+<<<<<<< HEAD
 import
 {
+=======
+import {
+>>>>>>> main
   Button,
   Collapse,
   Nav,
@@ -13,8 +17,7 @@ import
 } from "reactstrap";
 import { logout } from "../managers/authManager";
 
-export default function NavBar({ loggedInUser, setLoggedInUser })
-{
+export default function NavBar({ loggedInUser, setLoggedInUser }) {
   const [open, setOpen] = useState(false);
 
   const toggleNavbar = () => setOpen(!open);
@@ -50,25 +53,13 @@ export default function NavBar({ loggedInUser, setLoggedInUser })
                   </NavLink>
                 </NavItem>
               </Nav>
-
-              <Nav navbar>
-                {loggedInUser.roles.includes("Admin") && (
-                  <NavItem>
-                    <NavLink tag={RRNavLink} to="/categories">
-                      Category
-                    </NavLink>
-                  </NavItem>
-                )}
-              </Nav>
             </Collapse>
             <Button
               color="primary"
-              onClick={(e) =>
-              {
+              onClick={(e) => {
                 e.preventDefault();
                 setOpen(false);
-                logout().then(() =>
-                {
+                logout().then(() => {
                   setLoggedInUser(null);
                   setOpen(false);
                 });
