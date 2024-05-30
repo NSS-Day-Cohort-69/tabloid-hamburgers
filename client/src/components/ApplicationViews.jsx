@@ -10,6 +10,7 @@ import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate
 import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
 import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
+import { ReactionsCreateView } from "./reactions/ReactionsCreateView";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -20,6 +21,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <p>Welcome to Tabloid!</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="create-reactions"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <ReactionsCreateView />
             </AuthorizedRoute>
           }
         />
@@ -59,7 +68,6 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
-
         </Route>
         <Route path="/tags">
           <Route
