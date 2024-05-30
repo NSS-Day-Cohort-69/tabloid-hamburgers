@@ -15,9 +15,10 @@ const EditPost = () =>
         }, [postId]
     )
 
-    const onPostSubmitted = (post) =>
+    const onPostSubmitted = (putPost) =>
     {
-        editPost(post, postId)
+        putPost.authorId = post.authorId
+        editPost(putPost, postId)
     }
 
     return <PostForm initialPost={post} onPostSubmitted={onPostSubmitted} />
