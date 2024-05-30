@@ -35,6 +35,16 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                         User Profiles
                       </NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/tags">
+                        Tags
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink tag={RRNavLink} to="/categories">
+                        Categories
+                      </NavLink>
+                    </NavItem>
                   </>
                 )}
                 <NavItem>
