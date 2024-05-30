@@ -86,4 +86,30 @@ public class PostController : ControllerBase
                 .Select(p => new GetPostsDTO(p))
         );
     }
+
+    [HttpPost]
+    [Route("by-me")]
+    public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
+    {
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+        Post post = new Post
+        {
+            Title = postedPost.Title,
+            AuthorId = profile.Id,
+            Content = postedPost.Content,
+            ImageURL = postedPost.ImageURL,
+            CategoryId = postedPost.CategoryId,
+            IsApproved = true,
+            Publication = postedPost.Publication,
+            CreationDate = DateTime.Now
+        };
+
+        _dbContext.Posts.Add(post);
+        _dbContext.SaveChanges();
+
+        return NoContent();
+    }
 }

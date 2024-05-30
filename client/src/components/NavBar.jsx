@@ -35,23 +35,18 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                         User Profiles
                       </NavLink>
                     </NavItem>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to="/post">
-                        Posts
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to="/categories">
-                        Category
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink tag={RRNavLink} to="/tags">
-                        Tags
-                      </NavLink>
-                    </NavItem>
                   </>
                 )}
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post">
+                    Posts
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/post/create">
+                    Create Post
+                  </NavLink>
+                </NavItem>
               </Nav>
             </Collapse>
             <Button
