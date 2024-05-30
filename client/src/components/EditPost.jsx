@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import PostForm from "./PostForm"
 import { useEffect, useState } from "react"
-import { getPostById } from "../managers/postManager"
+import { editPost, getPostById } from "../managers/postManager"
 
 const EditPost = () =>
 {
@@ -15,7 +15,12 @@ const EditPost = () =>
         }, [postId]
     )
 
-    return <PostForm initialPost={post} onPostSubmitted={() => {}} />
+    const onPostSubmitted = (post) =>
+    {
+        editPost(post, postId)
+    }
+
+    return <PostForm initialPost={post} onPostSubmitted={onPostSubmitted} />
 }
 
 export default EditPost
