@@ -22,7 +22,7 @@ export const TagsView = () => {
               <button
                 onClick={() => {
                   if (window.confirm(`Confirm delete for: ${t.tagName}`)) {
-                    deleteTagById(c.id).then(() => {
+                    deleteTagById(t.id).then(() => {
                       getTagsData();
                     });
                   }
