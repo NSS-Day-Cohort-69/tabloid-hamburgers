@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { tryGetLoggedInUser } from "./managers/authManager";
@@ -6,20 +6,24 @@ import { Spinner } from "reactstrap";
 import NavBar from "./components/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 
-export const UserContext = createContext()
+const UserContext = useContext()
 
-function App() {
+function App()
+{
   const [loggedInUser, setLoggedInUser] = useState();
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     // user will be null if not authenticated
-    tryGetLoggedInUser().then((user) => {
+    tryGetLoggedInUser().then((user) =>
+    {
       setLoggedInUser(user);
     });
   }, []);
 
   // wait to get a definite logged-in state before rendering
-  if (loggedInUser === undefined) {
+  if(loggedInUser === undefined)
+  {
     return <Spinner />;
   }
 

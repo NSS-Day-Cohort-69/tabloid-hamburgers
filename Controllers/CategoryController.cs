@@ -23,7 +23,6 @@ public class CategoryController : ControllerBase
 
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
     public IActionResult GetAllCategories()
     {
         return Ok(_db.Categories.Select(c => new CategoryDTO
