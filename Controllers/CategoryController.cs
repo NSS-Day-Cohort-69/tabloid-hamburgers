@@ -23,6 +23,7 @@ public class CategoryController : ControllerBase
 
 
     [HttpGet]
+    [Authorize]
     public IActionResult GetAllCategories()
     {
         return Ok(_db.Categories.Select(c => new CategoryDTO
