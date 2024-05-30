@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getAllCategories } from "../managers/categories"
 
-const PostForm = ({ onPostSubmitted }) =>
+const PostForm = ({ initialPost, onPostSubmitted }) =>
 {
     const [categories, setCategories] = useState([])
     const [title, setTitle] = useState("")
@@ -15,6 +15,20 @@ const PostForm = ({ onPostSubmitted }) =>
         {
             getAllCategories().then(setCategories)
         }, []
+    )
+
+    useEffect(
+        () =>
+        {
+            if(initialPost)
+            {
+                setTitle(initialPost.title)
+                setBody(initialPost.content)
+                setCategoryId(initialPost.categoryId)
+                setImageURL(initialPost.imageURL ? initialPost.imageURL : "")
+                setDate(new Date(initialPost.publication).toISOString().slice(0, 10))
+            }
+        }, [initialPost]
     )
 
     const onSubmit = () =>
