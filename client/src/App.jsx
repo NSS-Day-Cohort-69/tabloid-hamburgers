@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { tryGetLoggedInUser } from "./managers/authManager";
@@ -6,7 +6,7 @@ import { Spinner } from "reactstrap";
 import NavBar from "./components/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 
-export const UserContext = useContext()
+export const UserContext = createContext()
 
 function App()
 {
