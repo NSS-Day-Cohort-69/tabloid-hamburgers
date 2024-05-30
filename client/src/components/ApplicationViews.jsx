@@ -14,8 +14,8 @@ import EditPost from "./EditPost";
 import UserIsAuthor from "./UserIsAuthor";
 import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
 import { ReactionsCreateView } from "./reactions/ReactionsCreateView";
-import { TagsCreate } from "./tags/tagCreate/TagCreate";
 import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
+import { TagsCreate } from "./tags/tagsCreate/TagCreate";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -80,6 +80,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <TagsView />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path="create"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <TagsCreate />
               </AuthorizedRoute>
             }
           />
