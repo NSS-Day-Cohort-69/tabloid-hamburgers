@@ -27,6 +27,7 @@ export const ReactionsCreateView = () => {
         </section>
         <form onSubmit={handleSave}>
           <input
+            required
             defaultValue={reactions}
             onChange={(e) => {
               setReactions(e.target.value);
