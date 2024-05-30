@@ -1,11 +1,17 @@
 import { useState } from "react";
 import "./ReactionsCreateView.css";
+import { createNewReaction } from "../../managers/reaction";
+import { useNavigate } from "react-router-dom";
 
 export const ReactionsCreateView = () => {
   const [reactions, setReactions] = useState("");
+  const navigate = useNavigate();
 
   const handleSave = (e) => {
     e.preventDefault();
+    if (reactions != "") {
+      createNewReaction({ ImageUrl: reactions });
+    }
   };
 
   return (
