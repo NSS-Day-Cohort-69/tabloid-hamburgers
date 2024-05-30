@@ -7,7 +7,11 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
+<<<<<<< HEAD
 import PostDetails from "./PostDetails";
+=======
+import { TagsView } from "./tags/TagsView";
+>>>>>>> main
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -57,6 +61,16 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
 
+        </Route>
+        <Route path="/tags">
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <TagsView />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
         <Route
           path="login"
