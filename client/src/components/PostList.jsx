@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import { getPublicPosts } from "../managers/postManager"
+import { Link } from "react-router-dom"
 
 const PostList = () =>
 {
@@ -25,7 +26,8 @@ const PostList = () =>
                     <div>{p.title}</div>
                     <div>{p.author.fullName}</div>
                     <div>{p.category.categoryName}</div>
-                    <br/>
+                    <Link to={`/post/${p.id}/edit`}>edit</Link>
+                    <br />
                 </div>)
         }
     </>
