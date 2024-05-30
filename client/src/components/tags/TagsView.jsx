@@ -27,7 +27,14 @@ export const TagsView = () => {
         {allTags.map((t) => {
           return (
             <article key={t.id}>
-              {t.tagName}{" "}
+              {t.tagName}
+              <button
+                onClick={() => {
+                  navigate(`${t.id}/edit`);
+                }}
+              >
+                Update
+              </button>
               <button
                 onClick={() => {
                   if (window.confirm(`Confirm delete for: ${t.tagName}`)) {

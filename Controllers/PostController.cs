@@ -89,6 +89,7 @@ public class PostController : ControllerBase
 
     [HttpPost]
     [Route("by-me")]
+    [Authorize]
     public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -111,5 +112,39 @@ public class PostController : ControllerBase
         _dbContext.SaveChanges();
 
         return NoContent();
+    }
+
+    [HttpPut]
+    [Route("{id}")]
+    [Authorize]
+    public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
+    {
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+
+        if (existingPost != null)
+        {
+            _dbContext.Posts.Remove(existingPost);
+
+            Post post = new Post
+            {
+                Id = id,
+                Title = puttedPost.Title,
+                AuthorId = puttedPost.AuthorId,
+                Content = puttedPost.Content,
+                ImageURL = puttedPost.ImageURL,
+                CategoryId = puttedPost.CategoryId,
+                IsApproved = true,
+                Publication = puttedPost.Publication,
+                CreationDate = DateTime.Now
+            };
+
+            _dbContext.Posts.Add(post);
+
+            _dbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        return BadRequest("There is no post with given id.");
     }
 }

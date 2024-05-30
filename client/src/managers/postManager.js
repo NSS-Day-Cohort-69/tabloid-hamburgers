@@ -18,6 +18,17 @@ export const createPostByMe = (post) =>
         })
 }
 
-export const getPostById = (id) => {
+export const getPostById = (id) =>
+{
     return fetch(`/api/post/${id}`).then((res) => res.json());
-  };
+};
+
+export const editPost = (post, id) =>
+{
+    return fetch(`/api/post/${id}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(post)
+        })
+}

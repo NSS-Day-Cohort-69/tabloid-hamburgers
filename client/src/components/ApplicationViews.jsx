@@ -10,8 +10,12 @@ import CreatePost from "./CreatePost";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
 import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
+import EditPost from "./EditPost";
+import UserIsAuthor from "./UserIsAuthor";
 import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
-import { TagsCreate } from "./tags/createTag/TagCreate";
+import { ReactionsCreateView } from "./reactions/ReactionsCreateView";
+import { TagsCreate } from "./tags/tagCreate/TagCreate";
+import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -22,6 +26,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <p>Welcome to Tabloid!</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path="create-reactions"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <ReactionsCreateView />
             </AuthorizedRoute>
           }
         />
@@ -72,10 +84,10 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }
           />
           <Route
-            path="create"
+            path=":TagId/edit"
             element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                <TagsCreate />
+                <TagsEditView />
               </AuthorizedRoute>
             }
           />
@@ -105,6 +117,26 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+          <Route path=":postId">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <PostDetails />
+                </AuthorizedRoute>
+              }
+            />
+            <Route
+              path="edit"
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <UserIsAuthor>
+                    <EditPost />
+                  </UserIsAuthor>
+                </AuthorizedRoute>
+              }
+            />
+          </Route>
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />

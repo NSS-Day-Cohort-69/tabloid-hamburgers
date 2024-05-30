@@ -7,10 +7,10 @@ import { getPostById } from "../managers/postManager";
 
 export default function PostDetails() {
     const [post, setPost] = useState({});
-    const { id } = useParams();
+    const { postId } = useParams();
 
     const getAndResetPost = () => {
-        getPostById(id).then(setPost);
+        getPostById(postId).then(setPost);
     };
 
     useEffect(() => {
