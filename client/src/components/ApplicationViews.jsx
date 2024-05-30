@@ -10,6 +10,7 @@ import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate
 import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
 import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
+import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -59,7 +60,6 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
-
         </Route>
         <Route path="/tags">
           <Route
@@ -67,6 +67,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <TagsView />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path=":TagId/edit"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <TagsEditView />
               </AuthorizedRoute>
             }
           />
