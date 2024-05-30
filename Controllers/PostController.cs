@@ -23,70 +23,67 @@ public class PostController : ControllerBase
         _dbContext = context;
     }
 
-
-
     [HttpGet("{id}")]
     [Authorize]
     public IActionResult GetById(int id)
     {
-        Post post = _dbContext.Posts
-        .Include(p => p.Author)
-        .SingleOrDefault(p => p.Id == id);
+        Post post = _dbContext.Posts.Include(p => p.Author).SingleOrDefault(p => p.Id == id);
 
         if (post == null)
         {
             return NotFound("this post doesnt exist");
         }
-         if (post.IsApproved == false)
-         {
-            return BadRequest("Unauthorized request, this post isnt approved");
-         }
-
-        return Ok(new GetPostDTO
+        if (post.IsApproved == false)
         {
-            Id = post.Id,
-            Title = post.Title,
-            AuthorId = post.AuthorId,
-            Author = new UserProfileForGetPostDTO
-            {
-                Id = post.Author.Id,
-                UserName = post.Author.UserName,
-                FirstName = post.Author.FirstName
-            },
-            Content = post.Content,
-            ImageURL = post.ImageURL,
-            Publication = post.Publication,
-            IsApproved = post.IsApproved
+            return BadRequest("Unauthorized request, this post isnt approved");
+        }
 
-        });
+        return Ok(
+            new GetPostDTO
+            {
+                Id = post.Id,
+                Title = post.Title,
+                AuthorId = post.AuthorId,
+                Author = new UserProfileForGetPostDTO
+                {
+                    Id = post.Author.Id,
+                    UserName = post.Author.UserName,
+                    FirstName = post.Author.FirstName
+                },
+                Content = post.Content,
+                ImageURL = post.ImageURL,
+                Publication = post.Publication,
+                IsApproved = post.IsApproved
+            }
+        );
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult GetPosts()
     {
-        return Ok(_dbContext
+        return Ok(
+            _dbContext
                 .Posts.Include(p => p.Author)
                 .Include(p => p.Category)
                 .Select(p => new GetPostsDTO(p))
         );
     }
 
-        [HttpGet]
-        [Route("public")]
-        [Authorize]
-        public IActionResult GetPublicPosts()
-        {
-            return Ok(
-                _dbContext
-                    .Posts.Where(p =>
-                        p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
-                    )
-                    .Include(p => p.Author)
-                    .Include(p => p.Category)
-                    .Select(p => new GetPostsDTO(p))
-            );
-        }
+    [HttpGet]
+    [Route("public")]
+    [Authorize]
+    public IActionResult GetPublicPosts()
+    {
+        return Ok(
+            _dbContext
+                .Posts.Where(p =>
+                    p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
+                )
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Select(p => new GetPostsDTO(p))
+        );
     }
 
     [HttpPost]
