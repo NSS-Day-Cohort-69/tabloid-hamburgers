@@ -11,6 +11,7 @@ import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate
 import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
 import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
+import { TagsCreate } from "./tags/tagCreate/TagCreate";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -60,7 +61,6 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
-
         </Route>
         <Route path="/tags">
           <Route
@@ -68,6 +68,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
                 <TagsView />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path="create"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <TagsCreate />
               </AuthorizedRoute>
             }
           />
@@ -81,16 +89,22 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={<Register setLoggedInUser={setLoggedInUser} />}
         />
         <Route path="post">
-          <Route index element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
-              <PostList />
-            </AuthorizedRoute>
-          } />
-          <Route path="create" element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
-              <CreatePost />
-            </AuthorizedRoute>
-          } />
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <PostList />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path="create"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <CreatePost />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
