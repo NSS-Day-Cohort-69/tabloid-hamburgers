@@ -23,13 +23,22 @@ public class CategoryController : ControllerBase
 
 
     [HttpGet]
-    public IActionResult GetAllCategories()
+    public IActionResult GetAllCategories(int? CategoryId)
     {
-        return Ok(_db.Categories.Select(c => new CategoryDTO
+         if (CategoryId == null)
+        {
+            return Ok(_db.Categories.Select(c => new CategoryDTO
         {
             Id = c.Id,
             CategoryName = c.CategoryName
         }));
+        } else {
+            return Ok(_db.Categories.Select(c => new CategoryDTO
+        {
+            Id = c.Id,
+            CategoryName = c.CategoryName
+        }).Single(i => i.Id == CategoryId));
+        }
     }
 
     [HttpPost]
@@ -55,6 +64,27 @@ public class CategoryController : ControllerBase
             _db.SaveChanges();
             return Ok();
         }
+        return NotFound();
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "Admin")]
+    public IActionResult UpdateCategory(Category categoryToUpdate)
+    {
+        if (categoryToUpdate == null) {
+            return NoContent();
+        }
+
+
+        Category foundCategory = _db.Categories.FirstOrDefault(i => i.Id == categoryToUpdate.Id);
+        if (foundCategory != null)
+        {
+            foundCategory.CategoryName = categoryToUpdate.CategoryName;
+            _db.SaveChanges();
+
+            return Ok();
+        }
+
         return NotFound();
     }
 

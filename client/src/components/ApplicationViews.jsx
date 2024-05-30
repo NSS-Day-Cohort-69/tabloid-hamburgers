@@ -9,6 +9,7 @@ import { CategoriesView } from "./categories/CategoriesView";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
 import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
+import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -49,6 +50,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+          <Route path=":CategoryId/edit" element={<CategoriesEdit />} />
           <Route
             path="create"
             element={
