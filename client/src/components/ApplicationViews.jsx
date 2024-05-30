@@ -8,7 +8,9 @@ import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import CreatePost from "./CreatePost";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
+import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
+import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -49,6 +51,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+          <Route path=":CategoryId/edit" element={<CategoriesEdit />} />
           <Route
             path="create"
             element={
@@ -57,6 +60,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+
         </Route>
         <Route path="/tags">
           <Route
