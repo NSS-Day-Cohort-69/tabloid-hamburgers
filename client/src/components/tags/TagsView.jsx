@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { deleteTagById, getAllTags } from "../../managers/tags";
+import { useNavigate } from "react-router-dom";
 
 export const TagsView = () => {
   const [allTags, setAllTags] = useState([]);
+  const navigate = useNavigate();
 
   const getTagsData = () => {
     getAllTags().then(setAllTags);
@@ -18,7 +20,14 @@ export const TagsView = () => {
         {allTags.map((t) => {
           return (
             <article key={t.id}>
-              {t.tagName}{" "}
+              {t.tagName}
+              <button
+                onClick={() => {
+                  navigate(`${t.id}/edit`);
+                }}
+              >
+                Update
+              </button>
               <button
                 onClick={() => {
                   if (window.confirm(`Confirm delete for: ${t.tagName}`)) {

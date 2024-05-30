@@ -32,6 +32,18 @@ public class TagController : ControllerBase
         }));
     }
 
+    [HttpGet("{Id}")]
+    [Authorize(Roles = "Admin")]
+      public IActionResult GetTagById(int Id)
+    {
+        return Ok(_db.Tags.Select(c => new TagDTO
+        {
+            Id = c.Id,
+            TagName = c.TagName
+        }).SingleOrDefault(i => i.Id == Id));
+    }
+
+
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public IActionResult PostNewTag(Tag newTag)
@@ -60,6 +72,25 @@ public class TagController : ControllerBase
         return NotFound();
     }
 
+    [HttpPut]
+    [Authorize(Roles = "Admin")]
+    public IActionResult UpdateATag(Tag tagToUpdate)
+    {
+        if (tagToUpdate == null)
+        {
+            return NoContent();
+        }
 
+        Tag foundTag = _db.Tags.FirstOrDefault(i => i.Id == tagToUpdate.Id);
+        if (foundTag != null)
+        {
+            foundTag.TagName = tagToUpdate.TagName;
+            _db.SaveChanges();
+
+            return Ok();
+        }
+
+        return NotFound();
+    }
 
 }
