@@ -44,4 +44,22 @@ public class TagController : ControllerBase
         }).SingleOrDefault(i => i.Id == newTag.Id));
     }
 
+    [HttpDelete("{Id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult DeleteATag(int Id)
+    {
+        Tag tagToDelete = _db.Tags.FirstOrDefault(i => i.Id == Id);
+
+        if (tagToDelete != null)
+        {
+            _db.Tags.Remove(tagToDelete);
+            _db.SaveChanges();
+
+            return Ok();
+        }
+        return NotFound();
+    }
+
+
+
 }
