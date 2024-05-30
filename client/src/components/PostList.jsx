@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react"
 import { getPublicPosts } from "../managers/postManager"
+import { Link } from "react-router-dom"
 
 const PostList = () =>
 {
@@ -22,7 +23,8 @@ const PostList = () =>
         {
             posts.map(p =>
                 <div key={"p" + p.id}>
-                    <div>{p.title}</div>
+                    <Link to={`/post/${p.id}`}><div>{p.title}</div></Link>
+                    
                     <div>{p.author.fullName}</div>
                     <div>{p.category.categoryName}</div>
                     <br/>
