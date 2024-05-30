@@ -7,6 +7,7 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
+import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
@@ -56,6 +57,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
+
         </Route>
         <Route path="/tags">
           <Route
@@ -75,12 +77,20 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           path="register"
           element={<Register setLoggedInUser={setLoggedInUser} />}
         />
-        <Route path="post">
+        <Route path="/post">
           <Route
             index
             element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
                 <PostList />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path=":id"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <PostDetails />
               </AuthorizedRoute>
             }
           />
