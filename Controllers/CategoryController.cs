@@ -56,7 +56,7 @@ public class CategoryController : ControllerBase
             _db.SaveChanges();
             return Ok();
         }
-        return NoContent();
+        return NotFound();
     }
 
 }
