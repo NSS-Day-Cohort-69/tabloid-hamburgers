@@ -1,7 +1,3 @@
-
-
-
-
 using System.Data.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +9,6 @@ using Tabloid.Models.DTOs;
 [Route("/api/[controller]")]
 public class CategoryController : ControllerBase
 {
-
     private TabloidDbContext _db;
 
     public CategoryController(TabloidDbContext context)
@@ -21,23 +16,30 @@ public class CategoryController : ControllerBase
         _db = context;
     }
 
-
     [HttpGet]
+    [Authorize]
     public IActionResult GetAllCategories(int? CategoryId)
     {
-         if (CategoryId == null)
+        if (CategoryId == null)
         {
-            return Ok(_db.Categories.Select(c => new CategoryDTO
+            return Ok(
+                _db.Categories.Select(c => new CategoryDTO
+                {
+                    Id = c.Id,
+                    CategoryName = c.CategoryName
+                })
+            );
+        }
+        else
         {
-            Id = c.Id,
-            CategoryName = c.CategoryName
-        }));
-        } else {
-            return Ok(_db.Categories.Select(c => new CategoryDTO
-        {
-            Id = c.Id,
-            CategoryName = c.CategoryName
-        }).Single(i => i.Id == CategoryId));
+            return Ok(
+                _db.Categories.Select(c => new CategoryDTO
+                {
+                    Id = c.Id,
+                    CategoryName = c.CategoryName
+                })
+                    .Single(i => i.Id == CategoryId)
+            );
         }
     }
 
@@ -47,10 +49,10 @@ public class CategoryController : ControllerBase
     {
         _db.Categories.Add(newCategory);
         _db.SaveChanges();
-        return Ok(_db.Categories.Select(c => new CategoryDTO {
-            Id = c.Id,
-            CategoryName = c.CategoryName
-        }).SingleOrDefault(i => i.Id == newCategory.Id));
+        return Ok(
+            _db.Categories.Select(c => new CategoryDTO { Id = c.Id, CategoryName = c.CategoryName })
+                .SingleOrDefault(i => i.Id == newCategory.Id)
+        );
     }
 
     [HttpDelete("{Id}")]
@@ -71,10 +73,10 @@ public class CategoryController : ControllerBase
     [Authorize(Roles = "Admin")]
     public IActionResult UpdateCategory(Category categoryToUpdate)
     {
-        if (categoryToUpdate == null) {
+        if (categoryToUpdate == null)
+        {
             return NoContent();
         }
-
 
         Category foundCategory = _db.Categories.FirstOrDefault(i => i.Id == categoryToUpdate.Id);
         if (foundCategory != null)
@@ -87,5 +89,4 @@ public class CategoryController : ControllerBase
 
         return NotFound();
     }
-
 }
