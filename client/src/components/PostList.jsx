@@ -23,7 +23,8 @@ const PostList = () =>
         {
             posts.map(p =>
                 <div key={"p" + p.id}>
-                    <div>{p.title}</div>
+                    <Link to={`/post/${p.id}`}><div>{p.title}</div></Link>
+                    
                     <div>{p.author.fullName}</div>
                     <div>{p.category.categoryName}</div>
                     <Link to={`/post/${p.id}/edit`}>edit</Link>

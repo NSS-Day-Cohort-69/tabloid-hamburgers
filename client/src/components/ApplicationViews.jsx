@@ -8,6 +8,7 @@ import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import CreatePost from "./CreatePost";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
+import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
 import EditPost from "./EditPost";
 import UserIsAuthor from "./UserIsAuthor";
@@ -60,6 +61,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
               </AuthorizedRoute>
             }
           />
+
         </Route>
         <Route path="/tags">
           <Route
@@ -91,13 +93,22 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
             </AuthorizedRoute>
           } />
           <Route path=":postId">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <PostDetails />
+                </AuthorizedRoute>
+              }
+            />
             <Route path="edit" element={
               <AuthorizedRoute loggedInUser={loggedInUser}>
                 <UserIsAuthor>
                   <EditPost />
                 </UserIsAuthor>
               </AuthorizedRoute>
-            } />
+            }
+            />
           </Route>
         </Route>
       </Route>
