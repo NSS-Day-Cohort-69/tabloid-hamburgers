@@ -1,9 +1,11 @@
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useContext, useEffect, useState } from "react"
 import { getPublicPosts } from "../managers/postManager"
 import { Link } from "react-router-dom"
+import { UserContext } from "../App"
 
 const PostList = () =>
 {
+    const user = useContext(UserContext)
     const [posts, setPosts] = useState([])
 
     useEffect(
@@ -24,10 +26,12 @@ const PostList = () =>
             posts.map(p =>
                 <div key={"p" + p.id}>
                     <Link to={`/post/${p.id}`}><div>{p.title}</div></Link>
-                    
+
                     <div>{p.author.fullName}</div>
                     <div>{p.category.categoryName}</div>
-                    <Link to={`/post/${p.id}/edit`}>edit</Link>
+                    {
+                        p.authorId == user.id && <Link to={`/post/${p.id}/edit`}>edit</Link>
+                    }
                     <br />
                 </div>)
         }

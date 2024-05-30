@@ -15,7 +15,7 @@ const EditPost = () =>
         }, [postId]
     )
 
-    return <PostForm initialPost={post} />
+    return <PostForm initialPost={post} onPostSubmitted={() => {}} />
 }
 
 export default EditPost
