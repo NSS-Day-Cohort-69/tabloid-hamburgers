@@ -32,6 +32,13 @@ export const CategoriesView = () => {
               {c.categoryName}
               <button
                 onClick={() => {
+                  navigate(`${c.id}/edit`);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => {
                   if (window.confirm(`Confirm delete for: ${c.categoryName}`)) {
                     deleteCategory(c.id).then(() => {
                       getCategories();

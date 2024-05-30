@@ -6,7 +6,7 @@ import { Spinner } from "reactstrap";
 import NavBar from "./components/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 
-const UserContext = useContext()
+export const UserContext = useContext()
 
 function App()
 {
