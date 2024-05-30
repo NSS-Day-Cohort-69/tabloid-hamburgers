@@ -127,6 +127,7 @@ public class PostController : ControllerBase
 
             Post post = new Post
             {
+                Id = id,
                 Title = puttedPost.Title,
                 AuthorId = puttedPost.AuthorId,
                 Content = puttedPost.Content,
