@@ -111,4 +111,36 @@ public class PostController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
+    {
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+
+        if (existingPost != null)
+        {
+            _dbContext.Posts.Remove(existingPost);
+
+            Post post = new Post
+            {
+                Title = puttedPost.Title,
+                AuthorId = puttedPost.AuthorId,
+                Content = puttedPost.Content,
+                ImageURL = puttedPost.ImageURL,
+                CategoryId = puttedPost.CategoryId,
+                IsApproved = true,
+                Publication = puttedPost.Publication,
+                CreationDate = DateTime.Now
+            };
+
+            _dbContext.Posts.Add(post);
+
+            _dbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        return BadRequest("There is no post with given id.");
+    }
 }
