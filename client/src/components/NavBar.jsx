@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
-<<<<<<< HEAD
-import
-{
-=======
 import {
->>>>>>> main
   Button,
   Collapse,
   Nav,
