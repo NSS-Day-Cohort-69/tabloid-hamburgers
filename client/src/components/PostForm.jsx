@@ -39,7 +39,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
             {
                 title: title,
                 content: body,
-                imageURL: setImageURL,
+                imageURL: imageURL,
                 categoryId: categoryId,
                 publication: date
             }
