@@ -7,9 +7,9 @@ import UserProfileDetails from "./userprofiles/UserProfileDetails";
 import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
+import PostDetails from "./PostDetails";
 
-export default function ApplicationViews({ loggedInUser, setLoggedInUser })
-{
+export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
     <Routes>
       <Route path="/">
@@ -56,6 +56,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
               </AuthorizedRoute>
             }
           />
+
         </Route>
         <Route
           path="login"
@@ -65,12 +66,23 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
           path="register"
           element={<Register setLoggedInUser={setLoggedInUser} />}
         />
-        <Route path="post">
-          <Route index element={
-            <AuthorizedRoute loggedInUser={loggedInUser}>
-              <PostList />
-            </AuthorizedRoute>
-          } />
+        <Route path="/post">
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <PostList />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path=":id"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <PostDetails />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />

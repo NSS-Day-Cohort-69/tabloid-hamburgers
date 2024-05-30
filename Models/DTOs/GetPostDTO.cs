@@ -19,5 +19,5 @@ public class GetPostDTO
 
     public bool IsApproved { get; set; }
 
-    public DateTime Publication { get; set; }
+    public DateTime? Publication { get; set; }
 }

@@ -25,7 +25,7 @@ public class PostController : ControllerBase
 
 
 
-    [HttpGet ("{id}")]
+    [HttpGet("{id}")]
     [Authorize]
     public IActionResult GetById(int id)
     {
@@ -42,48 +42,49 @@ public class PostController : ControllerBase
         {
             Id = post.Id,
             Title = post.Title,
-            Author =  new UserProfileForGetPostDTO 
+            AuthorId = post.AuthorId,
+            Author = new UserProfileForGetPostDTO
             {
                 Id = post.Author.Id,
-                UserName = post.Author.UserName
+                UserName = post.Author.UserName,
+                FirstName = post.Author.FirstName
             },
             Content = post.Content,
             ImageURL = post.ImageURL,
             Publication = post.Publication,
             IsApproved = post.IsApproved
-     
+
         });
     }
 
-
-
-
-}
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult GetPosts()
     {
-        return Ok(
-            _dbContext
+        return Ok(_dbContext
                 .Posts.Include(p => p.Author)
                 .Include(p => p.Category)
                 .Select(p => new GetPostsDTO(p))
         );
     }
 
-    [HttpGet]
-    [Route("public")]
-    [Authorize]
-    public IActionResult GetPublicPosts()
-    {
-        return Ok(
-            _dbContext
-                .Posts.Where(p =>
-                    p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
-                )
-                .Include(p => p.Author)
-                .Include(p => p.Category)
-                .Select(p => new GetPostsDTO(p))
-        );
+        [HttpGet]
+        [Route("public")]
+        [Authorize]
+        public IActionResult GetPublicPosts()
+        {
+            return Ok(
+                _dbContext
+                    .Posts.Where(p =>
+                        p.IsApproved && p.Publication != null && p.Publication < DateTime.Now
+                    )
+                    .Include(p => p.Author)
+                    .Include(p => p.Category)
+                    .Select(p => new GetPostsDTO(p))
+            );
+        }
     }
+
+
+
 
