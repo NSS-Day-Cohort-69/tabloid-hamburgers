@@ -10,9 +10,12 @@ import CreatePost from "./CreatePost";
 import { CategoriesCreate } from "./categories/categoriesCreate/CategoriesCreate";
 import PostDetails from "./PostDetails";
 import { TagsView } from "./tags/TagsView";
+import EditPost from "./EditPost";
+import UserIsAuthor from "./UserIsAuthor";
 import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
 
-export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
+export default function ApplicationViews({ loggedInUser, setLoggedInUser })
+{
   return (
     <Routes>
       <Route path="/">
@@ -91,6 +94,24 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               <CreatePost />
             </AuthorizedRoute>
           } />
+          <Route path=":postId">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <PostDetails />
+                </AuthorizedRoute>
+              }
+            />
+            <Route path="edit" element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <UserIsAuthor>
+                  <EditPost />
+                </UserIsAuthor>
+              </AuthorizedRoute>
+            }
+            />
+          </Route>
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
