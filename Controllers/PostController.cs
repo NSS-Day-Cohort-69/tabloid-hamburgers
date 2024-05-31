@@ -96,6 +96,7 @@ public class PostController : ControllerBase
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
             up.IdentityUserId == identityUserId
         );
+
         Post post = new Post
         {
             Title = postedPost.Title,
@@ -109,6 +110,15 @@ public class PostController : ControllerBase
         };
 
         _dbContext.Posts.Add(post);
+        _dbContext.SaveChanges();
+
+        foreach (int tagId in postedPost.TagIds)
+        {
+            PostTag postTag = new PostTag { PostId = post.Id, TagId = tagId };
+
+            _dbContext.PostTags.Add(postTag);
+        }
+
         _dbContext.SaveChanges();
 
         return NoContent();
