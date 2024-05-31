@@ -41,26 +41,7 @@ public class PostController : ControllerBase
             return BadRequest("Unauthorized request, this post isnt approved");
         }
 
-        return Ok(
-            new GetPostDTO
-            {
-                Id = post.Id,
-                Title = post.Title,
-                AuthorId = post.AuthorId,
-                Author = new UserProfileForGetPostDTO
-                {
-                    Id = post.Author.Id,
-                    UserName = post.Author.UserName,
-                    FirstName = post.Author.FirstName
-                },
-                Content = post.Content,
-                ImageURL = post.ImageURL,
-                Publication = post.Publication,
-                IsApproved = post.IsApproved,
-                CategoryId = post.CategoryId,
-                TagIds = post.PostTags.Select(pt => pt.TagId).ToList()
-            }
-        );
+        return Ok(new GetPostDTO(post));
     }
 
     [HttpGet]

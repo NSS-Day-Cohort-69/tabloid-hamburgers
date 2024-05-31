@@ -10,7 +10,7 @@ public class GetPostCommentsDTO
     public GetPostCommentCommenteerDTO Commenteer { get; set; }
     public DateTime CreationDate { get; set; }
 
-    public GetPostCommentDTO(Comment comment)
+    public GetPostCommentsDTO(Comment comment)
     {
         if (comment.Commenteer == null)
         {
