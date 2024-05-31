@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { createNewComment } from "../managers/comment";
 
 export const CommentForm = ({ loggedInUser }) => {
   const [commentObject, setCommentObject] = useState({});
   const { postId } = useParams();
+  const navigate = useNavigate();
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -14,6 +16,10 @@ export const CommentForm = ({ loggedInUser }) => {
       PostId: parseInt(postId),
       CommenterId: loggedInUser.id,
     };
+
+    createNewComment(newComment).then(() => {
+      navigate(`/post/${postId}`);
+    });
   };
 
   return (
