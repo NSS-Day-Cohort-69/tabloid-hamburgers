@@ -133,6 +133,14 @@ public class PostController : ControllerBase
 
         if (existingPost != null)
         {
+            foreach (PostTag postTag in _dbContext.PostTags)
+            {
+                if (postTag.PostId == id)
+                {
+                    _dbContext.PostTags.Remove(postTag);
+                }
+            }
+
             _dbContext.Posts.Remove(existingPost);
 
             Post post = new Post
@@ -149,6 +157,15 @@ public class PostController : ControllerBase
             };
 
             _dbContext.Posts.Add(post);
+
+            _dbContext.SaveChanges();
+
+            foreach (int tagId in puttedPost.TagIds)
+            {
+                PostTag postTag = new PostTag { PostId = post.Id, TagId = tagId };
+
+                _dbContext.PostTags.Add(postTag);
+            }
 
             _dbContext.SaveChanges();
 
