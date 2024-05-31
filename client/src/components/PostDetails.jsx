@@ -25,7 +25,7 @@ export default function PostDetails() {
             subscriberId: post.author?.id,
             followerId: user.id
         }
-        console.log(user)
+       
         subscribeToUser(newSubscription).then(() => {window.alert(`You are now subscribed to ${post.author?.firstName}`)})
     }
   
