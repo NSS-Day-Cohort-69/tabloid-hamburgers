@@ -9,6 +9,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
     const [categoryId, setCategoryId] = useState(0)
     const [imageURL, setImageURL] = useState("")
     const [date, setDate] = useState(new Date().toISOString().slice(0, 10))
+    const [tagIds, setTagIds] = useState([])
 
     useEffect(
         () =>
