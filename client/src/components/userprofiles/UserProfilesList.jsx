@@ -13,11 +13,11 @@ export default function UserProfileList()
       {
         gottenProfiles = gottenProfiles.sort(function (a, b)
         {
-          if(a.userName < b.userName)
+          if(a.userName.toLowerCase() < b.userName.toLowerCase())
           {
             return -1;
           }
-          if(a.userName > b.userName)
+          if(a.userName.toLowerCase() > b.userName.toLowerCase())
           {
             return 1;
           }
