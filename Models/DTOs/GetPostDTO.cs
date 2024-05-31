@@ -18,4 +18,5 @@ public class GetPostDTO
 
     public DateTime? Publication { get; set; }
     public List<int> TagIds { get; set; }
+    public List<GetPostCommentsDTO> PostComments { get; set; }
 }

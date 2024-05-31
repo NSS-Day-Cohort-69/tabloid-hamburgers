@@ -1,6 +1,6 @@
 namespace Tabloid.Models.DTOs;
 
-public class GetPostCommentDTO
+public class GetPostCommentsDTO
 {
     public int Id { get; set; }
     public string Subject { get; set; }
@@ -12,6 +12,10 @@ public class GetPostCommentDTO
 
     public GetPostCommentDTO(Comment comment)
     {
+        if (comment.Commenteer == null)
+        {
+            throw new Exception("Must include commenteer");
+        }
         Id = comment.Id;
         Subject = comment.Subject;
         Content = comment.Content;
