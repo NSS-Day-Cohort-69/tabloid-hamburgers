@@ -18,5 +18,25 @@ public class GetPostDTO
 
     public DateTime? Publication { get; set; }
     public List<int> TagIds { get; set; }
-    public List<GetPostCommentsDTO> PostComments { get; set; }
+    public List<GetPostCommentsDTO> Comments { get; set; }
+
+    public GetPostDTO(Post post)
+    {
+        if (post.Comments == null || post.Author == null)
+        {
+            throw new Exception("Must include comments and author");
+        }
+
+        Id = post.Id;
+        Title = post.Title;
+        AuthorId = post.AuthorId;
+        Content = post.Content;
+        ImageURL = post.ImageURL;
+        CategoryId = post.CategoryId;
+        IsApproved = post.IsApproved;
+        Publication = post.Publication;
+        TagIds = post.PostTags.Select(pt => pt.TagId).ToList();
+        Comments = post.Comments.Select(c => new GetPostCommentsDTO(c)).ToList();
+        Author = new UserProfileForGetPostDTO(post.Author);
+    }
 }
