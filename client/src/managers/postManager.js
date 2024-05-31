@@ -32,3 +32,9 @@ export const editPost = (post, id) =>
             body: JSON.stringify(post)
         })
 }
+
+export const deletePost = (id) =>
+{
+    return fetch(`/api/post/${id}`,
+        { method: "DELETE" })
+}
