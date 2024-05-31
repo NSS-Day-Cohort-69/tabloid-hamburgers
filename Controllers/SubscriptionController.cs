@@ -41,4 +41,26 @@ public class SubscriptionController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPut]
+    public IActionResult Unsubscribe([FromQuery] int followerId, [FromQuery] int subscriberId)
+    {
+    
+        Subscription subscriptionToCancel = _db.Subscriptions.SingleOrDefault(s => s.FollowerId == followerId && s.SubscriberId == subscriberId);
+
+        if (subscriptionToCancel == null)
+        {
+            return BadRequest("this subscription doesn't exist");
+        }
+        else 
+        {
+            subscriptionToCancel.UnsubbedDate = DateTime.Now;
+            _db.SaveChanges();
+            return Ok();
+        }
+
+    }
+
+ 
 }
+

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../App"
 import { useNavigate, useParams } from "react-router-dom";
 import { getPostById } from "../managers/postManager";
-import { subscribeToUser } from "../managers/subscriptionManager";
+import { subscribeToUser, unsubscribeToUser } from "../managers/subscriptionManager";
 
 
 export default function PostDetails()
@@ -66,7 +66,7 @@ export default function PostDetails()
             </div>
             <div>
             <button onClick={handleSubscribeClick}>Subscribe To Author</button>
-            <button>Unsubscribe From Author</button>
+            <button onClick={handleUnsubscribeClick}>Unsubscribe From Author</button>
             </div>
 
         </>
