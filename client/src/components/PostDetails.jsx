@@ -1,17 +1,16 @@
 import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../App"
+import { UserContext } from "../App";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPostById } from "../managers/postManager";
 import { subscribeToUser } from "../managers/subscriptionManager";
-
 
 export default function PostDetails()
 {
     const [post, setPost] = useState({});
     const { postId } = useParams();
-    const user = useContext(UserContext)
+    const user = useContext(UserContext);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const getAndResetPost = () =>
     {
@@ -27,20 +26,21 @@ export default function PostDetails()
     {
         if(window.confirm(`Confirm delete for: ${post.title}`))
         {
-            deletePost(postId).then(() => navigate("/post"))
+            deletePost(postId).then(() => navigate("/post"));
         }
-    }
+    };
     const handleSubscribeClick = () =>
     {
-        const newSubscription =
-        {
+        const newSubscription = {
             subscriberId: post.author?.id,
-            followerId: user.id
-        }
+            followerId: user.id,
+        };
 
-        subscribeToUser(newSubscription).then(() => { window.alert(`You are now subscribed to ${post.author?.firstName}`) })
-    }
-
+        subscribeToUser(newSubscription).then(() =>
+        {
+            window.alert(`You are now subscribed to ${post.author?.firstName}`);
+        });
+    };
 
     return (
         <>
@@ -60,6 +60,14 @@ export default function PostDetails()
                 }
             </div>
             <div>
+                <button
+                    onClick={() =>
+                    {
+                        navigate(`comment`);
+                    }}
+                >
+                    Add Comment
+                </button>
                 <button onClick={handleSubscribeClick}>Subscribe To Author</button>
                 {
                     post.comments?.map(c =>

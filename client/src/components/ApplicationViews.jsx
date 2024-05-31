@@ -16,6 +16,7 @@ import { CategoriesEdit } from "./categories/categoriesEdit/CategoriesEdit";
 import { ReactionsCreateView } from "./reactions/ReactionsCreateView";
 import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 import { TagsCreate } from "./tags/tagsCreate/TagCreate";
+import { CommentForm } from "./CommentForm";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -141,6 +142,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
                   <UserIsAuthor>
                     <EditPost />
                   </UserIsAuthor>
+                </AuthorizedRoute>
+              }
+            />
+            <Route
+              path="comment"
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <CommentForm loggedInUser={loggedInUser} />
                 </AuthorizedRoute>
               }
             />
