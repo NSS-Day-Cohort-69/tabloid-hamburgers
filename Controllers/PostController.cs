@@ -150,6 +150,7 @@ public class PostController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
+    [Authorize]
     public IActionResult DeletePost(int id)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
