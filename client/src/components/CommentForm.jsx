@@ -28,7 +28,7 @@ export const CommentForm = ({ loggedInUser }) => {
         <form onSubmit={handleSave}>
           <input
             required
-            value={commentObject.subject}
+            defaultValue={commentObject.subject}
             onChange={(e) => {
               const copy = { ...commentObject };
               copy.subject = e.target.value;
@@ -37,7 +37,7 @@ export const CommentForm = ({ loggedInUser }) => {
           />
           <textarea
             required
-            value={commentObject.content}
+            defaultValue={commentObject.content}
             onChange={(e) => {
               const copy = { ...commentObject };
               copy.content = e.target.value;
