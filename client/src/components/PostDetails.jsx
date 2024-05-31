@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../App"
 import { useNavigate, useParams } from "react-router-dom";
-import { deletePost, getPostById } from "../managers/postManager";
-import { UserContext } from "../App";
+import { getPostById } from "../managers/postManager";
+import { subscribeToUser } from "../managers/subscriptionManager";
 
 
 export default function PostDetails()
@@ -29,6 +30,16 @@ export default function PostDetails()
             deletePost(postId).then(() => navigate("/post"))
         }
     }
+    const handleSubscribeClick = () => {
+        const newSubscription = 
+        {
+            subscriberId: post.author?.id,
+            followerId: user.id
+        }
+       
+        subscribeToUser(newSubscription).then(() => {window.alert(`You are now subscribed to ${post.author?.firstName}`)})
+    }
+  
 
     return (
         <>
@@ -46,6 +57,9 @@ export default function PostDetails()
                     user.id == post.authorId
                     && <button onClick={onDeleteClicked}>Delete</button>
                 }
+            </div>
+            <div>
+            <button onClick={handleSubscribeClick}>Subscribe To Author</button>
             </div>
 
         </>
