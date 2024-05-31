@@ -147,4 +147,27 @@ public class PostController : ControllerBase
 
         return BadRequest("There is no post with given id.");
     }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult DeletePost(int id)
+    {
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+
+        //we want to return bad request if the user isn't the author of the post. Adding the check for that here means that if it fails, post will be null and the endpoint will return bad request.
+        Post post = _dbContext.Posts.SingleOrDefault(p => p.Id == id && p.AuthorId == profile.Id);
+
+        if (post == null)
+        {
+            return BadRequest();
+        }
+
+        _dbContext.Remove(post);
+        _dbContext.SaveChanges();
+
+        return NoContent();
+    }
 }
