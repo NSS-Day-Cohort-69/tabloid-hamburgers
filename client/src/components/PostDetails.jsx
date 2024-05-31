@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getPostById } from "../managers/postManager";
+import { subscribeToUser } from "../managers/subscriptionManager";
 
 
 
-export default function PostDetails() {
+export default function PostDetails({loggedInUser}) {
     const [post, setPost] = useState({});
     const { postId } = useParams();
+    const navigate = useNavigate();
 
     const getAndResetPost = () => {
         getPostById(postId).then(setPost);
@@ -16,6 +18,16 @@ export default function PostDetails() {
     useEffect(() => {
         getAndResetPost();
     }, []);
+
+    const handleSubscribeClick = () => {
+        const newSubscription = 
+        {
+            subscriberId: loggedInUser.id,
+            followerId: post.author.id
+        }
+        subscribeToUser(newSubscription)
+    }
+
 
     return (
         <>
@@ -28,8 +40,11 @@ export default function PostDetails() {
                <img>{post.imageURL}</img>
                 <p>{post.content}</p> 
                 <p>{post.publicationDate}</p>
-                <p>{post.author?.firstName}</p>
+                <p>Author: {post.author?.firstName}</p>
 
+            </div>
+            <div>
+            <button>Subscribe</button>
             </div>
 
         </>
