@@ -22,9 +22,9 @@ public class GetPostDTO
 
     public GetPostDTO(Post post)
     {
-        if (post.Comments == null || post.Author == null)
+        if (post.Comments == null || post.Author == null || post.PostTags == null)
         {
-            throw new Exception("Must include comments and author");
+            throw new Exception("Must include comments, author and post tags");
         }
 
         Id = post.Id;

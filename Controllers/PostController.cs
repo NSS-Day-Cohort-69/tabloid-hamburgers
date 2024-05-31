@@ -29,6 +29,7 @@ public class PostController : ControllerBase
     {
         Post post = _dbContext
             .Posts.Include(p => p.Author)
+            .Include(p => p.Comments)
             .Include(p => p.PostTags)
             .SingleOrDefault(p => p.Id == id);
 
