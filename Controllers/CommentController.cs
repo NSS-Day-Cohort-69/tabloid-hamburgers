@@ -26,11 +26,15 @@ public class CommentController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public IActionResult AddNewComment(Comment newComment)
+    public IActionResult AddNewComment(PostCommentDTO newComment)
     {
-        newComment.CreationDate = DateTime.Now;
-
-        _db.Comments.Add(newComment);
+        _db.Comments.Add(new Comment{
+            Subject = newComment.Subject,
+            Content = newComment.Content,
+            PostId = newComment.PostId,
+            CommenteerId = newComment.CommenteerId,
+            CreationDate = DateTime.Now
+        });
         _db.SaveChanges();
         
         return Ok();
