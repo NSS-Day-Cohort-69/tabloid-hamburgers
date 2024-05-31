@@ -60,6 +60,14 @@ export default function PostDetails()
             </div>
             <div>
             <button onClick={handleSubscribeClick}>Subscribe To Author</button>
+            {
+                post.comments?.map(c =>
+                    <div>
+                        <p>{c.commenteer.userName}</p>
+                        <p>{c.subject}</p>
+                        <p>{c.content}</p>
+                    </div>)
+            }
             </div>
 
         </>
