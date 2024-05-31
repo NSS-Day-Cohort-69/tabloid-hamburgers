@@ -20,6 +20,14 @@ export default function PostDetails()
         getAndResetPost();
     }, []);
 
+    const onDeleteClicked = () =>
+    {
+        if(window.confirm(`Confirm delete for: ${post.title}`))
+        {
+            debugger
+        }
+    }
+
     return (
         <>
             <h2>{post.title}</h2>
@@ -34,7 +42,7 @@ export default function PostDetails()
                 <p>{post.author?.firstName}</p>
                 {
                     user.id == post.authorId
-                    && <button>Delete</button>
+                    && <button onClick={onDeleteClicked}>Delete</button>
                 }
             </div>
 
