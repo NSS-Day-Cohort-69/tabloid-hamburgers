@@ -3,7 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { createNewComment } from "../managers/comment";
 
 export const CommentForm = ({ loggedInUser }) => {
-  const [commentObject, setCommentObject] = useState({});
+  const [commentObject, setCommentObject] = useState({
+    subject: "",
+    content: "",
+  });
   const { postId } = useParams();
   const navigate = useNavigate();
 
@@ -28,7 +31,7 @@ export const CommentForm = ({ loggedInUser }) => {
         <form onSubmit={handleSave}>
           <input
             required
-            defaultValue={commentObject.subject}
+            value={commentObject.subject}
             onChange={(e) => {
               const copy = { ...commentObject };
               copy.subject = e.target.value;
@@ -37,7 +40,7 @@ export const CommentForm = ({ loggedInUser }) => {
           />
           <textarea
             required
-            defaultValue={commentObject.content}
+            value={commentObject.content}
             onChange={(e) => {
               const copy = { ...commentObject };
               copy.content = e.target.value;
