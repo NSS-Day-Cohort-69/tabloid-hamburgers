@@ -30,16 +30,17 @@ export default function PostDetails()
             deletePost(postId).then(() => navigate("/post"))
         }
     }
-    const handleSubscribeClick = () => {
-        const newSubscription = 
+    const handleSubscribeClick = () =>
+    {
+        const newSubscription =
         {
             subscriberId: post.author?.id,
             followerId: user.id
         }
-       
-        subscribeToUser(newSubscription).then(() => {window.alert(`You are now subscribed to ${post.author?.firstName}`)})
+
+        subscribeToUser(newSubscription).then(() => { window.alert(`You are now subscribed to ${post.author?.firstName}`) })
     }
-  
+
 
     return (
         <>
@@ -49,8 +50,8 @@ export default function PostDetails()
                 key={post.id}
                 className=""
             >
-               <img src={post.imageURL}></img>
-                <p>{post.content}</p> 
+                <img src={post.imageURL}></img>
+                <p>{post.content}</p>
                 <p>{post.publicationDate}</p>
                 <p>{post.author?.firstName}</p>
                 {
@@ -59,15 +60,16 @@ export default function PostDetails()
                 }
             </div>
             <div>
-            <button onClick={handleSubscribeClick}>Subscribe To Author</button>
-            {
-                post.comments?.map(c =>
-                    <div>
-                        <p>{c.commenteer.userName}</p>
-                        <p>{c.subject}</p>
-                        <p>{c.content}</p>
-                    </div>)
-            }
+                <button onClick={handleSubscribeClick}>Subscribe To Author</button>
+                {
+                    post.comments?.map(c =>
+                        <div>
+                            <p>{c.commenteer.userName}</p>
+                            <p>{c.subject}</p>
+                            <p>{c.content}</p>
+                            <p>Made on: {new Date(c.creationDate).toDateString()}</p>
+                        </div>)
+                }
             </div>
 
         </>

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 
 namespace Tabloid.Models;
@@ -11,7 +12,8 @@ public class GetPostCommentCommenteerDTO
     public GetPostCommentCommenteerDTO(UserProfile userProfile)
     {
         Id = userProfile.Id;
-        UserName = userProfile.UserName;
+
+        UserName = userProfile.IdentityUser.UserName;
         ImageLocation = userProfile.ImageLocation;
     }
 }

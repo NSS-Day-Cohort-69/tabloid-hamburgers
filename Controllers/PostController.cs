@@ -31,6 +31,7 @@ public class PostController : ControllerBase
             .Posts.Include(p => p.Author)
             .Include(p => p.Comments)
             .ThenInclude(c => c.Commenteer)
+            .ThenInclude(u => u.IdentityUser)
             .Include(p => p.PostTags)
             .SingleOrDefault(p => p.Id == id);
 
