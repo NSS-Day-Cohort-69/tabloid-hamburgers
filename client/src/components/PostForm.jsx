@@ -1,19 +1,23 @@
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { getAllCategories } from "../managers/categories"
+import { getAllTags } from "../managers/tags"
 
 const PostForm = ({ initialPost, onPostSubmitted }) =>
 {
     const [categories, setCategories] = useState([])
+    const [allTags, setAllTags] = useState([])
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [categoryId, setCategoryId] = useState(0)
     const [imageURL, setImageURL] = useState("")
     const [date, setDate] = useState(new Date().toISOString().slice(0, 10))
+    const [tagIds, setTagIds] = useState([])
 
     useEffect(
         () =>
         {
             getAllCategories().then(setCategories)
+            getAllTags().then(setAllTags)
         }, []
     )
 
@@ -27,6 +31,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
                 setCategoryId(initialPost.categoryId)
                 setImageURL(initialPost.imageURL ? initialPost.imageURL : "")
                 setDate(new Date(initialPost.publication).toISOString().slice(0, 10))
+                setTagIds(initialPost.tagIds)
             }
         }, [initialPost]
     )
@@ -41,7 +46,8 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
                 content: body,
                 imageURL: imageURL,
                 categoryId: categoryId,
-                publication: date
+                publication: date,
+                tagIds: tagIds
             }
 
             onPostSubmitted(post)
@@ -54,6 +60,17 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
     const postIsValid = () =>
     {
         return title != "" && body != "" && categoryId != 0
+    }
+
+    const onTagChanged = (tagId, checked) =>
+    {
+        if(checked)
+        {
+            setTagIds([...tagIds, tagId])
+        } else
+        {
+            setTagIds(tagIds.filter(t => t != tagId))
+        }
     }
 
     return <div>
@@ -80,6 +97,20 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
             <label htmlFor="date">Publish Date: </label>
             <input type="date" id="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
+        {
+            allTags.map(t =>
+            {
+                const id = `t${t.id}`
+                return (
+                    <Fragment key={id}>
+                        <label htmlFor={id}>{t.tagName}</label>
+                        <input checked={tagIds.includes(t.id)} onChange={(e) => onTagChanged(t.id, e.target.checked)} type="checkbox" id={id} />
+                    </Fragment>
+                )
+            }
+
+            )
+        }
         <div>
             <button onClick={onSubmit}>Submit</button>
         </div>

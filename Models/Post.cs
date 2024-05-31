@@ -35,4 +35,5 @@ public class Post
 
     [Required]
     public DateTime? Publication { get; set; }
+    public List<PostTag> PostTags { get; set; }
 }
