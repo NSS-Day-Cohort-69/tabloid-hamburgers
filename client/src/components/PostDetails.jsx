@@ -39,6 +39,12 @@ export default function PostDetails()
        
         subscribeToUser(newSubscription).then(() => {window.alert(`You are now subscribed to ${post.author?.firstName}`)})
     }
+
+    const handleUnsubscribeClick = () => {
+        const followerId = user.id
+        const subscriberId = post.author?.id
+        unsubscribeToUser(followerId, subscriberId).then(() => {window.alert(`You have unsubscribed from ${post.author?.firstName}`)})
+    }
   
 
     return (
@@ -60,6 +66,7 @@ export default function PostDetails()
             </div>
             <div>
             <button onClick={handleSubscribeClick}>Subscribe To Author</button>
+            <button>Unsubscribe From Author</button>
             </div>
 
         </>
