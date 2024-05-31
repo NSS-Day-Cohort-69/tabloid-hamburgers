@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tabloid.Data;
 using Tabloid.Models;
+using Tabloid.Models.DTOs;
 
 
 [ApiController]
@@ -17,21 +18,27 @@ public class SubscriptionController : ControllerBase
     }
 
 
-   [HttpPost]
-   [Authorize]
-   public IActionResult CreateSubscription(Subscription newSubscription)
-   {
-   
-    if (newSubscription != null)
+    [HttpPost]
+    [Authorize]
+    public IActionResult CreateSubscription(newSubscriptionDTO newSubscription)
     {
-        newSubscription.SubbedDate = DateTime.Now;
-        newSubscription.UnsubbedDate = null;
-        _db.Subscriptions.Add(newSubscription);
-        _db.SaveChanges();
 
-        return Ok();
+        if (newSubscription != null)
+        {
+            Subscription subscription = new Subscription
+            {
+                SubscriberId = newSubscription.SubscriberId,
+                FollowerId = newSubscription.FollowerId,
+                SubbedDate = DateTime.Now,
+                UnsubbedDate = null
+            };
+
+            _db.Subscriptions.Add(subscription);
+            _db.SaveChanges();
+
+            return Ok();
+        }
+
+        return NoContent();
     }
-    
-    return NoContent();
-   }
 }
