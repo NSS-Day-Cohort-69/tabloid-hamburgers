@@ -104,7 +104,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
                 return (
                     <Fragment key={id}>
                         <label htmlFor={id}>{t.tagName}</label>
-                        <input onChange={(e) => onTagChanged(t.id, e.target.checked)} type="checkbox" id={id} />
+                        <input checked={tagIds.includes(t.id)} onChange={(e) => onTagChanged(t.id, e.target.checked)} type="checkbox" id={id} />
                     </Fragment>
                 )
             }
