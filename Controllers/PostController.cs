@@ -27,7 +27,10 @@ public class PostController : ControllerBase
     [Authorize]
     public IActionResult GetById(int id)
     {
-        Post post = _dbContext.Posts.Include(p => p.Author).SingleOrDefault(p => p.Id == id);
+        Post post = _dbContext
+            .Posts.Include(p => p.Author)
+            .Include(p => p.PostTags)
+            .SingleOrDefault(p => p.Id == id);
 
         if (post == null)
         {
@@ -54,7 +57,8 @@ public class PostController : ControllerBase
                 ImageURL = post.ImageURL,
                 Publication = post.Publication,
                 IsApproved = post.IsApproved,
-                CategoryId = post.CategoryId
+                CategoryId = post.CategoryId,
+                TagIds = post.PostTags.Select(pt => pt.TagId).ToList()
             }
         );
     }
