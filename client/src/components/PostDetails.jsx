@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../App"
 import { useNavigate, useParams } from "react-router-dom";
 import { getPostById } from "../managers/postManager";
 import { subscribeToUser } from "../managers/subscriptionManager";
 
 
 
-export default function PostDetails({loggedInUser}) {
+export default function PostDetails() {
     const [post, setPost] = useState({});
     const { postId } = useParams();
-    const navigate = useNavigate();
+    const user = useContext(UserContext)
 
     const getAndResetPost = () => {
         getPostById(postId).then(setPost);
@@ -22,12 +22,13 @@ export default function PostDetails({loggedInUser}) {
     const handleSubscribeClick = () => {
         const newSubscription = 
         {
-            subscriberId: loggedInUser.id,
-            followerId: post.author.id
+            subscriberId: post.author?.id,
+            followerId: user.id
         }
-        subscribeToUser(newSubscription)
+        console.log(user)
+        subscribeToUser(newSubscription).then(() => {window.alert(`You are now subscribed to ${post.author?.firstName}`)})
     }
-
+  
 
     return (
         <>
@@ -44,7 +45,7 @@ export default function PostDetails({loggedInUser}) {
 
             </div>
             <div>
-            <button>Subscribe</button>
+            <button onClick={handleSubscribeClick}>Subscribe To Author</button>
             </div>
 
         </>
