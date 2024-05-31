@@ -38,7 +38,7 @@ export default function PostDetails() {
                 key={post.id}
                 className=""
             >
-               <img>{post.imageURL}</img>
+               <img src={post.imageURL}></img>
                 <p>{post.content}</p> 
                 <p>{post.publicationDate}</p>
                 <p>Author: {post.author?.firstName}</p>

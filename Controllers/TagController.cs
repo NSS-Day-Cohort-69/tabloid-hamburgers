@@ -22,7 +22,7 @@ public class TagController : ControllerBase
 
 
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public IActionResult GetAllTags()
     {
         return Ok(_db.Tags.Select(c => new TagDTO
@@ -33,7 +33,7 @@ public class TagController : ControllerBase
     }
 
     [HttpGet("{Id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
       public IActionResult GetTagById(int Id)
     {
         return Ok(_db.Tags.Select(c => new TagDTO
