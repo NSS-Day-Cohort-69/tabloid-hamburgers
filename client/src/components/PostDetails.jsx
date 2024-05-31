@@ -5,20 +5,31 @@ import { getPostById } from "../managers/postManager";
 import { subscribeToUser } from "../managers/subscriptionManager";
 
 
-
-export default function PostDetails() {
+export default function PostDetails()
+{
     const [post, setPost] = useState({});
     const { postId } = useParams();
     const user = useContext(UserContext)
 
-    const getAndResetPost = () => {
+    const navigate = useNavigate()
+
+    const getAndResetPost = () =>
+    {
         getPostById(postId).then(setPost);
     };
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         getAndResetPost();
     }, []);
 
+    const onDeleteClicked = () =>
+    {
+        if(window.confirm(`Confirm delete for: ${post.title}`))
+        {
+            deletePost(postId).then(() => navigate("/post"))
+        }
+    }
     const handleSubscribeClick = () => {
         const newSubscription = 
         {
@@ -41,8 +52,11 @@ export default function PostDetails() {
                <img src={post.imageURL}></img>
                 <p>{post.content}</p> 
                 <p>{post.publicationDate}</p>
-                <p>Author: {post.author?.firstName}</p>
-
+                <p>{post.author?.firstName}</p>
+                {
+                    user.id == post.authorId
+                    && <button onClick={onDeleteClicked}>Delete</button>
+                }
             </div>
             <div>
             <button onClick={handleSubscribeClick}>Subscribe To Author</button>
