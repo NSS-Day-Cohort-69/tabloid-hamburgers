@@ -42,7 +42,7 @@ export default function PostDetails()
 
     const handleUnsubscribeClick = () => {
         const followerId = user.id
-        const subscriberId = post.author?.id
+        const subscriberId = post.author.id
         unsubscribeToUser(followerId, subscriberId).then(() => {window.alert(`You have unsubscribed from ${post.author?.firstName}`)})
     }
   
