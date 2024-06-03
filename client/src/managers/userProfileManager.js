@@ -19,3 +19,13 @@ export const demoteProfile = (id) =>
 {
   return fetch(_apiUrl + `/demote/${id}`, { method: "POST" })
 }
+
+export const deactivateUser = (userId) =>
+{
+    return fetch(_apiUrl + `/${userId}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userId)
+        })
+};
