@@ -40,6 +40,7 @@ public class UserProfileController : ControllerBase
             Email = up.IdentityUser.Email,
             UserName = up.IdentityUser.UserName,
             IdentityUserId = up.IdentityUserId,
+            IsDeactivated = up.IsDeactivated,
             Roles = _dbContext.UserRoles
             .Where(ur => ur.UserId == up.IdentityUserId)
             .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
@@ -97,4 +98,21 @@ public class UserProfileController : ControllerBase
         user.Roles = _dbContext.UserRoles.Where(ur => ur.UserId == user.IdentityUserId).Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name).ToList();
         return Ok(user);
     }
+
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Deactivate(int id)
+    {
+        UserProfile userToDeactivate = _dbContext.UserProfiles.FirstOrDefault(u => u.Id == id);
+        if (userToDeactivate == null)
+        {
+            return BadRequest("This user does not exist");
+        }
+
+       userToDeactivate.IsDeactivated = true;
+
+        _dbContext.SaveChanges();
+        return Ok();
+    }
+
 }
