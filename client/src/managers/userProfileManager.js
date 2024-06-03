@@ -12,10 +12,10 @@ export const getProfile = (id) =>
 
 export const promoteProfile = (id) =>
 {
-  return fetch(_apiUrl + `/promote/${id}`)
+  return fetch(_apiUrl + `/promote/${id}`, { method: "POST" })
 }
 
 export const demoteProfile = (id) =>
 {
-  return fetch(_apiUrl + `/demote/${id}`)
+  return fetch(_apiUrl + `/demote/${id}`, { method: "POST" })
 }

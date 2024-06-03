@@ -51,8 +51,8 @@ export default function UserProfileList()
           <Link to={`/userprofiles/${p.id}`}>Details</Link>
           {
             p.roles.includes("Admin")
-              ? <button onClick={() => demoteClicked(p.id)}>Demote</button>
-              : <button onClick={() => promoteClicked(p.id)}>Promote</button>
+              ? <button onClick={() => demoteClicked(p.identityUserId)}>Demote</button>
+              : <button onClick={() => promoteClicked(p.identityUserId)}>Promote</button>
           }
         </p>
       ))}
