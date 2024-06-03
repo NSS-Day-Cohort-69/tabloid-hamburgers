@@ -96,4 +96,5 @@ public class UserProfileController : ControllerBase
         user.UserName = user.IdentityUser.UserName;
         return Ok(user);
     }
+
 }

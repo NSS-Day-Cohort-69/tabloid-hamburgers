@@ -23,4 +23,6 @@ public class Post
     public bool IsApproved { get; set; }
     [Required]
     public DateTime Publication { get; set; }
+    public UserProfile Author { get; set; }
+    public Category Category { get; set; }
 }
