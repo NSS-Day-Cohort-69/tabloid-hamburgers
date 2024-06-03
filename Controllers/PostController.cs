@@ -29,6 +29,9 @@ public class PostController : ControllerBase
     {
         Post post = _dbContext
             .Posts.Include(p => p.Author)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.Commenteer)
+            .ThenInclude(u => u.IdentityUser)
             .Include(p => p.PostTags)
             .SingleOrDefault(p => p.Id == id);
 
@@ -41,26 +44,7 @@ public class PostController : ControllerBase
             return BadRequest("Unauthorized request, this post isnt approved");
         }
 
-        return Ok(
-            new GetPostDTO
-            {
-                Id = post.Id,
-                Title = post.Title,
-                AuthorId = post.AuthorId,
-                Author = new UserProfileForGetPostDTO
-                {
-                    Id = post.Author.Id,
-                    UserName = post.Author.UserName,
-                    FirstName = post.Author.FirstName
-                },
-                Content = post.Content,
-                ImageURL = post.ImageURL,
-                Publication = post.Publication,
-                IsApproved = post.IsApproved,
-                CategoryId = post.CategoryId,
-                TagIds = post.PostTags.Select(pt => pt.TagId).ToList()
-            }
-        );
+        return Ok(new GetPostDTO(post));
     }
 
     [HttpGet]
