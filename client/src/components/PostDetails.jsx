@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../App";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPostById } from "../managers/postManager";
-import { subscribeToUser } from "../managers/subscriptionManager";
+import { subscribeToUser, unsubscribeToUser } from "../managers/subscriptionManager";
 
 export default function PostDetails() {
   const [post, setPost] = useState({});
@@ -35,6 +35,16 @@ export default function PostDetails() {
     });
   };
 
+ 
+
+    const handleUnsubscribeClick = () => {
+        const followerId = user.id
+        const subscriberId = post.author.id
+        unsubscribeToUser(followerId, subscriberId).then(() => {window.alert(`You have unsubscribed from ${post.author?.firstName}`)})
+    }
+  
+
+
   return (
     <>
       <h2>{post.title}</h2>
@@ -57,6 +67,7 @@ export default function PostDetails() {
           Add Comment
         </button>
         <button onClick={handleSubscribeClick}>Subscribe To Author</button>
+        <button onClick={handleUnsubscribeClick}>Unsubscribe From Author</button>
       </div>
     </>
   );

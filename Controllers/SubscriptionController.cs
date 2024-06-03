@@ -41,4 +41,31 @@ public class SubscriptionController : ControllerBase
 
         return NoContent();
     }
+
+
+    [HttpPut]
+    [Authorize]
+    public IActionResult Unsubscribe([FromQuery] int followerId, [FromQuery] int subscriberId)
+    {
+        var activeSubscriptions = _db.Subscriptions
+                                     .Where(s => s.FollowerId == followerId && s.SubscriberId == subscriberId && s.UnsubbedDate == null)
+                                     .ToList();
+
+        if (!activeSubscriptions.Any())
+        {
+            return BadRequest("No active subscriptions found for the given follower and subscriber.");
+        }
+
+        foreach (var subscription in activeSubscriptions)
+        {
+            subscription.UnsubbedDate = DateTime.Now;
+        }
+
+        _db.SaveChanges();
+        return Ok();
+    }
+
+
+
 }
+
