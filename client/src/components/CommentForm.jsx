@@ -17,7 +17,7 @@ export const CommentForm = ({ loggedInUser }) => {
       Subject: commentObject.subject,
       Content: commentObject.content,
       PostId: parseInt(postId),
-      CommenterId: loggedInUser.id,
+      CommenteerId: loggedInUser.id,
     };
 
     createNewComment(newComment).then(() => {
