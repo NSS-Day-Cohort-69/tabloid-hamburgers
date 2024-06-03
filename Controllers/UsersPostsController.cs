@@ -22,7 +22,7 @@ public class UsersPostController : ControllerBase
 
 
     [HttpGet("{authorId}")]
-    //[Authorize]
+    [Authorize]
     public IActionResult GetPostByAuthor(int authorId)
    {
 
