@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../App";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPostById } from "../managers/postManager";
-import { subscribeToUser } from "../managers/subscriptionManager";
+import { subscribeToUser, unsubscribeToUser } from "../managers/subscriptionManager";
 
 export default function PostDetails()
 {
