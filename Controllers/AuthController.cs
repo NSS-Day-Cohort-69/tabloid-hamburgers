@@ -27,8 +27,8 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromHeader(Name = "Authorization")] string authHeader)
     {
-        //try
-        //{
+        try
+        {
             string encodedCreds = authHeader.Substring(6).Trim();
             string creds = Encoding
             .GetEncoding("iso-8859-1")
@@ -79,11 +79,11 @@ public class AuthController : ControllerBase
             }
 
             return new UnauthorizedResult();
-        //}
-        //catch (Exception ex)
-        //{
-        //    return StatusCode(500);
-        //}
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500);
+        }
     }
 
     [HttpGet]
