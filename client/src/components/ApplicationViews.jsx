@@ -4,7 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import UserProfileList from "./userprofiles/UserProfilesList";
 import UserProfileDetails from "./userprofiles/UserProfileDetails";
-import PostByAuthor from "./Post /PostByAuthor.jsx";
+import PostByAuthor from "./AuthorsPost/PostByAuthor.jsx";
 import PostList from "./PostList";
 import { CategoriesView } from "./categories/CategoriesView";
 import CreatePost from "./CreatePost";
