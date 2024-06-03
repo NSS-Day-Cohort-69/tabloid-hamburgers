@@ -27,8 +27,8 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromHeader(Name = "Authorization")] string authHeader)
     {
-        try
-        {
+        //try
+        //{
             string encodedCreds = authHeader.Substring(6).Trim();
             string creds = Encoding
             .GetEncoding("iso-8859-1")
@@ -40,7 +40,17 @@ public class AuthController : ControllerBase
             string password = creds.Substring(separator + 1);
 
             var user = _dbContext.Users.Where(u => u.Email == email).FirstOrDefault();
+
             var userRoles = _dbContext.UserRoles.Where(ur => ur.UserId == user.Id).ToList();
+
+            var userProfile = _dbContext.UserProfiles.FirstOrDefault(up => up.IdentityUserId == user.Id);
+
+            // Check if user is deactivated
+            if (userProfile != null && userProfile.IsDeactivated)
+            {
+                return Unauthorized("This account is deactivated.");
+            }  
+
             var hasher = new PasswordHasher<IdentityUser>();
             var result = hasher.VerifyHashedPassword(user, user.PasswordHash, password);
             if (user != null && result == PasswordVerificationResult.Success)
@@ -69,11 +79,11 @@ public class AuthController : ControllerBase
             }
 
             return new UnauthorizedResult();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500);
-        }
+        //}
+        //catch (Exception ex)
+        //{
+        //    return StatusCode(500);
+        //}
     }
 
     [HttpGet]
