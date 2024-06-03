@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProfiles } from "../../managers/userProfileManager";
+import { demoteProfile, getProfiles, promoteProfile } from "../../managers/userProfileManager";
 import { Link } from "react-router-dom";
 
 export default function UserProfileList()
@@ -32,14 +32,14 @@ export default function UserProfileList()
     getUserProfiles();
   }, []);
 
-  const promoteUser = (userId) =>
+  const promoteClicked = (userId) =>
   {
-    
+    promoteProfile(userId)
   }
 
-  const demoteUser = (userId) =>
+  const demoteClicked = (userId) =>
   {
-
+    demoteProfile(userId)
   }
 
   return (
@@ -51,8 +51,8 @@ export default function UserProfileList()
           <Link to={`/userprofiles/${p.id}`}>Details</Link>
           {
             p.roles.includes("Admin")
-            ? <button>Demote</button>
-            : <button>Promote</button>
+              ? <button onClick={() => demoteClicked(p.id)}>Demote</button>
+              : <button onClick={() => promoteClicked(p.id)}>Promote</button>
           }
         </p>
       ))}
