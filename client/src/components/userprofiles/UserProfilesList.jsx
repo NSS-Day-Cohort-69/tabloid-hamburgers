@@ -31,6 +31,17 @@ export default function UserProfileList()
   {
     getUserProfiles();
   }, []);
+
+  const promoteUser = (userId) =>
+  {
+    
+  }
+
+  const demoteUser = (userId) =>
+  {
+
+  }
+
   return (
     <>
       <p>User Profile List</p>
@@ -38,6 +49,11 @@ export default function UserProfileList()
         <p key={p.id}>
           {p.firstName} {p.lastName} {p.userName} {p.roles.includes("Admin") ? "admin" : "author"}
           <Link to={`/userprofiles/${p.id}`}>Details</Link>
+          {
+            p.roles.includes("Admin")
+            ? <button>Demote</button>
+            : <button>Promote</button>
+          }
         </p>
       ))}
     </>
