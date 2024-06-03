@@ -34,12 +34,12 @@ export default function UserProfileList()
 
   const promoteClicked = (userId) =>
   {
-    promoteProfile(userId)
+    promoteProfile(userId).then(getUserProfiles)
   }
 
   const demoteClicked = (userId) =>
   {
-    demoteProfile(userId)
+    demoteProfile(userId).then(getUserProfiles)
   }
 
   return (
