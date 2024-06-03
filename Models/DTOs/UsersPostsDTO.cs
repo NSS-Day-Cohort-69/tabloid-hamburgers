@@ -9,14 +9,14 @@ namespace Tabloid.Models.DTOs;
         public string Title { get; set; }
         public string Author { get; set; }
         public string Category { get; set; }
-        public DateTime Publication { get; set; }
+        public DateTime? Publication { get; set; }
 
         public UsersPostsDTO(Post posts)
         {
             Id = posts.Id;
             Title = posts.Title;
-        Author = posts.Author.FirstName;
-        Category = posts.Category.CategoryName;
+            Author = posts.Author.FirstName;
+            Category = posts.Category.CategoryName;
             Publication = posts.Publication;
         }
     }

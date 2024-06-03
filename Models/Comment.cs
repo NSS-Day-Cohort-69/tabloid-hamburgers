@@ -22,6 +22,9 @@ public class Comment
     [ForeignKey("UserProfile")]
     public int CommenteerId { get; set; }
 
+    [ForeignKey("CommenteerId")]
+    public UserProfile? Commenteer { get; set; }
+
     [Required]
     public DateTime CreationDate { get; set; }
 }
