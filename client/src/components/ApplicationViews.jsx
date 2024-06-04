@@ -18,6 +18,7 @@ import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 import { TagsCreate } from "./tags/tagsCreate/TagCreate";
 import { CommentForm } from "./CommentForm";
 import UserIsProfile from "./userprofiles/UserIsProfile";
+import { EditCommentForm } from "./EditCommentForm";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser })
 {
@@ -29,6 +30,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <p>Welcome to Tabloid!</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path=":CommentId/comment-edit"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <EditCommentForm />
             </AuthorizedRoute>
           }
         />
@@ -133,7 +142,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
               index
               element={
                 <AuthorizedRoute loggedInUser={loggedInUser}>
-                  <PostDetails />
+                  <PostDetails loggedInUser={loggedInUser} />
                 </AuthorizedRoute>
               }
             />

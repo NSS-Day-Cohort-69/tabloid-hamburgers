@@ -7,3 +7,15 @@ export const createNewComment = (commentObject) => {
     body: JSON.stringify(commentObject),
   });
 };
+
+export const getCommentById = (CommentId) => {
+  return fetch(`${_apiUrl}/${CommentId}`).then((res) => res.json());
+};
+
+export const updateCommentByBody = (CommentObj) => {
+  return fetch(`${_apiUrl}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(CommentObj),
+  });
+};
