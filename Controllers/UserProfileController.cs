@@ -132,7 +132,6 @@ public class UserProfileController : ControllerBase
         }
 
         userProfile.ImageBlob = file;
-        userProfile.ImageExtension = image.FormFile.ContentType;
 
         _dbContext.SaveChanges();
         return NoContent();
