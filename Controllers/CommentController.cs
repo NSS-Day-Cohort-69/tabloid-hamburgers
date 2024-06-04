@@ -40,4 +40,34 @@ public class CommentController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("{Id}")]
+    [Authorize]
+    public IActionResult GetCommentById(int Id) 
+    {
+        return Ok(_db.Comments.Select(c => new Comment{
+            Id = c.Id,
+            Subject = c.Subject,
+            Content = c.Content,
+            PostId = c.PostId,
+            CommenteerId = c.CommenteerId,
+            CreationDate = c.CreationDate
+        }).Single(i => i.Id == Id));
+    }
+
+    [HttpPut]
+    [Authorize]
+    public IActionResult UpdateCommentByBody(Comment commentInfo)
+    {
+        Comment foundComment = _db.Comments.FirstOrDefault(i => i.Id == commentInfo.Id);
+
+        if (foundComment != null)
+        {
+            foundComment.Content = commentInfo.Content;
+            foundComment.Subject = commentInfo.Subject;
+
+            _db.SaveChanges();
+        }
+
+        return Ok();
+    }
 }

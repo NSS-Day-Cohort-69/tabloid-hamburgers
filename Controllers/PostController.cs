@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Models.DTOs;
@@ -71,6 +72,8 @@ public class PostController : ControllerBase
                 )
                 .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
                 .Select(p => new GetPostsDTO(p))
         );
     }
