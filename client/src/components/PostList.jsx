@@ -34,31 +34,35 @@ const PostList = () => {
   }, []);
 
   useEffect(() => {
-    if (filterSettings.Category == 0 && filterSettings.Tag == 0) {
-      setFilteredPosts(posts);
-    } else {
-      const copy = [...posts];
-      switch (true) {
-        case filterSettings.Category != 0 && filterSettings.Tag == 0:
-          return setFilteredPosts(
-            copy.filter((c) => c.categoryId === filterSettings.Category)
-          );
-        case filterSettings.Tag != 0 && filterSettings.Category == 0:
-          return setFilteredPosts(
-            copy.filter((cObj) =>
-              cObj.postTags.some((pt) => pt.tagId == filterSettings.Tag)
-            )
-          );
-        case filterSettings.Category != 0 && filterSettings.Tag != 0:
-          return setFilteredPosts(
-            copy.filter(
-              (cObj) =>
-                cObj.postTags.some((pt) => pt.tagId == filterSettings.Tag) &&
-                cObj.categoryId === filterSettings.Category
-            )
-          );
-      }
-    }
+    setFilteredPosts(posts.filter(
+      p => (p.categoryId == filterSettings.Category || filterSettings.Category == 0)
+      && (p.postTags.some((pt) => pt.tagId == filterSettings.Tag) || filterSettings.Tag == 0)
+    ))
+    // if (filterSettings.Category == 0 && filterSettings.Tag == 0) {
+    //   setFilteredPosts(posts);
+    // } else {
+    //   const copy = [...posts];
+    //   switch (true) {
+    //     case filterSettings.Category != 0 && filterSettings.Tag == 0:
+    //       return setFilteredPosts(
+    //         copy.filter((c) => c.categoryId === filterSettings.Category)
+    //       );
+    //     case filterSettings.Tag != 0 && filterSettings.Category == 0:
+    //       return setFilteredPosts(
+    //         copy.filter((cObj) =>
+    //           cObj.postTags.some((pt) => pt.tagId == filterSettings.Tag)
+    //         )
+    //       );
+    //     case filterSettings.Category != 0 && filterSettings.Tag != 0:
+    //       return setFilteredPosts(
+    //         copy.filter(
+    //           (cObj) =>
+    //             cObj.postTags.some((pt) => pt.tagId == filterSettings.Tag) &&
+    //             cObj.categoryId === filterSettings.Category
+    //         )
+    //       );
+    //   }
+    // }
   }, [filterSettings, posts]);
 
   return (
