@@ -11,9 +11,14 @@ export default function UserProfileDetails()
 
   const { id } = useParams();
 
-  useEffect(() =>
+  const fetchAndSetProfile = () =>
   {
     getProfile(id).then(setUserProfile);
+  }
+
+  useEffect(() =>
+  {
+    fetchAndSetProfile()
   }, [id]);
 
   if(!userProfile)
@@ -25,6 +30,12 @@ export default function UserProfileDetails()
   {
     userProfile.imageLocation = "https://resources.alleghenycounty.us/css/images/Default_No_Image_Available.png"
   }
+
+  const onUpdateImageClicked = () =>
+  {
+    updateImage(currentUser.id, image).then(fetchAndSetProfile)
+  }
+
   return (
     <>
       <img src={`data:image/jpeg;base64,${userProfile.imageBlob}`} alt={userProfile.firstName} onError={onImageError} />
@@ -34,7 +45,7 @@ export default function UserProfileDetails()
           <label htmlFor="img-input">profile image: </label>
           <input onChange={(e) => setImage(e.target.files[0])} type="file" id="img-input"></input>
           <div>
-            <button onClick={() => updateImage(currentUser.id, image)}>update profile image</button>
+            <button onClick={onUpdateImageClicked}>update profile image</button>
           </div>
         </div>
       }
