@@ -109,7 +109,23 @@ public class UserProfileController : ControllerBase
             return BadRequest("This user does not exist");
         }
 
-       userToDeactivate.IsDeactivated = true;
+        userToDeactivate.IsDeactivated = true;
+
+        _dbContext.SaveChanges();
+        return Ok();
+    }
+
+    [HttpPut("reactivate/{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Reactivate(int id)
+    {
+        UserProfile userToReactivate = _dbContext.UserProfiles.FirstOrDefault(u => u.Id == id);
+        if (userToReactivate == null)
+        {
+            return BadRequest("This user does not exist");
+        }
+
+        userToReactivate.IsDeactivated = false;
 
         _dbContext.SaveChanges();
         return Ok();

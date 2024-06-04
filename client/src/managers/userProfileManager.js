@@ -18,3 +18,13 @@ export const deactivateUser = (userId) =>
             body: JSON.stringify(userId)
         })
 };
+
+export const reactivateUser = (userId) =>
+{
+    return fetch(_apiUrl + `/${userId}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userId)
+        })
+};
