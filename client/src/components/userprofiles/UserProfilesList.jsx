@@ -7,20 +7,7 @@ import { Link } from "react-router-dom";
 export default function UserProfileList() {
   const [userprofiles, setUserProfiles] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState(false);
-
-  const handleFilterChange = (event) => {
-    setFilteredUsers(event.target.checked);
-   
-  };
-
-  useEffect(() => {
-    if (filteredUsers === true) {
-      setUserProfiles(userprofiles.filter((p) => p.isDeactivated === true));
-    }
-    else {
-      setFilteredUsers(userprofiles);
-    }
-  }, [filteredUsers]);
+  const [deactivatedProfiles, setDeactivatedProfiles] = useState([]);
 
   const getUserProfiles = () => {
     getProfiles().then(
@@ -38,9 +25,27 @@ export default function UserProfileList() {
       }
     );
   };
+
+  const getDeactivatedUsers = () => {
+    getDeactivatedProfiles().then(
+      (gottenProfiles) => {
+        gottenProfiles = gottenProfiles.sort(function (a, b) {
+          if (a.userName.toLowerCase() < b.userName.toLowerCase()) {
+            return -1;
+          }
+          if (a.userName.toLowerCase() > b.userName.toLowerCase()) {
+            return 1;
+          }
+          return 0;
+        });
+        setDeactivatedProfiles(gottenProfiles)
+      }
+    );
+  }
+
   useEffect(() => {
     getUserProfiles();
-   
+    getDeactivatedUsers();
   }, []);
 
   const handleDeactivate = (event) => {
@@ -54,6 +59,18 @@ export default function UserProfileList() {
       reactivateUser(event.target.value).then(() => getUserProfiles());
     }
   };
+
+  const handleFilterChange = (event) => {
+    
+    if (event.target.checked) {
+      setUserProfiles(deactivatedProfiles);
+    }
+    else {
+      getUserProfiles();
+    }
+  };
+
+
   return (
     <>
       <h3>User Profile List</h3>

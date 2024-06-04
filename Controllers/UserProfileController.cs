@@ -131,5 +131,27 @@ public class UserProfileController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("deactivated")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult GetDeactivated()
+    {
+        return Ok(_dbContext.UserProfiles
+        .Include(up => up.IdentityUser).Where(up => up.IsDeactivated == true)
+        .Select(up => new UserProfile
+        {
+            Id = up.Id,
+            FirstName = up.FirstName,
+            LastName = up.LastName,
+            Email = up.IdentityUser.Email,
+            UserName = up.IdentityUser.UserName,
+            IdentityUserId = up.IdentityUserId,
+            IsDeactivated = up.IsDeactivated,
+            Roles = _dbContext.UserRoles
+            .Where(ur => ur.UserId == up.IdentityUserId)
+            .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
+            .ToList()
+        }));
+    }
+
 
 }
