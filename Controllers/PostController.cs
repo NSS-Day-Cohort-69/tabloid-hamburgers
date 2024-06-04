@@ -62,7 +62,7 @@ public class PostController : ControllerBase
 
     [HttpGet]
     [Route("public")]
-    // [Authorize]
+    [Authorize]
     public IActionResult GetPublicPosts()
     {
         return Ok(
