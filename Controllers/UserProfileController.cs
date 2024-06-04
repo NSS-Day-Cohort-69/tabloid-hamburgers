@@ -116,6 +116,11 @@ public class UserProfileController : ControllerBase
     [HttpPut("{userId}/image")]
     public IActionResult UpdateImage(int userId, [FromForm] PutProfileImageDTO image)
     {
-        return NoContent();
+        UserProfile userProfile = _dbContext.UserProfiles.SingleOrDefault(u => u.Id == userId);
+
+        if(userProfile == null || image.FormFile.Length == 0)
+        {
+            return BadRequest();
+        }
     }
 }
