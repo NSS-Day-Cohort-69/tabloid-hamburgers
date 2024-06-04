@@ -35,6 +35,5 @@ const createFormFromImage = (image) =>
   const formData = new FormData()
   formData.append("formFile", image)
   formData.append("fileName", image.name)
-  debugger
   return formData
 }

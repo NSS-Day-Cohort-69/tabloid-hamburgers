@@ -27,7 +27,7 @@ export default function UserProfileDetails()
   }
   return (
     <>
-      <img src={userProfile.imageLocation} alt={userProfile.firstName} onError={onImageError} />
+      <img src={`data:image/jpeg;base64,${userProfile.imageBlob}`} alt={userProfile.firstName} onError={onImageError} />
       {
         userProfile.id == currentUser.id
         && <div>

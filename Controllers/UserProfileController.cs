@@ -94,6 +94,7 @@ public class UserProfileController : ControllerBase
             .UserRoles.Where(ur => ur.UserId == user.IdentityUserId)
             .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
             .ToList();
+
         return Ok(user);
     }
 
@@ -118,9 +119,22 @@ public class UserProfileController : ControllerBase
     {
         UserProfile userProfile = _dbContext.UserProfiles.SingleOrDefault(u => u.Id == userId);
 
-        if(userProfile == null || image.FormFile.Length == 0)
+        if (userProfile == null || image.FormFile.Length == 0)
         {
             return BadRequest();
         }
+
+        byte[] file;
+        using (var memoryStream = new MemoryStream())
+        {
+            image.FormFile.CopyTo(memoryStream);
+            file = memoryStream.ToArray();
+        }
+
+        userProfile.ImageBlob = file;
+        userProfile.ImageExtension = image.FormFile.ContentType;
+
+        _dbContext.SaveChanges();
+        return NoContent();
     }
 }
