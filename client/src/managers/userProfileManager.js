@@ -21,7 +21,7 @@ export const deactivateUser = (userId) =>
 
 export const reactivateUser = (userId) =>
 {
-    return fetch(_apiUrl + `/${userId}`,
+    return fetch(_apiUrl + `/reactivate/${userId}`,
         {
             method: "PUT",
             headers: { "Content-Type": "application/json" },

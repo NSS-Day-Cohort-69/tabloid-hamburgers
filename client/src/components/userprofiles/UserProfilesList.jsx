@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { deactivateUser, getProfiles } from "../../managers/userProfileManager";
+import { deactivateUser, getProfiles, reactivateUser } from "../../managers/userProfileManager";
 
 import { Link } from "react-router-dom";
 
 
 export default function UserProfileList() {
   const [userprofiles, setUserProfiles] = useState([]);
+  const[deactivatedUsers, setDeactivatedUsers] = useState([]);
 
 
   const getUserProfiles = () => {
@@ -33,6 +34,12 @@ export default function UserProfileList() {
       deactivateUser(event.target.value).then(() => getUserProfiles());
     }
   };
+
+  const handleReactivate = (event) => {
+    if (window.confirm(`Confirm Reactivation of: ${event.target.name}`)) {
+      reactivateUser(event.target.value).then(() => getUserProfiles());
+    }
+  };
   return (
     <>
       <p>User Profile List</p>
@@ -48,6 +55,11 @@ export default function UserProfileList() {
           {!p.isDeactivated && !p.roles.includes("Admin") && (
             <button name={p.userName} value={p.id} onClick={handleDeactivate}>
               Deactivate
+            </button>
+          )}
+          {p.isDeactivated && !p.roles.includes("Admin") && (
+            <button name={p.userName} value={p.id} onClick={handleReactivate}>
+              Reactivate
             </button>
           )}
 
