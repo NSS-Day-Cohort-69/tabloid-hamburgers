@@ -28,3 +28,8 @@ export const reactivateUser = (userId) =>
             body: JSON.stringify(userId)
         })
 };
+
+export const getDeactivatedProfiles = () => {
+  return fetch(_apiUrl + "/deactivated").then((res) => res.json());
+};
+

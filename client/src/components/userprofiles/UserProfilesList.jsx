@@ -1,13 +1,26 @@
 import { useEffect, useState } from "react";
-import { deactivateUser, getProfiles, reactivateUser } from "../../managers/userProfileManager";
+import { deactivateUser, getDeactivatedProfiles, getProfiles, reactivateUser } from "../../managers/userProfileManager";
 
 import { Link } from "react-router-dom";
 
 
 export default function UserProfileList() {
   const [userprofiles, setUserProfiles] = useState([]);
-  const[deactivatedUsers, setDeactivatedUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState(false);
 
+  const handleFilterChange = (event) => {
+    setFilteredUsers(event.target.checked);
+   
+  };
+
+  useEffect(() => {
+    if (filteredUsers === true) {
+      setUserProfiles(userprofiles.filter((p) => p.isDeactivated === true));
+    }
+    else {
+      setFilteredUsers(userprofiles);
+    }
+  }, [filteredUsers]);
 
   const getUserProfiles = () => {
     getProfiles().then(
@@ -27,6 +40,7 @@ export default function UserProfileList() {
   };
   useEffect(() => {
     getUserProfiles();
+   
   }, []);
 
   const handleDeactivate = (event) => {
@@ -42,7 +56,15 @@ export default function UserProfileList() {
   };
   return (
     <>
-      <p>User Profile List</p>
+      <h3>User Profile List</h3>
+      <label>
+        <input
+          type="checkbox"
+          defaultChecked={false}
+          onChange={handleFilterChange}
+        />
+        View Deactivated Only
+      </label>
       {userprofiles.map((p) => (
 
         <div key={p.id}>
