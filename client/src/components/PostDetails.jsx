@@ -38,6 +38,14 @@ export default function PostDetails({ loggedInUser }) {
     });
   };
 
+  const handleUnsubscribeClick = () => {
+    const followerId = user.id;
+    const subscriberId = post.author.id;
+    unsubscribeToUser(followerId, subscriberId).then(() => {
+      window.alert(`You have unsubscribed from ${post.author?.firstName}`);
+    });
+  };
+
   return (
     <>
       <h2>{post.title}</h2>
@@ -60,6 +68,9 @@ export default function PostDetails({ loggedInUser }) {
           Add Comment
         </button>
         <button onClick={handleSubscribeClick}>Subscribe To Author</button>
+        <button onClick={handleUnsubscribeClick}>
+          Unsubscribe From Author
+        </button>
         {post.comments?.map((c) => (
           <div key={"c" + c.id}>
             <p>{c.commenteer.userName}</p>{" "}
