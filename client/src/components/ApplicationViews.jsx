@@ -17,8 +17,10 @@ import { ReactionsCreateView } from "./reactions/ReactionsCreateView";
 import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 import { TagsCreate } from "./tags/tagsCreate/TagCreate";
 import { CommentForm } from "./CommentForm";
+import UserIsProfile from "./userprofiles/UserIsProfile";
 
-export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
+export default function ApplicationViews({ loggedInUser, setLoggedInUser })
+{
   return (
     <Routes>
       <Route path="/">
@@ -50,9 +52,9 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           <Route
             path=":id"
             element={
-              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <UserIsProfile loggedInUser={loggedInUser} roles={["Admin"]}>
                 <UserProfileDetails />
-              </AuthorizedRoute>
+              </UserIsProfile>
             }
           />
         </Route>

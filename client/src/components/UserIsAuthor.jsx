@@ -16,7 +16,7 @@ const UserIsAuthor = ({ children }) =>
         }, [postId]
     )
 
-    return user.id == post.authorId
+    return user.id == post.authorId 
         ? <>{children}</>
         : <>You do not own this post.</>
 }
