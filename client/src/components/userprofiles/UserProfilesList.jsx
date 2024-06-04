@@ -50,13 +50,19 @@ export default function UserProfileList() {
 
   const handleDeactivate = (event) => {
     if (window.confirm(`Confirm deactivation of: ${event.target.name}`)) {
-      deactivateUser(event.target.value).then(() => getUserProfiles());
+      deactivateUser(event.target.value).then(() => {
+        getUserProfiles();
+        getDeactivatedUsers();
+      });
     }
   };
 
   const handleReactivate = (event) => {
     if (window.confirm(`Confirm Reactivation of: ${event.target.name}`)) {
-      reactivateUser(event.target.value).then(() => getUserProfiles());
+      reactivateUser(event.target.value).then(() => {
+        getUserProfiles();
+        getDeactivatedUsers();
+      });
     }
   };
 
