@@ -189,4 +189,28 @@ public class PostController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("user/{id}")]
+    [Authorize]
+    public IActionResult GetPostsByUserId(int id)
+    {
+        List <Post> postsByUser = _dbContext
+            .Posts.Include(p => p.Author)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.Commenteer)
+            .ThenInclude(u => u.IdentityUser)
+            .Include(p => p.PostTags)
+            .Where(p => p.Id == id).ToList();
+
+        if (postsByUser == null)
+        {
+            return NotFound("no posts by this user");
+        }
+        if (postsByUser.Any(p => p.IsApproved == false))
+        {
+            return BadRequest("posts haven't been approved");
+        }
+
+        return Ok(postsByUser);
+    }
 }
