@@ -9,12 +9,16 @@ export const getProfile = (id) => {
 };
 
 
-export const deactivateUser = (userId) =>
-{
-    return fetch(_apiUrl + `/${userId}`,
-        {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userId)
-        })
+export const deactivateUser = (userId) => {
+  return fetch(_apiUrl + `/${userId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: userId })
+  }).then(response => {
+    if (!response.ok) {
+      return response.text().then(text => {
+        return Promise.reject(text);
+      });
+    }   
+  });
 };

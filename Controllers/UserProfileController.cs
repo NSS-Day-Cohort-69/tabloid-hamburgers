@@ -103,13 +103,32 @@ public class UserProfileController : ControllerBase
     [Authorize(Roles = "Admin")]
     public IActionResult Deactivate(int id)
     {
-        UserProfile userToDeactivate = _dbContext.UserProfiles.FirstOrDefault(u => u.Id == id);
+        UserProfile userToDeactivate = _dbContext
+            .UserProfiles.Include(up => up.IdentityUser)
+            .SingleOrDefault(up => up.Id == id);
+
         if (userToDeactivate == null)
         {
             return BadRequest("This user does not exist");
         }
 
-       userToDeactivate.IsDeactivated = true;
+        IdentityRole adminRole = _dbContext.Roles.SingleOrDefault(r => r.Name == "Admin");
+        bool isUserAdmin = _dbContext.UserRoles
+        .Any(ur => ur.UserId == userToDeactivate.IdentityUserId && ur.RoleId == adminRole.Id);
+        
+        if (isUserAdmin)
+        {
+            int activeAdminCount = _dbContext.UserRoles
+                .Count(ur => ur.RoleId == adminRole.Id && !_dbContext.UserProfiles
+                .Any(up => up.IdentityUserId == ur.UserId && up.IsDeactivated));
+
+            if (activeAdminCount <= 1)
+            {
+                return BadRequest("You cannot deactivate the last remaining admin. Please assign another admin before proceeding.");
+            }
+        }
+
+        userToDeactivate.IsDeactivated = true;
 
         _dbContext.SaveChanges();
         return Ok();

@@ -30,9 +30,17 @@ export default function UserProfileList() {
 
   const handleDeactivate = (event) => {
     if (window.confirm(`Confirm deactivation of: ${event.target.name}`)) {
-      deactivateUser(event.target.value).then(() => getUserProfiles());
+      deactivateUser(event.target.value)
+        .then(() => getUserProfiles())
+        .catch(error => {
+          if (error) {
+            window.alert(`Error: ${error}`);
+          } 
+        });
     }
   };
+
+
   return (
     <>
       <p>User Profile List</p>
@@ -45,7 +53,7 @@ export default function UserProfileList() {
 
           </p>
 
-          {!p.isDeactivated && !p.roles.includes("Admin") && (
+          {!p.isDeactivated && (
             <button name={p.userName} value={p.id} onClick={handleDeactivate}>
               Deactivate
             </button>
