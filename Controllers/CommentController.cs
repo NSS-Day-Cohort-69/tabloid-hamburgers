@@ -70,4 +70,19 @@ public class CommentController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("{Id}")]
+    [Authorize]
+    public IActionResult DeleteComment(int Id) {
+
+        Comment commentToDelete = _db.Comments.FirstOrDefault(i => i.Id == Id);
+
+        if (commentToDelete != null) {
+            _db.Comments.Remove(commentToDelete);
+
+            _db.SaveChanges();
+        }
+
+        return Ok();
+    }
 }

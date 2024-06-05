@@ -19,3 +19,7 @@ export const updateCommentByBody = (CommentObj) => {
     body: JSON.stringify(CommentObj),
   });
 };
+
+export const deleteCommentById = (CommentId) => {
+  return fetch(`${_apiUrl}/${CommentId}`, { method: "DELETE" });
+};
