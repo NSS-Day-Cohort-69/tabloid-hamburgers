@@ -18,6 +18,16 @@ public class GetPostsDTO
     public List<GetPostsPostTagDTO> PostTags {get;set;}
     public GetPostsAuthorDTO Author { get; set; }
 
+    public double ReadTime {
+        get {
+
+            int WordAmount = Content.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).Count();
+
+            double minutes = WordAmount / 265;
+            return minutes;
+        }
+    }
+
     public GetPostsDTO(Post post)
     {
         if (post.Author == null || post.Category == null)
