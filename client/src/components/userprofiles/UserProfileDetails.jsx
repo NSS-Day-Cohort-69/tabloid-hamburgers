@@ -37,7 +37,7 @@ export default function UserProfileDetails()
       <p>creation date: {new Date(userProfile.createDateTime).toDateString()}</p>
       <p>{userProfile.roles?.includes("Admin") ? "Admin" : "Author"}</p>
      
-      <section >
+      <section>
           {usersPosts?.map((p) => (
            <div key={p.id} className="">
             <h2>{p.title}</h2>
