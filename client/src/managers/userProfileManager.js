@@ -18,3 +18,18 @@ export const deactivateUser = (userId) =>
             body: JSON.stringify(userId)
         })
 };
+
+export const reactivateUser = (userId) =>
+{
+    return fetch(_apiUrl + `/reactivate/${userId}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userId)
+        })
+};
+
+export const getDeactivatedProfiles = () => {
+  return fetch(_apiUrl + "/deactivated").then((res) => res.json());
+};
+
