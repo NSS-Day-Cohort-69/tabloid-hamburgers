@@ -88,6 +88,8 @@ public class PostController : ControllerBase
             up.IdentityUserId == identityUserId
         );
 
+        bool isAdmin = User.IsInRole("Admin");
+
         Post post = new Post
         {
             Title = postedPost.Title,
@@ -95,7 +97,7 @@ public class PostController : ControllerBase
             Content = postedPost.Content,
             ImageURL = postedPost.ImageURL,
             CategoryId = postedPost.CategoryId,
-            IsApproved = true,
+            IsApproved = isAdmin,
             Publication = postedPost.Publication,
             CreationDate = DateTime.Now
         };
