@@ -48,7 +48,9 @@ export default function PostDetails({ loggedInUser }) {
   };
 
   const handleDeleteComment = (CommentId) => {
-    deleteCommentById(CommentId);
+    deleteCommentById(CommentId).then(() => {
+      getPostById(postId).then(setPost);
+    });
   };
 
   return (
