@@ -6,6 +6,7 @@ import {
   subscribeToUser,
   unsubscribeToUser,
 } from "../managers/subscriptionManager";
+import { deleteCommentById } from "../managers/comment";
 
 export default function PostDetails({ loggedInUser }) {
   const [post, setPost] = useState({});
@@ -46,6 +47,12 @@ export default function PostDetails({ loggedInUser }) {
     });
   };
 
+  const handleDeleteComment = (CommentId) => {
+    deleteCommentById(CommentId).then(() => {
+      getPostById(postId).then(setPost);
+    });
+  };
+
   return (
     <>
       <h2>{post.title}</h2>
@@ -76,6 +83,16 @@ export default function PostDetails({ loggedInUser }) {
             <p>{c.commenteer.userName}</p>{" "}
             {loggedInUser.id === c.commenteerId && (
               <Link to={`/${c.id}/comment-edit`}>Edit!</Link>
+            )}
+            {(loggedInUser.id === c.commenteerId ||
+              loggedInUser.roles.includes("Admin")) && (
+              <button
+                onClick={() => {
+                  handleDeleteComment(c.id);
+                }}
+              >
+                Delete
+              </button>
             )}
             <p>{c.subject}</p>
             <p>{c.content}</p>
