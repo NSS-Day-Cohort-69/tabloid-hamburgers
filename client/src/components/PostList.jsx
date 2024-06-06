@@ -6,7 +6,8 @@ import "./PostView.css";
 import { getAllCategories } from "../managers/categories";
 import { getAllTags } from "../managers/tags";
 
-const PostList = () => {
+const PostList = () =>
+{
   const user = useContext(UserContext);
   const [filterSettings, setFilterSettings] = useState({
     Category: 0,
@@ -17,23 +18,28 @@ const PostList = () => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getAllTags().then(setTags);
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getAllCategories().then(setCategories);
   }, []);
 
-  useEffect(() => {
-    getPublicPosts().then((posts) => {
+  useEffect(() =>
+  {
+    getPublicPosts().then((posts) =>
+    {
       setPosts(
         posts.sort((a, b) => new Date(b.publication) - new Date(a.publication))
       );
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setFilteredPosts(
       posts.filter(
         (p) =>
@@ -88,14 +94,16 @@ const PostList = () => {
       <div className="PostList-div-maincontainer">
         <select
           defaultValue={0}
-          onChange={(e) => {
+          onChange={(e) =>
+          {
             const copy = { ...filterSettings };
             copy.Category = parseInt(e.target.value);
             setFilterSettings(copy);
           }}
         >
           <option value={0}>--All Categories--</option>
-          {categories.map((c) => {
+          {categories.map((c) =>
+          {
             return (
               <option key={c.id} value={c.id}>
                 {c.categoryName}
@@ -105,14 +113,16 @@ const PostList = () => {
         </select>
         <select
           defaultValue={0}
-          onChange={(e) => {
+          onChange={(e) =>
+          {
             const copy = { ...filterSettings };
             copy.Tag = parseInt(e.target.value);
             setFilterSettings(copy);
           }}
         >
           <option value={0}>--No Tags--</option>
-          {tags.map((t) => {
+          {tags.map((t) =>
+          {
             return (
               <option key={t.id} value={t.id}>
                 {t.tagName}
@@ -140,14 +150,14 @@ const PostList = () => {
                   ? `${p.readTime} Minutes`
                   : `${p.readTime} Minute`}
               </header>
-              {p.imageURL == null || "" ? (
+              {!p.image ? (
                 <img
                   src={
                     "https://resources.alleghenycounty.us/css/images/Default_No_Image_Available.png"
                   }
                 />
               ) : (
-                <img src={p.imageURL} />
+                <img src={`data:image/jpeg;base64,${p.image}`} />
               )}
               <div>
                 <Link to={`/post/${p.id}`} className="PostList-linkto-post">

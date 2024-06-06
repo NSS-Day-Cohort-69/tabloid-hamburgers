@@ -23,8 +23,7 @@ export const createPostByMe = (post) =>
     return fetch('/api/post/by-me',
         {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(post)
+            body: post
         })
 }
 
@@ -38,8 +37,7 @@ export const editPost = (post, id) =>
     return fetch(`/api/post/${id}`,
         {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(post)
+            body: post
         })
 }
 

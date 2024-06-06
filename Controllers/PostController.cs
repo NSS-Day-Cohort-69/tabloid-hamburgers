@@ -99,7 +99,7 @@ public class PostController : ControllerBase
     [HttpPost]
     [Route("by-me")]
     [Authorize]
-    public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
+    public IActionResult CreatePostByMe([FromForm] PostPostByMeDTO postedPost)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
@@ -113,7 +113,6 @@ public class PostController : ControllerBase
             Title = postedPost.Title,
             AuthorId = profile.Id,
             Content = postedPost.Content,
-            ImageURL = postedPost.ImageURL,
             CategoryId = postedPost.CategoryId,
             IsApproved = isAdmin,
             Publication = postedPost.Publication,
@@ -130,6 +129,18 @@ public class PostController : ControllerBase
             _dbContext.PostTags.Add(postTag);
         }
 
+        if (postedPost.FormFile != null)
+        {
+            byte[] file;
+            using (var memoryStream = new MemoryStream())
+            {
+                postedPost.FormFile.CopyTo(memoryStream);
+                file = memoryStream.ToArray();
+            }
+
+            post.ImageBlob = file;
+        }
+
         _dbContext.SaveChanges();
 
         return NoContent();
@@ -138,14 +149,16 @@ public class PostController : ControllerBase
     [HttpPut]
     [Route("{id}")]
     [Authorize]
-    public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
+    public IActionResult EditPost([FromForm] PutPostByMeDTO puttedPost, int id)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
             up.IdentityUserId == identityUserId
         );
 
-        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id && p.AuthorId == profile.Id);
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p =>
+            p.Id == id && p.AuthorId == profile.Id
+        );
 
         if (existingPost != null)
         {
@@ -165,7 +178,6 @@ public class PostController : ControllerBase
                 Title = puttedPost.Title,
                 AuthorId = puttedPost.AuthorId,
                 Content = puttedPost.Content,
-                ImageURL = puttedPost.ImageURL,
                 CategoryId = puttedPost.CategoryId,
                 IsApproved = true,
                 Publication = puttedPost.Publication,
@@ -181,6 +193,18 @@ public class PostController : ControllerBase
                 PostTag postTag = new PostTag { PostId = post.Id, TagId = tagId };
 
                 _dbContext.PostTags.Add(postTag);
+            }
+
+            if (puttedPost.FormFile != null)
+            {
+                byte[] file;
+                using (var memoryStream = new MemoryStream())
+                {
+                    puttedPost.FormFile.CopyTo(memoryStream);
+                    file = memoryStream.ToArray();
+                }
+
+                post.ImageBlob = file;
             }
 
             _dbContext.SaveChanges();
