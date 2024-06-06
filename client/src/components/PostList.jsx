@@ -74,12 +74,14 @@ const PostList = () => {
 
   const handleUnapproveClick = (event) => {
     unapprovePost(event.target.value)
-    getPublicPosts().then((posts) => {
-      setPosts(
-        posts.sort((a, b) => new Date(b.publication) - new Date(a.publication))
-      );
-    });
-  }
+      .then(() => getPublicPosts())
+      .then((posts) => {
+        setPosts(
+          posts.sort((a, b) => new Date(b.publication) - new Date(a.publication))
+        );
+      });
+  };
+
 
   return (
     <main>
@@ -123,8 +125,8 @@ const PostList = () => {
             <article key={"p" + p.id} className="PostList-post-border">
               {(user.roles.includes("Admin")) && (
                 <button
-                value = {p.id}
-                onClick={handleUnapproveClick}
+                  value={p.id}
+                  onClick={handleUnapproveClick}
                 >
                   Unapprove
                 </button>
