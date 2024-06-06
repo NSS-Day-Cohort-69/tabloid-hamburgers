@@ -112,6 +112,15 @@ public class PostController : ControllerBase
             _dbContext.PostTags.Add(postTag);
         }
 
+        byte[] file;
+        using (var memoryStream = new MemoryStream())
+        {
+            postedPost.FormFile.CopyTo(memoryStream);
+            file = memoryStream.ToArray();
+        }
+
+        post.ImageBlob = file;
+
         _dbContext.SaveChanges();
 
         return NoContent();
@@ -127,7 +136,9 @@ public class PostController : ControllerBase
             up.IdentityUserId == identityUserId
         );
 
-        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id && p.AuthorId == profile.Id);
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p =>
+            p.Id == id && p.AuthorId == profile.Id
+        );
 
         if (existingPost != null)
         {
