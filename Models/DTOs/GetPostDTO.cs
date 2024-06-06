@@ -10,8 +10,6 @@ public class GetPostDTO
 
     public UserProfileForGetPostDTO Author { get; set; }
     public string Content { get; set; }
-    public string ImageURL { get; set; }
-
     public int CategoryId { get; set; }
 
     public bool IsApproved { get; set; }
@@ -32,7 +30,6 @@ public class GetPostDTO
         Title = post.Title;
         AuthorId = post.AuthorId;
         Content = post.Content;
-        ImageURL = post.ImageURL;
         CategoryId = post.CategoryId;
         IsApproved = post.IsApproved;
         Publication = post.Publication;

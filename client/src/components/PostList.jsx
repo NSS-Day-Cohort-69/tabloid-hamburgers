@@ -129,7 +129,7 @@ const PostList = () =>
                   ? `${p.readTime} Minutes`
                   : `${p.readTime} Minute`}
               </header>
-              {p.image?.length == 0 ? (
+              {!p.image ? (
                 <img
                   src={
                     "https://resources.alleghenycounty.us/css/images/Default_No_Image_Available.png"

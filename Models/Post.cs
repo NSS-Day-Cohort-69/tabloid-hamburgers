@@ -20,7 +20,6 @@ public class Post
     [ForeignKey("AuthorId")]
     public UserProfile? Author { get; set; }
     public string Content { get; set; }
-    public string ImageURL { get; set; }
 
     [Required]
     [ForeignKey("Category")]
