@@ -200,15 +200,11 @@ public class PostController : ControllerBase
             .ThenInclude(c => c.Commenteer)
             .ThenInclude(u => u.IdentityUser)
             .Include(p => p.PostTags)
-            .Where(p => p.Id == id).ToList();
+            .Where(p => p.AuthorId == id && p.IsApproved == true).ToList();
 
         if (postsByUser == null)
         {
             return NotFound("no posts by this user");
-        }
-        if (postsByUser.Any(p => p.IsApproved == false))
-        {
-            return BadRequest("posts haven't been approved");
         }
 
         return Ok(postsByUser);
