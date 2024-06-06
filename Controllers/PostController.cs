@@ -196,4 +196,23 @@ public class PostController : ControllerBase
 
         return NoContent();
     }
+
+
+    [HttpPut]
+    [Route("unapprove/{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult ApprovePost(int id)
+    {
+        Post postToUnapprove = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+
+        if (postToUnapprove != null)
+        {
+            postToUnapprove.IsApproved = false;   
+            _dbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        return BadRequest("There is no post with given id.");
+    }
 }

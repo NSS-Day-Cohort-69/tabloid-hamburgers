@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from "react";
-import { getPublicPosts } from "../managers/postManager";
+import { getPublicPosts, unapprovePost } from "../managers/postManager";
 import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import "./PostView.css";
@@ -43,6 +43,8 @@ const PostList = () => {
             filterSettings.Tag == 0)
       )
     );
+
+
     // if (filterSettings.Category == 0 && filterSettings.Tag == 0) {
     //   setFilteredPosts(posts);
     // } else {
@@ -69,6 +71,15 @@ const PostList = () => {
     //   }
     // }
   }, [filterSettings, posts]);
+
+  const handleUnapproveClick = (event) => {
+    unapprovePost(event.target.value)
+    getPublicPosts().then((posts) => {
+      setPosts(
+        posts.sort((a, b) => new Date(b.publication) - new Date(a.publication))
+      );
+    });
+  }
 
   return (
     <main>
@@ -110,6 +121,14 @@ const PostList = () => {
         <section className="PostList-section-posts">
           {filteredPosts.map((p) => (
             <article key={"p" + p.id} className="PostList-post-border">
+              {(user.roles.includes("Admin")) && (
+                <button
+                value = {p.id}
+                onClick={handleUnapproveClick}
+                >
+                  Unapprove
+                </button>
+              )}
               <header className="PostList-post-header">
                 {p.publication}{" "}
                 {p.authorId == user.id && (
