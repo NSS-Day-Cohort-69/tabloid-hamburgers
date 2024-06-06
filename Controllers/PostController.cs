@@ -81,7 +81,7 @@ public class PostController : ControllerBase
     [HttpPost]
     [Route("by-me")]
     [Authorize]
-    public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
+    public IActionResult CreatePostByMe([FromForm] PostPostByMeDTO postedPost)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
@@ -129,7 +129,7 @@ public class PostController : ControllerBase
     [HttpPut]
     [Route("{id}")]
     [Authorize]
-    public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
+    public IActionResult EditPost([FromForm] PutPostByMeDTO puttedPost, int id)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
@@ -175,6 +175,15 @@ public class PostController : ControllerBase
 
                 _dbContext.PostTags.Add(postTag);
             }
+
+            byte[] file;
+            using (var memoryStream = new MemoryStream())
+            {
+                puttedPost.FormFile.CopyTo(memoryStream);
+                file = memoryStream.ToArray();
+            }
+
+            post.ImageBlob = file;
 
             _dbContext.SaveChanges();
 
