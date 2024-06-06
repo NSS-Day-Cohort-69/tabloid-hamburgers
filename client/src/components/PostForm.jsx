@@ -48,7 +48,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
             formData.append("publication", date)
             formData.append("tagIds", tagIds)
 
-            onPostSubmitted(post)
+            onPostSubmitted(formData)
         } else
         {
             window.alert("post is invalid")

@@ -17,7 +17,7 @@ public class GetPostsDTO
     public DateTime? Publication { get; set; }
     public List<GetPostsPostTagDTO> PostTags {get;set;}
     public GetPostsAuthorDTO Author { get; set; }
-
+    public byte[] Image { get; set; }
     public double ReadTime {
         get {
 
@@ -46,6 +46,7 @@ public class GetPostsDTO
         PostTags = post.PostTags.Select(pt => new GetPostsPostTagDTO(pt)).ToList();
         Author = new GetPostsAuthorDTO(post.Author);
         Category = new GetPostsCategoryDTO(post.Category);
+        Image = post.ImageBlob;
     }
 }
 

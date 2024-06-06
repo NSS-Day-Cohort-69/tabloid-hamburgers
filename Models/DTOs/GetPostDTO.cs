@@ -19,6 +19,7 @@ public class GetPostDTO
     public DateTime? Publication { get; set; }
     public List<int> TagIds { get; set; }
     public List<GetPostCommentsDTO> Comments { get; set; }
+    public byte[] Image { get; set; }
 
     public GetPostDTO(Post post)
     {
@@ -38,5 +39,6 @@ public class GetPostDTO
         TagIds = post.PostTags.Select(pt => pt.TagId).ToList();
         Comments = post.Comments.Select(c => new GetPostCommentsDTO(c)).ToList();
         Author = new UserProfileForGetPostDTO(post.Author);
+        Image = post.ImageBlob;
     }
 }
