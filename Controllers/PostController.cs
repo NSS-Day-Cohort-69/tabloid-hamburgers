@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.VisualBasic;
 using Tabloid.Data;
 using Tabloid.Models;
@@ -55,7 +56,24 @@ public class PostController : ControllerBase
         return Ok(
             _dbContext
                 .Posts.Include(p => p.Author)
+                .Include(p => p.Category).Include(p => p.PostTags).ThenInclude(p => p.Tag)
+                .Select(p => new GetPostsDTO(p))
+        );
+    }
+
+    [HttpGet("unapproved")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult GetUnapprovedPosts()
+    {
+        return Ok(
+            _dbContext
+                .Posts.Where(p =>
+                    p.IsApproved == false
+                )
+                .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
                 .Select(p => new GetPostsDTO(p))
         );
     }
@@ -201,13 +219,13 @@ public class PostController : ControllerBase
     [HttpPut]
     [Route("unapprove/{id}")]
     [Authorize(Roles = "Admin")]
-    public IActionResult ApprovePost(int id)
+    public IActionResult UnapprovePost(int id)
     {
         Post postToUnapprove = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
 
         if (postToUnapprove != null)
         {
-            postToUnapprove.IsApproved = false;   
+            postToUnapprove.IsApproved = false;
             _dbContext.SaveChanges();
 
             return NoContent();
@@ -216,11 +234,29 @@ public class PostController : ControllerBase
         return BadRequest("There is no post with given id.");
     }
     
+    [HttpPut]
+    [Route("approve/{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult ApprovePost(int id)
+    {
+        Post postToApprove = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+
+        if (postToApprove != null)
+        {
+            postToApprove.IsApproved = true;
+            _dbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        return BadRequest("There is no post with given id.");
+    }
+
     [HttpGet("user/{id}")]
     [Authorize]
     public IActionResult GetPostsByUserId(int id)
     {
-        List <Post> postsByUser = _dbContext
+        List<Post> postsByUser = _dbContext
             .Posts.Include(p => p.Author)
             .Include(p => p.Comments)
             .ThenInclude(c => c.Commenteer)

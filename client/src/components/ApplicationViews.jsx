@@ -19,6 +19,7 @@ import { TagsCreate } from "./tags/tagsCreate/TagCreate";
 import { CommentForm } from "./CommentForm";
 import UserIsProfile from "./userprofiles/UserIsProfile";
 import { EditCommentForm } from "./EditCommentForm";
+import UnapprovedPosts from "./UnapprovedPosts";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser })
 {
@@ -165,6 +166,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
               }
             />
           </Route>
+          <Route
+          path="unapproved"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <UnapprovedPosts/>
+            </AuthorizedRoute>
+          }
+        />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
