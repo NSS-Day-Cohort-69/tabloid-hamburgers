@@ -10,8 +10,6 @@ public class GetPostDTO
 
     public UserProfileForGetPostDTO Author { get; set; }
     public string Content { get; set; }
-    public string ImageURL { get; set; }
-
     public int CategoryId { get; set; }
 
     public bool IsApproved { get; set; }
@@ -19,6 +17,7 @@ public class GetPostDTO
     public DateTime? Publication { get; set; }
     public List<int> TagIds { get; set; }
     public List<GetPostCommentsDTO> Comments { get; set; }
+    public byte[] Image { get; set; }
 
     public GetPostDTO(Post post)
     {
@@ -31,12 +30,12 @@ public class GetPostDTO
         Title = post.Title;
         AuthorId = post.AuthorId;
         Content = post.Content;
-        ImageURL = post.ImageURL;
         CategoryId = post.CategoryId;
         IsApproved = post.IsApproved;
         Publication = post.Publication;
         TagIds = post.PostTags.Select(pt => pt.TagId).ToList();
         Comments = post.Comments.Select(c => new GetPostCommentsDTO(c)).ToList();
         Author = new UserProfileForGetPostDTO(post.Author);
+        Image = post.ImageBlob;
     }
 }

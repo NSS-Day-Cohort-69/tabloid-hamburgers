@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.VisualBasic;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Models.DTOs;
@@ -54,7 +56,24 @@ public class PostController : ControllerBase
         return Ok(
             _dbContext
                 .Posts.Include(p => p.Author)
+                .Include(p => p.Category).Include(p => p.PostTags).ThenInclude(p => p.Tag)
+                .Select(p => new GetPostsDTO(p))
+        );
+    }
+
+    [HttpGet("unapproved")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult GetUnapprovedPosts()
+    {
+        return Ok(
+            _dbContext
+                .Posts.Where(p =>
+                    p.IsApproved == false
+                )
+                .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
                 .Select(p => new GetPostsDTO(p))
         );
     }
@@ -71,6 +90,8 @@ public class PostController : ControllerBase
                 )
                 .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
                 .Select(p => new GetPostsDTO(p))
         );
     }
@@ -78,21 +99,22 @@ public class PostController : ControllerBase
     [HttpPost]
     [Route("by-me")]
     [Authorize]
-    public IActionResult CreatePostByMe(PostPostByMeDTO postedPost)
+    public IActionResult CreatePostByMe([FromForm] PostPostByMeDTO postedPost)
     {
         string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
             up.IdentityUserId == identityUserId
         );
 
+        bool isAdmin = User.IsInRole("Admin");
+
         Post post = new Post
         {
             Title = postedPost.Title,
             AuthorId = profile.Id,
             Content = postedPost.Content,
-            ImageURL = postedPost.ImageURL,
             CategoryId = postedPost.CategoryId,
-            IsApproved = true,
+            IsApproved = isAdmin,
             Publication = postedPost.Publication,
             CreationDate = DateTime.Now
         };
@@ -107,6 +129,18 @@ public class PostController : ControllerBase
             _dbContext.PostTags.Add(postTag);
         }
 
+        if (postedPost.FormFile != null)
+        {
+            byte[] file;
+            using (var memoryStream = new MemoryStream())
+            {
+                postedPost.FormFile.CopyTo(memoryStream);
+                file = memoryStream.ToArray();
+            }
+
+            post.ImageBlob = file;
+        }
+
         _dbContext.SaveChanges();
 
         return NoContent();
@@ -115,9 +149,16 @@ public class PostController : ControllerBase
     [HttpPut]
     [Route("{id}")]
     [Authorize]
-    public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
+    public IActionResult EditPost([FromForm] PutPostByMeDTO puttedPost, int id)
     {
-        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p =>
+            p.Id == id && p.AuthorId == profile.Id
+        );
 
         if (existingPost != null)
         {
@@ -137,7 +178,6 @@ public class PostController : ControllerBase
                 Title = puttedPost.Title,
                 AuthorId = puttedPost.AuthorId,
                 Content = puttedPost.Content,
-                ImageURL = puttedPost.ImageURL,
                 CategoryId = puttedPost.CategoryId,
                 IsApproved = true,
                 Publication = puttedPost.Publication,
@@ -155,12 +195,24 @@ public class PostController : ControllerBase
                 _dbContext.PostTags.Add(postTag);
             }
 
+            if (puttedPost.FormFile != null)
+            {
+                byte[] file;
+                using (var memoryStream = new MemoryStream())
+                {
+                    puttedPost.FormFile.CopyTo(memoryStream);
+                    file = memoryStream.ToArray();
+                }
+
+                post.ImageBlob = file;
+            }
+
             _dbContext.SaveChanges();
 
             return NoContent();
         }
 
-        return BadRequest("There is no post with given id.");
+        return BadRequest("There is no post with given id or you are not the owner of this post.");
     }
 
     [HttpDelete]
@@ -185,5 +237,62 @@ public class PostController : ControllerBase
         _dbContext.SaveChanges();
 
         return NoContent();
+    }
+
+
+    [HttpPut]
+    [Route("unapprove/{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult UnapprovePost(int id)
+    {
+        Post postToUnapprove = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+
+        if (postToUnapprove != null)
+        {
+            postToUnapprove.IsApproved = false;
+            _dbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        return BadRequest("There is no post with given id.");
+    }
+    
+    [HttpPut]
+    [Route("approve/{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult ApprovePost(int id)
+    {
+        Post postToApprove = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+
+        if (postToApprove != null)
+        {
+            postToApprove.IsApproved = true;
+            _dbContext.SaveChanges();
+
+            return NoContent();
+        }
+
+        return BadRequest("There is no post with given id.");
+    }
+
+    [HttpGet("user/{id}")]
+    [Authorize]
+    public IActionResult GetPostsByUserId(int id)
+    {
+        List<Post> postsByUser = _dbContext
+            .Posts.Include(p => p.Author)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.Commenteer)
+            .ThenInclude(u => u.IdentityUser)
+            .Include(p => p.PostTags)
+            .Where(p => p.AuthorId == id && p.IsApproved == true).ToList();
+
+        if (postsByUser == null)
+        {
+            return NotFound("no posts by this user");
+        }
+
+        return Ok(postsByUser);
     }
 }

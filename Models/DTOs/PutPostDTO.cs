@@ -9,4 +9,5 @@ public class PutPostByMeDTO
     public int AuthorId { get; set; }
     public List<int> TagIds { get; set; }
     public DateTime? Publication { get; set; }
+    public IFormFile FormFile { get; set; }
 }

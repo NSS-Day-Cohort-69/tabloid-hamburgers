@@ -20,7 +20,6 @@ public class Post
     [ForeignKey("AuthorId")]
     public UserProfile? Author { get; set; }
     public string Content { get; set; }
-    public string ImageURL { get; set; }
 
     [Required]
     [ForeignKey("Category")]
@@ -36,4 +35,5 @@ public class Post
     public DateTime? Publication { get; set; }
     public List<PostTag> PostTags { get; set; }
     public List<Comment> Comments { get; set; }
+    public byte[] ImageBlob { get; set; }
 }

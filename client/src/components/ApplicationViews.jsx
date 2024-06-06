@@ -18,8 +18,12 @@ import { ReactionsCreateView } from "./reactions/ReactionsCreateView";
 import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 import { TagsCreate } from "./tags/tagsCreate/TagCreate";
 import { CommentForm } from "./CommentForm";
+import UserIsProfile from "./userprofiles/UserIsProfile";
+import { EditCommentForm } from "./EditCommentForm";
+import UnapprovedPosts from "./UnapprovedPosts";
 
-export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
+export default function ApplicationViews({ loggedInUser, setLoggedInUser })
+{
   return (
     <Routes>
       <Route path="/">
@@ -28,6 +32,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
               <p>Welcome to Tabloid!</p>
+            </AuthorizedRoute>
+          }
+        />
+        <Route
+          path=":CommentId/comment-edit"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser}>
+              <EditCommentForm />
             </AuthorizedRoute>
           }
         />
@@ -51,7 +63,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           <Route
             path=":id"
             element={
-              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <AuthorizedRoute loggedInUser={loggedInUser} >
                 <UserProfileDetails />
               </AuthorizedRoute>
             }
@@ -132,7 +144,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               index
               element={
                 <AuthorizedRoute loggedInUser={loggedInUser}>
-                  <PostDetails />
+                  <PostDetails loggedInUser={loggedInUser} />
                 </AuthorizedRoute>
               }
             />
@@ -155,6 +167,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               }
             />
           </Route>
+          <Route
+          path="unapproved"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <UnapprovedPosts/>
+            </AuthorizedRoute>
+          }
+        />
         </Route>
       </Route>
       <Route
