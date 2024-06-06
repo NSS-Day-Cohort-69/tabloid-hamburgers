@@ -9,7 +9,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [categoryId, setCategoryId] = useState(0)
-    const [imageURL, setImageURL] = useState("")
+    const [image, setImage] = useState()
     const [date, setDate] = useState(new Date().toISOString().slice(0, 10))
     const [tagIds, setTagIds] = useState([])
 
@@ -40,15 +40,13 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
     {
         if(postIsValid())
         {
-            const post =
-            {
-                title: title,
-                content: body,
-                imageURL: imageURL,
-                categoryId: categoryId,
-                publication: date,
-                tagIds: tagIds
-            }
+            const formData = new FormData()
+            formData.append("formFile", image)
+            formData.append("title", title)
+            formData.append("content", body)
+            formData.append("categoryId", categoryId)
+            formData.append("publication", date)
+            formData.append("tagIds", tagIds)
 
             onPostSubmitted(post)
         } else
@@ -90,8 +88,8 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
             }
         </select>
         <div>
-            <label htmlFor="image">Header URL: </label>
-            <input type="text" id="image" value={imageURL} onChange={(e) => setImageURL(e.target.value)} />
+            <label htmlFor="img-input">Header Image: </label>
+            <input onChange={(e) => setImage(e.target.files[0])} type="file" id="img-input"></input>
         </div>
         <div>
             <label htmlFor="date">Publish Date: </label>
