@@ -21,8 +21,7 @@ import UserIsProfile from "./userprofiles/UserIsProfile";
 import { EditCommentForm } from "./EditCommentForm";
 import UnapprovedPosts from "./UnapprovedPosts";
 
-export default function ApplicationViews({ loggedInUser, setLoggedInUser })
-{
+export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
     <Routes>
       <Route path="/">
@@ -55,14 +54,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
             index
             element={
               <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-                <UserProfileList />
+                <UserProfileList loggedInUser={loggedInUser} />
               </AuthorizedRoute>
             }
           />
           <Route
             path=":id"
             element={
-              <AuthorizedRoute loggedInUser={loggedInUser} >
+              <AuthorizedRoute loggedInUser={loggedInUser}>
                 <UserProfileDetails />
               </AuthorizedRoute>
             }
@@ -167,13 +166,13 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
             />
           </Route>
           <Route
-          path="unapproved"
-          element={
-            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-              <UnapprovedPosts/>
-            </AuthorizedRoute>
-          }
-        />
+            path="unapproved"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <UnapprovedPosts />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
