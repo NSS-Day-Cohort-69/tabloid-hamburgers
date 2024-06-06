@@ -43,3 +43,13 @@ export const deletePost = (id) =>
     return fetch(`/api/post/${id}`,
         { method: "DELETE" })
 }
+
+export const approvePost = (id) =>
+{
+    return fetch(`/api/post/approve/${id}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(id)
+        })
+};
