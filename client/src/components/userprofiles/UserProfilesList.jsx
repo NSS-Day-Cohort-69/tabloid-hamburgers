@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { demoteProfile, getProfiles, promoteProfile, deactivateUser, getDeactivatedProfiles, getProfiles, reactivateUser } from "../../managers/userProfileManager";
+import { demoteProfile, getProfiles, promoteProfile, deactivateUser, getDeactivatedProfiles, reactivateUser } from "../../managers/userProfileManager";
 import { Link } from "react-router-dom";
 
 

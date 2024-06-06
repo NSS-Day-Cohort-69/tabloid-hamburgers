@@ -48,3 +48,19 @@ export const getDeactivatedProfiles = () => {
   return fetch(_apiUrl + "/deactivated").then((res) => res.json());
 };
 
+export const updateImage = (userId, image) =>
+{
+  return fetch(_apiUrl + `/${userId}/image`,
+    {
+      method: "PUT",
+      body: createFormFromImage(image)
+    })
+}
+
+const createFormFromImage = (image) =>
+{
+  const formData = new FormData()
+  formData.append("formFile", image)
+  formData.append("fileName", image.name)
+  return formData
+}
