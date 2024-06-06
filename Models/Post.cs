@@ -28,7 +28,6 @@ public class Post
 
     [Required]
     public bool IsApproved { get; set; }
-
     [Required]
     public DateTime CreationDate { get; set; }
 

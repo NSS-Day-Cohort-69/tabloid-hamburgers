@@ -98,6 +98,7 @@ public class UserProfileController : ControllerBase
         return Ok(user);
     }
 
+
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public IActionResult Deactivate(int id)
