@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
-import {
-  Button,
-  Collapse,
-  Nav,
-  NavLink,
-  NavItem,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-} from "reactstrap";
+import
+  {
+    Button,
+    Collapse,
+    Nav,
+    NavLink,
+    NavItem,
+    Navbar,
+    NavbarBrand,
+    NavbarToggler,
+  } from "reactstrap";
 import { logout } from "../managers/authManager";
+import { UserContext } from "../App";
 
-export default function NavBar({ loggedInUser, setLoggedInUser }) {
+export default function NavBar({ loggedInUser, setLoggedInUser })
+{
   const [open, setOpen] = useState(false);
+  const user = useContext(UserContext)
 
   const toggleNavbar = () => setOpen(!open);
 
@@ -62,14 +66,21 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                     Create Post
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to={`/userprofiles/${user.id}`}>
+                    Profile
+                  </NavLink>
+                </NavItem>
               </Nav>
             </Collapse>
             <Button
               color="primary"
-              onClick={(e) => {
+              onClick={(e) =>
+              {
                 e.preventDefault();
                 setOpen(false);
-                logout().then(() => {
+                logout().then(() =>
+                {
                   setLoggedInUser(null);
                   setOpen(false);
                 });

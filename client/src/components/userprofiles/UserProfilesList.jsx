@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
-import { deactivateUser, getDeactivatedProfiles, getProfiles, reactivateUser } from "../../managers/userProfileManager";
-
+import { demoteProfile, getProfiles, promoteProfile, deactivateUser, getDeactivatedProfiles, reactivateUser } from "../../managers/userProfileManager";
 import { Link } from "react-router-dom";
 
 
-export default function UserProfileList() {
+export default function UserProfileList()
+{
   const [userprofiles, setUserProfiles] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState(false);
   const [deactivatedProfiles, setDeactivatedProfiles] = useState([]);
 
-  const getUserProfiles = () => {
+  const getUserProfiles = () =>
+  {
     getProfiles().then(
-      (gottenProfiles) => {
-        gottenProfiles = gottenProfiles.sort(function (a, b) {
-          if (a.userName.toLowerCase() < b.userName.toLowerCase()) {
+      (gottenProfiles) =>
+      {
+        gottenProfiles = gottenProfiles.sort(function (a, b)
+        {
+          if(a.userName.toLowerCase() < b.userName.toLowerCase())
+          {
             return -1;
           }
-          if (a.userName.toLowerCase() > b.userName.toLowerCase()) {
+          if(a.userName.toLowerCase() > b.userName.toLowerCase())
+          {
             return 1;
           }
           return 0;
@@ -26,14 +31,19 @@ export default function UserProfileList() {
     );
   };
 
-  const getDeactivatedUsers = () => {
+  const getDeactivatedUsers = () =>
+  {
     getDeactivatedProfiles().then(
-      (gottenProfiles) => {
-        gottenProfiles = gottenProfiles.sort(function (a, b) {
-          if (a.userName.toLowerCase() < b.userName.toLowerCase()) {
+      (gottenProfiles) =>
+      {
+        gottenProfiles = gottenProfiles.sort(function (a, b)
+        {
+          if(a.userName.toLowerCase() < b.userName.toLowerCase())
+          {
             return -1;
           }
-          if (a.userName.toLowerCase() > b.userName.toLowerCase()) {
+          if(a.userName.toLowerCase() > b.userName.toLowerCase())
+          {
             return 1;
           }
           return 0;
@@ -43,40 +53,62 @@ export default function UserProfileList() {
     );
   }
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     getUserProfiles();
     getDeactivatedUsers();
   }, []);
 
-  const handleDeactivate = (event) => {
-    if (window.confirm(`Confirm deactivation of: ${event.target.name}`)) {
+  const promoteClicked = (userId) =>
+  {
+    promoteProfile(userId).then(getUserProfiles)
+  }
+
+  const demoteClicked = (userId) =>
+  {
+    demoteProfile(userId).then(getUserProfiles)
+  }
+
+  const handleDeactivate = (event) =>
+  {
+    if(window.confirm(`Confirm deactivation of: ${event.target.name}`))
+    {
       deactivateUser(event.target.value)
-        .then(() => {
+        .then(() =>
+        {
           return Promise.all([getUserProfiles(), getDeactivatedUsers()]);
         })
-        .catch(error => {
-          if (error) {
+        .catch(error =>
+        {
+          if(error)
+          {
             window.alert(`Error: ${error}`);
           }
         });
     }
   };
 
-  const handleReactivate = (event) => {
-    if (window.confirm(`Confirm Reactivation of: ${event.target.name}`)) {
-      reactivateUser(event.target.value).then(() => {
+  const handleReactivate = (event) =>
+  {
+    if(window.confirm(`Confirm Reactivation of: ${event.target.name}`))
+    {
+      reactivateUser(event.target.value).then(() =>
+      {
         getUserProfiles();
         getDeactivatedUsers();
       });
     }
   };
 
-  const handleFilterChange = (event) => {
-    
-    if (event.target.checked) {
+  const handleFilterChange = (event) =>
+  {
+
+    if(event.target.checked)
+    {
       setUserProfiles(deactivatedProfiles);
     }
-    else {
+    else
+    {
       getUserProfiles();
     }
   };
@@ -94,27 +126,32 @@ export default function UserProfileList() {
         View Deactivated Only
       </label>
       {userprofiles.map((p) => (
-
         <div key={p.id}>
-          <p >
+          <p>
             {p.firstName} {p.lastName} {p.userName} {p.roles.includes("Admin") ? "admin" : "author"}
             <Link to={`/userprofiles/${p.id}`}>Details</Link>
-
+            {
+              p.roles.includes("Admin")
+                ? <button onClick={() => demoteClicked(p.identityUserId)}>Demote</button>
+                : <button onClick={() => promoteClicked(p.identityUserId)}>Promote</button>
+            }
           </p>
-
-          {!p.isDeactivated && (
-            <button name={p.userName} value={p.id} onClick={handleDeactivate}>
-              Deactivate
-            </button>
-          )}
+          {
+            !p.isDeactivated && !p.roles.includes("Admin") && (
+              <button name={p.userName} value={p.id} onClick={handleDeactivate}>
+                Deactivate
+              </button>
+            )
+          }
           {p.isDeactivated && !p.roles.includes("Admin") && (
             <button name={p.userName} value={p.id} onClick={handleReactivate}>
               Reactivate
             </button>
           )}
 
-        </div>
-      ))}
+        </div >
+      ))
+      }
     </>
   );
 }
