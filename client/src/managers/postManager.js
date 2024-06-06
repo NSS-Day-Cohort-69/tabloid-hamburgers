@@ -49,6 +49,16 @@ export const deletePost = (id) =>
         { method: "DELETE" })
 }
 
+export const unapprovePost = (id) =>
+{
+    return fetch(`/api/post/unapprove/${id}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(id)
+        })
+}
+
 export const approvePost = (id) =>
 {
     return fetch(`/api/post/approve/${id}`,
@@ -57,4 +67,5 @@ export const approvePost = (id) =>
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(id)
         })
-};
+}
+
