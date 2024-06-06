@@ -295,4 +295,18 @@ public class PostController : ControllerBase
 
         return Ok(postsByUser);
     }
+
+    [HttpGet("subscribed")]
+    [Authorize]
+    public IActionResult GetSubscribedPosts()
+    {
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+
+        List<Subscription> subscriptions = _dbContext.Subscriptions.Where(s => s.FollowerId == profile.Id).ToList();
+
+
+    }
 }
