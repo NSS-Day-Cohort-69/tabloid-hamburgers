@@ -320,15 +320,5 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
                 }
             );
 
-        modelBuilder
-            .Entity<DemoteAdmin>()
-            .HasData(
-                new DemoteAdmin
-                {
-                    Id = 1,
-                    AdminApprovalId = 1,
-                    AdminToDemoteId = 2
-                }
-            );
     }
 }
