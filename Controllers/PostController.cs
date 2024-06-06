@@ -306,9 +306,17 @@ public class PostController : ControllerBase
         );
 
         List<Post> posts = _dbContext
-            .Subscriptions.Where(s => s.FollowerId == profile.Id)
+            .Subscriptions.Where(s => s.FollowerId == profile.Id && s.UnsubbedDate == null)
             .Include(s => s.Subscriber)
             .ThenInclude(u => u.Posts)
+            .ThenInclude(p => p.Author)
+            .Include(s => s.Subscriber)
+            .ThenInclude(u => u.Posts)
+            .ThenInclude(p => p.Category)
+            .Include(s => s.Subscriber)
+            .ThenInclude(u => u.Posts)
+            .ThenInclude(p => p.PostTags)
+            .ThenInclude(pt => pt.Tag)
             .SelectMany(s => s.Subscriber.Posts)
             .ToList();
 

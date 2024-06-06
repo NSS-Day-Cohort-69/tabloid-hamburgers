@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import "./PostView.css";
-import { approvePost, getUnapprovedPosts } from "../managers/postManager";
+import { approvePost, getSubscribedPosts, getUnapprovedPosts } from "../managers/postManager";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const Home = () =>
+{
 
     const [subscribedPosts, setSubscribedPosts] = useState([]);
 
-    const getAndSetUnapprovedPosts = () => {
-        getUnapprovedPosts().then(setUnapprovedPosts)
+    const getAndSetUnapprovedPosts = () =>
+    {
+        getSubscribedPosts().then(setSubscribedPosts)
     }
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         getAndSetUnapprovedPosts();
     }, []);
 
-    const handleApproveClick = (event) => {
+    const handleApproveClick = (event) =>
+    {
         approvePost(event.target.value).then(getAndSetUnapprovedPosts)
     }
 
@@ -22,9 +27,9 @@ const Home = () => {
         <main>
             <div className="PostList-div-maincontainer">
                 <section className="PostList-section-posts">
-                    {unapprovedPosts.map((p) => (
+                    {subscribedPosts.map((p) => (
                         <article key={"p" + p.id} className="PostList-post-border">
-                            
+
                             <header className="PostList-post-header">
                                 {p.publication}{" "}
                                 {p.readTime > 1
@@ -40,17 +45,18 @@ const Home = () => {
                             ) : (
                                 <img src={p.imageURL} />
                             )}
-                           
+
                             <div>
-                                <div>{p.title}</div>
+                                <Link to={`/post/${p.id}`} className="PostList-linkto-post">
+                                    <div>{p.title}</div>
+                                </Link>
                                 <div>{p.author.fullName}</div>
                                 <div>{p.category.categoryName}</div>
                                 <div><p>{p.content}</p></div>
-                                <button value={p.id} onClick={handleApproveClick}>Approve</button>
                             </div>
-                           
+
                         </article>
-                        
+
                     ))}
                 </section>
             </div>

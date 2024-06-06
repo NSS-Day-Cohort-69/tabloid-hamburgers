@@ -67,3 +67,7 @@ export const approvePost = (id) =>
         })
 }
 
+export const getSubscribedPosts = () =>
+{
+    return fetch(`/api/post/subscribed`).then(res => res.json())
+}

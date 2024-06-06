@@ -20,6 +20,7 @@ import { CommentForm } from "./CommentForm";
 import UserIsProfile from "./userprofiles/UserIsProfile";
 import { EditCommentForm } from "./EditCommentForm";
 import UnapprovedPosts from "./UnapprovedPosts";
+import Home from "./Home";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser })
 {
@@ -30,7 +31,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
           index
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Welcome to Tabloid!</p>
+              <Home />
             </AuthorizedRoute>
           }
         />
@@ -167,13 +168,13 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser })
             />
           </Route>
           <Route
-          path="unapproved"
-          element={
-            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
-              <UnapprovedPosts/>
-            </AuthorizedRoute>
-          }
-        />
+            path="unapproved"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+                <UnapprovedPosts />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
