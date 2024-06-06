@@ -29,7 +29,7 @@ const PostForm = ({ initialPost, onPostSubmitted }) =>
                 setTitle(initialPost.title)
                 setBody(initialPost.content)
                 setCategoryId(initialPost.categoryId)
-                setImageURL(initialPost.imageURL ? initialPost.imageURL : "")
+                setImage(initialPost.image ? initialPost.image : "")
                 setDate(new Date(initialPost.publication).toISOString().slice(0, 10))
                 setTagIds(initialPost.tagIds)
             }

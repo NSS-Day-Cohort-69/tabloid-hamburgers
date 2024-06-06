@@ -19,7 +19,7 @@ const EditPost = () =>
 
     const onPostSubmitted = (putPost) =>
     {
-        putPost.authorId = post.authorId
+        putPost.append("authorId", post.authorId)
         editPost(putPost, postId).then(
             () => navigate("/post")
         )
