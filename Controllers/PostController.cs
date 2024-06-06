@@ -140,7 +140,12 @@ public class PostController : ControllerBase
     [Authorize]
     public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
     {
-        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id && p.AuthorId == profile.Id);
 
         if (existingPost != null)
         {
@@ -183,7 +188,7 @@ public class PostController : ControllerBase
             return NoContent();
         }
 
-        return BadRequest("There is no post with given id.");
+        return BadRequest("There is no post with given id or you are not the owner of this post.");
     }
 
     [HttpDelete]
