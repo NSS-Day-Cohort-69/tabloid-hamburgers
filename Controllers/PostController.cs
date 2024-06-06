@@ -61,6 +61,18 @@ public class PostController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult GetUnapprovedPosts()
+    {
+        return Ok(
+            _dbContext
+                .Posts.Include(p => p.Author)
+                .Include(p => p.Category).Where(p => p.IsApproved == false)
+                .Select(p => new GetPostsDTO(p))
+        );
+    }
+
+    [HttpGet]
     [Route("public")]
     [Authorize]
     public IActionResult GetPublicPosts()

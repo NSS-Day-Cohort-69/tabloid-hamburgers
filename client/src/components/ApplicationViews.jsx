@@ -18,6 +18,7 @@ import { TagsEditView } from "./tags/tagsEdit/TagsEditView";
 import { TagsCreate } from "./tags/tagsCreate/TagCreate";
 import { CommentForm } from "./CommentForm";
 import { EditCommentForm } from "./EditCommentForm";
+import UnapprovedPosts from "./UnapprovedPosts";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -163,6 +164,14 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               }
             />
           </Route>
+          <Route
+          path="unapproved"
+          element={
+            <AuthorizedRoute loggedInUser={loggedInUser} roles={["Admin"]}>
+              <UnapprovedPosts/>
+            </AuthorizedRoute>
+          }
+        />
         </Route>
       </Route>
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
