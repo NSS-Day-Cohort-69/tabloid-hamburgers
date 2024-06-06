@@ -24,5 +24,7 @@
   border: 1px solid black;
 }
 
-.PostList-linkto-post {
+.PostDetails-img {
+  height: 30px;
+  width: 30px;
 }

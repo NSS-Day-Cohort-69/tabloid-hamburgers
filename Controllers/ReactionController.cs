@@ -41,4 +41,27 @@ public class ReactionController : ControllerBase
     
     return NoContent();
    }
+
+   [HttpPost("postreaction")]
+   [Authorize]
+   public IActionResult PostNewPostReaction(PostReaction newPostReaction)
+   {
+    _db.PostReactions.Add(newPostReaction);
+    _db.SaveChanges();
+
+    return Ok();
+   }
+
+   [HttpGet("{PostId}/postreaction")]
+   [Authorize]
+   public IActionResult GetPostsPostReactionsById(int PostId)
+   {
+    return Ok(_db.PostReactions.Select(pr => new GetPostsPostReactionDTO{
+        Id = pr.Id,
+        PostId = pr.PostId,
+        ReactionId = pr.ReactionId,
+        ReactorId = pr.ReactorId
+    }).Where(pr => pr.PostId == PostId));
+   }
+
 }

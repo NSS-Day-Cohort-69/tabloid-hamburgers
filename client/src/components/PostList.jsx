@@ -34,10 +34,15 @@ const PostList = () => {
   }, []);
 
   useEffect(() => {
-    setFilteredPosts(posts.filter(
-      p => (p.categoryId == filterSettings.Category || filterSettings.Category == 0)
-      && (p.postTags.some((pt) => pt.tagId == filterSettings.Tag) || filterSettings.Tag == 0)
-    ))
+    setFilteredPosts(
+      posts.filter(
+        (p) =>
+          (p.categoryId == filterSettings.Category ||
+            filterSettings.Category == 0) &&
+          (p.postTags.some((pt) => pt.tagId == filterSettings.Tag) ||
+            filterSettings.Tag == 0)
+      )
+    );
     // if (filterSettings.Category == 0 && filterSettings.Tag == 0) {
     //   setFilteredPosts(posts);
     // } else {
@@ -110,6 +115,9 @@ const PostList = () => {
                 {p.authorId == user.id && (
                   <Link to={`/post/${p.id}/edit`}>edit</Link>
                 )}
+                {p.readTime > 1
+                  ? `${p.readTime} Minutes`
+                  : `${p.readTime} Minute`}
               </header>
               {p.imageURL == null || "" ? (
                 <img
@@ -125,7 +133,10 @@ const PostList = () => {
                   <div>{p.title}</div>
                 </Link>
 
+                <Link to={`/userprofiles/${p.authorId}`} className="PostList-linkto-post">
                 <div>{p.author.fullName}</div>
+                </Link>
+
                 <div>{p.category.categoryName}</div>
               </div>
             </article>

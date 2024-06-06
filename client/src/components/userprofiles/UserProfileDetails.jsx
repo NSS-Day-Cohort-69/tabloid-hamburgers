@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProfile, updateImage } from "../../managers/userProfileManager";
 import { UserContext } from "../../App";
+import { getPostsByUser } from "../../managers/postManager";
 
 export default function UserProfileDetails()
 {
   const [userProfile, setUserProfile] = useState();
   const [image, setImage] = useState()
   const currentUser = useContext(UserContext)
+  const [usersPosts, setUsersPosts] = useState();
 
   const { id } = useParams();
 
@@ -19,6 +21,8 @@ export default function UserProfileDetails()
   useEffect(() =>
   {
     fetchAndSetProfile()
+    getPostsByUser(id).then(setUsersPosts);
+
   }, [id]);
 
   if(!userProfile)
@@ -54,6 +58,18 @@ export default function UserProfileDetails()
       <p>email: {userProfile.email}</p>
       <p>creation date: {new Date(userProfile.createDateTime).toDateString()}</p>
       <p>{userProfile.roles?.includes("Admin") ? "Admin" : "Author"}</p>
+
+      <section>
+        {usersPosts?.map((p) => (
+          <div key={p.id} className="">
+            <h2>{p.title}</h2>
+            <img src={p.imageURL}></img>
+            <p>{p.content}</p>
+            <p>{p.publicationDate}</p>
+            <p>{p.author?.firstName}</p>
+          </div>
+        ))}
+      </section>
     </>
   );
 }
