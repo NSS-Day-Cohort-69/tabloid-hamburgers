@@ -224,12 +224,31 @@ public class PostController : ControllerBase
 
         if (postToApprove != null)
         {
-            postToApprove.IsApproved = true;   
+            postToApprove.IsApproved = true;
             _dbContext.SaveChanges();
 
             return NoContent();
         }
 
         return BadRequest("There is no post with given id.");
+    }
+    [HttpGet("user/{id}")]
+    [Authorize]
+    public IActionResult GetPostsByUserId(int id)
+    {
+        List<Post> postsByUser = _dbContext
+            .Posts.Include(p => p.Author)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.Commenteer)
+            .ThenInclude(u => u.IdentityUser)
+            .Include(p => p.PostTags)
+            .Where(p => p.AuthorId == id && p.IsApproved == true).ToList();
+
+        if (postsByUser == null)
+        {
+            return NotFound("no posts by this user");
+        }
+
+        return Ok(postsByUser);
     }
 }

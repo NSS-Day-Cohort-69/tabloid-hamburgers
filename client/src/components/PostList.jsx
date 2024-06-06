@@ -133,7 +133,10 @@ const PostList = () => {
                   <div>{p.title}</div>
                 </Link>
 
+                <Link to={`/userprofiles/${p.authorId}`} className="PostList-linkto-post">
                 <div>{p.author.fullName}</div>
+                </Link>
+
                 <div>{p.category.categoryName}</div>
               </div>
             </article>

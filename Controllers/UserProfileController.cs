@@ -1,12 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using Tabloid.Models;
-using Tabloid.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using Tabloid.Data;
+using Tabloid.Models;
+using Tabloid.Models.DTOs;
 
 namespace Tabloid.Controllers;
-
 
 [ApiController]
 [Route("api/[controller]")]
@@ -30,22 +31,24 @@ public class UserProfileController : ControllerBase
     [Authorize(Roles = "Admin")]
     public IActionResult GetWithRoles()
     {
-        return Ok(_dbContext.UserProfiles
-        .Include(up => up.IdentityUser)
-        .Select(up => new UserProfile
-        {
-            Id = up.Id,
-            FirstName = up.FirstName,
-            LastName = up.LastName,
-            Email = up.IdentityUser.Email,
-            UserName = up.IdentityUser.UserName,
-            IdentityUserId = up.IdentityUserId,
-            IsDeactivated = up.IsDeactivated,
-            Roles = _dbContext.UserRoles
-            .Where(ur => ur.UserId == up.IdentityUserId)
-            .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
-            .ToList()
-        }));
+        return Ok(
+            _dbContext
+                .UserProfiles.Include(up => up.IdentityUser)
+                .Select(up => new UserProfile
+                {
+                    Id = up.Id,
+                    FirstName = up.FirstName,
+                    LastName = up.LastName,
+                    Email = up.IdentityUser.Email,
+                    UserName = up.IdentityUser.UserName,
+                    IdentityUserId = up.IdentityUserId,
+                    IsDeactivated = up.IsDeactivated,
+                    Roles = _dbContext
+                        .UserRoles.Where(ur => ur.UserId == up.IdentityUserId)
+                        .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
+                        .ToList()
+                })
+        );
     }
 
     [HttpPost("promote/{id}")]
@@ -53,11 +56,7 @@ public class UserProfileController : ControllerBase
     public IActionResult Promote(string id)
     {
         IdentityRole role = _dbContext.Roles.SingleOrDefault(r => r.Name == "Admin");
-        _dbContext.UserRoles.Add(new IdentityUserRole<string>
-        {
-            RoleId = role.Id,
-            UserId = id
-        });
+        _dbContext.UserRoles.Add(new IdentityUserRole<string> { RoleId = role.Id, UserId = id });
         _dbContext.SaveChanges();
         return NoContent();
     }
@@ -66,14 +65,11 @@ public class UserProfileController : ControllerBase
     [Authorize(Roles = "Admin")]
     public IActionResult Demote(string id)
     {
-        IdentityRole role = _dbContext.Roles
-            .SingleOrDefault(r => r.Name == "Admin");
+        IdentityRole role = _dbContext.Roles.SingleOrDefault(r => r.Name == "Admin");
 
-        IdentityUserRole<string> userRole = _dbContext
-            .UserRoles
-            .SingleOrDefault(ur =>
-                ur.RoleId == role.Id &&
-                ur.UserId == id);
+        IdentityUserRole<string> userRole = _dbContext.UserRoles.SingleOrDefault(ur =>
+            ur.RoleId == role.Id && ur.UserId == id
+        );
 
         _dbContext.UserRoles.Remove(userRole);
         _dbContext.SaveChanges();
@@ -85,8 +81,7 @@ public class UserProfileController : ControllerBase
     public IActionResult GetById(int id)
     {
         UserProfile user = _dbContext
-            .UserProfiles
-            .Include(up => up.IdentityUser)
+            .UserProfiles.Include(up => up.IdentityUser)
             .SingleOrDefault(up => up.Id == id);
 
         if (user == null)
@@ -95,7 +90,11 @@ public class UserProfileController : ControllerBase
         }
         user.Email = user.IdentityUser.Email;
         user.UserName = user.IdentityUser.UserName;
-        user.Roles = _dbContext.UserRoles.Where(ur => ur.UserId == user.IdentityUserId).Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name).ToList();
+        user.Roles = _dbContext
+            .UserRoles.Where(ur => ur.UserId == user.IdentityUserId)
+            .Select(ur => _dbContext.Roles.SingleOrDefault(r => r.Id == ur.RoleId).Name)
+            .ToList();
+
         return Ok(user);
     }
 
@@ -132,6 +131,29 @@ public class UserProfileController : ControllerBase
 
         _dbContext.SaveChanges();
         return Ok();
+    }
+
+    [HttpPut("{userId}/image")]
+    public IActionResult UpdateImage(int userId, [FromForm] PutProfileImageDTO image)
+    {
+        UserProfile userProfile = _dbContext.UserProfiles.SingleOrDefault(u => u.Id == userId);
+
+        if (userProfile == null || image.FormFile.Length == 0)
+        {
+            return BadRequest();
+        }
+
+        byte[] file;
+        using (var memoryStream = new MemoryStream())
+        {
+            image.FormFile.CopyTo(memoryStream);
+            file = memoryStream.ToArray();
+        }
+
+        userProfile.ImageBlob = file;
+
+        _dbContext.SaveChanges();
+        return NoContent();
     }
 
     [HttpPut("reactivate/{id}")]
