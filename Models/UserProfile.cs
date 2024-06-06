@@ -43,4 +43,5 @@ public class UserProfile
     [Required]
     public bool IsDeactivated { get; set; }
     public byte[] ImageBlob { get; set; }
+    public List<Post> Posts { get; set; }
 }
