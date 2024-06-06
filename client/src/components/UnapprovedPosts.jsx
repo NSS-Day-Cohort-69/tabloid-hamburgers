@@ -16,7 +16,7 @@ const UnapprovedPosts = () => {
     }, []);
 
     const handleApproveClick = (event) => {
-        approvePost(event.target.value).then(getAndSetUnapprovedPosts())
+        approvePost(event.target.value).then(getAndSetUnapprovedPosts)
     }
 
     return (
