@@ -40,6 +40,11 @@ export default function NavBar({ loggedInUser, setLoggedInUser })
                       </NavLink>
                     </NavItem>
                     <NavItem>
+                      <NavLink tag={RRNavLink} to="/post/unapproved">
+                        Pending Approval
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
                       <NavLink tag={RRNavLink} to="/tags">
                         Tags
                       </NavLink>
@@ -54,6 +59,7 @@ export default function NavBar({ loggedInUser, setLoggedInUser })
                         Reactions
                       </NavLink>
                     </NavItem>
+                    
                   </>
                 )}
                 <NavItem>

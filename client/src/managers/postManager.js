@@ -13,6 +13,11 @@ export const getPublicPosts = () =>
     return fetch('/api/post/public').then(res => res.json())
 }
 
+export const getUnapprovedPosts = () =>
+{
+    return fetch('/api/post/unapproved').then(res => res.json())
+}
+
 export const createPostByMe = (post) =>
 {
     return fetch('/api/post/by-me',
@@ -43,3 +48,13 @@ export const deletePost = (id) =>
     return fetch(`/api/post/${id}`,
         { method: "DELETE" })
 }
+
+export const approvePost = (id) =>
+{
+    return fetch(`/api/post/approve/${id}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(id)
+        })
+};
