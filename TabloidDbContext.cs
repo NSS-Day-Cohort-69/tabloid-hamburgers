@@ -209,7 +209,6 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
                     Title = "First Post",
                     AuthorId = 1,
                     Content = "This is the content of the first post.",
-                    ImageURL = null,
                     CategoryId = 1,
                     IsApproved = true,
                     Publication = DateTime.Now
@@ -220,7 +219,6 @@ public class TabloidDbContext : IdentityDbContext<IdentityUser>
                     Title = "Second Post",
                     AuthorId = 2,
                     Content = "This is the content of the second post.",
-                    ImageURL = null,
                     CategoryId = 2,
                     IsApproved = true,
                     Publication = DateTime.Now
