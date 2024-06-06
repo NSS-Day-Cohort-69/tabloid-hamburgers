@@ -37,4 +37,5 @@ public class Post
     public DateTime? Publication { get; set; }
     public List<PostTag> PostTags { get; set; }
     public List<Comment> Comments { get; set; }
+    public byte[] ImageBlob { get; set; }
 }
