@@ -15,7 +15,18 @@ public class GetPostsDTO
     public GetPostsCategoryDTO Category { get; set; }
     public bool IsApproved { get; set; }
     public DateTime? Publication { get; set; }
+    public List<GetPostsPostTagDTO> PostTags {get;set;}
     public GetPostsAuthorDTO Author { get; set; }
+
+    public double ReadTime {
+        get {
+
+            int WordAmount = Content.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).Count();
+
+            double minutes = WordAmount / 265;
+            return minutes;
+        }
+    }
 
     public GetPostsDTO(Post post)
     {
@@ -32,7 +43,10 @@ public class GetPostsDTO
         CategoryId = post.CategoryId;
         IsApproved = post.IsApproved;
         Publication = post.Publication;
+        PostTags = post.PostTags.Select(pt => new GetPostsPostTagDTO(pt)).ToList();
         Author = new GetPostsAuthorDTO(post.Author);
         Category = new GetPostsCategoryDTO(post.Category);
     }
 }
+
+// Comments = post.Comments.Select(c => new GetPostCommentsDTO(c)).ToList();

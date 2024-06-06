@@ -4,13 +4,22 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../App";
 import "./PostView.css";
 import { getAllCategories } from "../managers/categories";
+import { getAllTags } from "../managers/tags";
 
 const PostList = () => {
   const user = useContext(UserContext);
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [filterSettings, setFilterSettings] = useState({
+    Category: 0,
+    Tag: 0,
+  });
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    getAllTags().then(setTags);
+  }, []);
 
   useEffect(() => {
     getAllCategories().then(setCategories);
@@ -25,12 +34,41 @@ const PostList = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedCategory === 0) {
-      setFilteredPosts(posts);
-    } else {
-      setFilteredPosts(posts.filter((p) => p.categoryId == selectedCategory));
-    }
-  }, [selectedCategory, posts]);
+    setFilteredPosts(
+      posts.filter(
+        (p) =>
+          (p.categoryId == filterSettings.Category ||
+            filterSettings.Category == 0) &&
+          (p.postTags.some((pt) => pt.tagId == filterSettings.Tag) ||
+            filterSettings.Tag == 0)
+      )
+    );
+    // if (filterSettings.Category == 0 && filterSettings.Tag == 0) {
+    //   setFilteredPosts(posts);
+    // } else {
+    //   const copy = [...posts];
+    //   switch (true) {
+    //     case filterSettings.Category != 0 && filterSettings.Tag == 0:
+    //       return setFilteredPosts(
+    //         copy.filter((c) => c.categoryId === filterSettings.Category)
+    //       );
+    //     case filterSettings.Tag != 0 && filterSettings.Category == 0:
+    //       return setFilteredPosts(
+    //         copy.filter((cObj) =>
+    //           cObj.postTags.some((pt) => pt.tagId == filterSettings.Tag)
+    //         )
+    //       );
+    //     case filterSettings.Category != 0 && filterSettings.Tag != 0:
+    //       return setFilteredPosts(
+    //         copy.filter(
+    //           (cObj) =>
+    //             cObj.postTags.some((pt) => pt.tagId == filterSettings.Tag) &&
+    //             cObj.categoryId === filterSettings.Category
+    //         )
+    //       );
+    //   }
+    // }
+  }, [filterSettings, posts]);
 
   return (
     <main>
@@ -38,7 +76,9 @@ const PostList = () => {
         <select
           defaultValue={0}
           onChange={(e) => {
-            setSelectedCategory(parseInt(e.target.value));
+            const copy = { ...filterSettings };
+            copy.Category = parseInt(e.target.value);
+            setFilterSettings(copy);
           }}
         >
           <option value={0}>--All Categories--</option>
@@ -46,6 +86,23 @@ const PostList = () => {
             return (
               <option key={c.id} value={c.id}>
                 {c.categoryName}
+              </option>
+            );
+          })}
+        </select>
+        <select
+          defaultValue={0}
+          onChange={(e) => {
+            const copy = { ...filterSettings };
+            copy.Tag = parseInt(e.target.value);
+            setFilterSettings(copy);
+          }}
+        >
+          <option value={0}>--No Tags--</option>
+          {tags.map((t) => {
+            return (
+              <option key={t.id} value={t.id}>
+                {t.tagName}
               </option>
             );
           })}
@@ -58,6 +115,9 @@ const PostList = () => {
                 {p.authorId == user.id && (
                   <Link to={`/post/${p.id}/edit`}>edit</Link>
                 )}
+                {p.readTime > 1
+                  ? `${p.readTime} Minutes`
+                  : `${p.readTime} Minute`}
               </header>
               {p.imageURL == null || "" ? (
                 <img
@@ -73,7 +133,10 @@ const PostList = () => {
                   <div>{p.title}</div>
                 </Link>
 
+                <Link to={`/userprofiles/${p.authorId}`} className="PostList-linkto-post">
                 <div>{p.author.fullName}</div>
+                </Link>
+
                 <div>{p.category.categoryName}</div>
               </div>
             </article>

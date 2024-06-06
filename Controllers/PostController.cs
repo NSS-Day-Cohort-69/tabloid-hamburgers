@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Models.DTOs;
@@ -71,6 +72,8 @@ public class PostController : ControllerBase
                 )
                 .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
                 .Select(p => new GetPostsDTO(p))
         );
     }
@@ -85,6 +88,8 @@ public class PostController : ControllerBase
             up.IdentityUserId == identityUserId
         );
 
+        bool isAdmin = User.IsInRole("Admin");
+
         Post post = new Post
         {
             Title = postedPost.Title,
@@ -92,7 +97,7 @@ public class PostController : ControllerBase
             Content = postedPost.Content,
             ImageURL = postedPost.ImageURL,
             CategoryId = postedPost.CategoryId,
-            IsApproved = true,
+            IsApproved = isAdmin,
             Publication = postedPost.Publication,
             CreationDate = DateTime.Now
         };
@@ -117,7 +122,12 @@ public class PostController : ControllerBase
     [Authorize]
     public IActionResult EditPost(PutPostByMeDTO puttedPost, int id)
     {
-        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id);
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+
+        Post existingPost = _dbContext.Posts.SingleOrDefault(p => p.Id == id && p.AuthorId == profile.Id);
 
         if (existingPost != null)
         {
@@ -160,7 +170,7 @@ public class PostController : ControllerBase
             return NoContent();
         }
 
-        return BadRequest("There is no post with given id.");
+        return BadRequest("There is no post with given id or you are not the owner of this post.");
     }
 
     [HttpDelete]
@@ -185,5 +195,25 @@ public class PostController : ControllerBase
         _dbContext.SaveChanges();
 
         return NoContent();
+    }
+
+    [HttpGet("user/{id}")]
+    [Authorize]
+    public IActionResult GetPostsByUserId(int id)
+    {
+        List <Post> postsByUser = _dbContext
+            .Posts.Include(p => p.Author)
+            .Include(p => p.Comments)
+            .ThenInclude(c => c.Commenteer)
+            .ThenInclude(u => u.IdentityUser)
+            .Include(p => p.PostTags)
+            .Where(p => p.AuthorId == id && p.IsApproved == true).ToList();
+
+        if (postsByUser == null)
+        {
+            return NotFound("no posts by this user");
+        }
+
+        return Ok(postsByUser);
     }
 }
