@@ -185,9 +185,9 @@ public class PostController : ControllerBase
                     puttedPost.FormFile.CopyTo(memoryStream);
                     file = memoryStream.ToArray();
                 }
-            }
 
-            post.ImageBlob = file;
+                post.ImageBlob = file;
+            }
 
             _dbContext.SaveChanges();
 
