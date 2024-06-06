@@ -177,11 +177,14 @@ public class PostController : ControllerBase
                 _dbContext.PostTags.Add(postTag);
             }
 
-            byte[] file;
-            using (var memoryStream = new MemoryStream())
+            if (puttedPost.FormFile != null)
             {
-                puttedPost.FormFile.CopyTo(memoryStream);
-                file = memoryStream.ToArray();
+                byte[] file;
+                using (var memoryStream = new MemoryStream())
+                {
+                    puttedPost.FormFile.CopyTo(memoryStream);
+                    file = memoryStream.ToArray();
+                }
             }
 
             post.ImageBlob = file;
