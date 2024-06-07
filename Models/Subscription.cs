@@ -11,7 +11,8 @@ public class Subscription
     [Required]
     [ForeignKey("Subscriber")]
     public int SubscriberId { get; set; }
-
+    [ForeignKey("SubscriberId")]
+    public UserProfile Subscriber { get; set; }
     [Required]
     [ForeignKey("UserProfile")]
     public int FollowerId { get; set; }

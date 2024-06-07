@@ -56,7 +56,9 @@ public class PostController : ControllerBase
         return Ok(
             _dbContext
                 .Posts.Include(p => p.Author)
-                .Include(p => p.Category).Include(p => p.PostTags).ThenInclude(p => p.Tag)
+                .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(p => p.Tag)
                 .Select(p => new GetPostsDTO(p))
         );
     }
@@ -67,9 +69,7 @@ public class PostController : ControllerBase
     {
         return Ok(
             _dbContext
-                .Posts.Where(p =>
-                    p.IsApproved == false
-                )
+                .Posts.Where(p => p.IsApproved == false)
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .Include(p => p.PostTags)
@@ -239,7 +239,6 @@ public class PostController : ControllerBase
         return NoContent();
     }
 
-
     [HttpPut]
     [Route("unapprove/{id}")]
     [Authorize(Roles = "Admin")]
@@ -257,7 +256,7 @@ public class PostController : ControllerBase
 
         return BadRequest("There is no post with given id.");
     }
-    
+
     [HttpPut]
     [Route("approve/{id}")]
     [Authorize(Roles = "Admin")]
@@ -286,7 +285,8 @@ public class PostController : ControllerBase
             .ThenInclude(c => c.Commenteer)
             .ThenInclude(u => u.IdentityUser)
             .Include(p => p.PostTags)
-            .Where(p => p.AuthorId == id && p.IsApproved == true).ToList();
+            .Where(p => p.AuthorId == id && p.IsApproved == true)
+            .ToList();
 
         if (postsByUser == null)
         {
@@ -294,5 +294,32 @@ public class PostController : ControllerBase
         }
 
         return Ok(postsByUser);
+    }
+
+    [HttpGet("subscribed")]
+    [Authorize]
+    public IActionResult GetSubscribedPosts()
+    {
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        UserProfile profile = _dbContext.UserProfiles.SingleOrDefault(up =>
+            up.IdentityUserId == identityUserId
+        );
+
+        List<Post> posts = _dbContext
+            .Subscriptions.Where(s => s.FollowerId == profile.Id && s.UnsubbedDate == null)
+            .Include(s => s.Subscriber)
+            .ThenInclude(u => u.Posts)
+            .ThenInclude(p => p.Author)
+            .Include(s => s.Subscriber)
+            .ThenInclude(u => u.Posts)
+            .ThenInclude(p => p.Category)
+            .Include(s => s.Subscriber)
+            .ThenInclude(u => u.Posts)
+            .ThenInclude(p => p.PostTags)
+            .ThenInclude(pt => pt.Tag)
+            .SelectMany(s => s.Subscriber.Posts)
+            .ToList();
+
+        return Ok(posts.Select(p => new GetPostsDTO(p)));
     }
 }

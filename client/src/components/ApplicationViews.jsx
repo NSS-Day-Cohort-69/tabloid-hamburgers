@@ -21,6 +21,7 @@ import { CommentForm } from "./CommentForm";
 import UserIsProfile from "./userprofiles/UserIsProfile";
 import { EditCommentForm } from "./EditCommentForm";
 import UnapprovedPosts from "./UnapprovedPosts";
+import Home from "./Home";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -30,7 +31,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           index
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <p>Welcome to Tabloid!</p>
+              <Home />
             </AuthorizedRoute>
           }
         />
